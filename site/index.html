@@ -2,201 +2,225 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Prénom Nom — Développeur en formation cloud / DevOps</title>
-<meta name="description" content="Portfolio de Prénom Nom, développeur en formation cloud et DevOps. Projets, compétences et contact.">
+<meta name="viewport" content="width=device-width, initial-scale
+<title>Portfolio Noa Meunier</title>
+<meta name="description" content="Portfolio de Noa Meunier, étudiant ingénieur à Polytech Nantes. Projets de programmation et gestion de projet">
 <meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#0d1016">
-
-<!-- Favicon inline : aucun fichier externe, aucune requête réseau. -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230d1016'/><path d='M9 21l6-10 6 10' stroke='%23ffbf47' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<meta name="theme-color" content="#171d1b">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3.5' fill='%23171d1b'/><path d='M4.5 12V4l7 8V4' stroke='%239fd3e8' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
 
 <style>
-/* ---------------------------------------------------------------
-   1. JETONS  — toutes les couleurs et mesures se règlent ici
-   --------------------------------------------------------------- */
+/* ═══════════════════════════════════════════════════════════
+   1. JETONS — tout se règle ici
+   ═══════════════════════════════════════════════════════════ */
 :root {
-  --bg:        #0d1016;   /* fond général, bleu-encre */
-  --surface:   #141922;   /* cartes et badges */
-  --line:      #232b38;   /* filets et bordures */
-  --text:      #e8ecf3;   /* texte principal   — contraste 15:1 */
-  --muted:     #a3adbe;   /* texte secondaire  — contraste  8:1 */
-  --accent:    #ffbf47;   /* ambre, un seul accent           */
-  --accent-ink:#0d1016;   /* texte posé sur l'ambre          */
+  --bg:      #171d1b;   /* ardoise                              */
+  --surface: #1e2523;   /* cartes                               */
+  --line:    #2e3835;   /* filets                               */
+  --grid:    #ffffff0d; /* quadrillage du fond (très discret)   */
+  --text:    #e8ece6;   /* craie blanche  — contraste 14:1      */
+  --muted:   #a5aea8;   /* craie usée     — contraste  7:1      */
+  --accent:  #9fd3e8;   /* craie bleue    — contraste 10:1      */
+  --mark:    #9fd3e833; /* surligneur des titres                */
 
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
-  --measure: 62ch;        /* longueur de ligne confortable */
-  --radius: 10px;
-  --gap: 1rem;
+  --cell: 26px;         /* pas du quadrillage de fond */
+  --radius: 8px;
 }
 
-/* ---------------------------------------------------------------
+/* ═══════════════════════════════════════════════════════════
    2. BASE
-   --------------------------------------------------------------- */
+   ═══════════════════════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; }
 
 body {
   margin: 0;
   padding: 0 1.25rem 4rem;
-  background: var(--bg);
   color: var(--text);
-  font-family: var(--font-sans);
-  font-size: 1rem;
+  font-family: var(--sans);
+  font-size: 1.0625rem;
   line-height: 1.65;
   -webkit-text-size-adjust: 100%;
+
+  /* Le papier quadrillé : deux dégradés répétés, aucune image. */
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(to right,  var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: var(--cell) var(--cell);
 }
 
-/* Colonne unique sur mobile, centrée et bornée sur grand écran. */
-.wrap { width: 100%; max-width: 46rem; margin-inline: auto; }
-
-a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a { color: var(--accent); text-underline-offset: 3px; text-decoration-thickness: 1px; }
 a:hover { text-decoration-thickness: 2px; }
 
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 3px;
-}
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
 
-h1, h2, h3 { line-height: 1.2; text-wrap: balance; margin: 0; }
-
-p { margin: 0 0 1rem; max-width: var(--measure); }
+h1, h2, h3 { margin: 0; line-height: 1.2; text-wrap: balance; }
+p { margin: 0 0 1rem; }
 p:last-child { margin-bottom: 0; }
 
-/* Lien d'évitement : visible seulement au clavier. */
 .skip {
   position: absolute; left: -9999px;
-  background: var(--accent); color: var(--accent-ink);
-  padding: .6rem 1rem; border-radius: var(--radius); font-weight: 600;
+  padding: .6rem 1rem; border-radius: var(--radius);
+  background: var(--accent); color: var(--bg); font-weight: 600;
 }
 .skip:focus { left: 1rem; top: 1rem; z-index: 10; }
 
-/* ---------------------------------------------------------------
-   3. EN-TÊTE
-   --------------------------------------------------------------- */
-.site-header { padding: 3.5rem 0 2.5rem; }
+/* ═══════════════════════════════════════════════════════════
+   3. GABARIT — une colonne sur mobile, deux à partir de 62rem
+   ═══════════════════════════════════════════════════════════ */
+.shell { max-width: 68rem; margin-inline: auto; }
 
-.mark { display: block; width: 34px; height: 34px; margin-bottom: 1.75rem; }
-
-.site-header h1 {
-  font-size: clamp(2rem, 8vw, 3rem);
-  font-weight: 700;
-  letter-spacing: -.02em;
+@media (min-width: 62rem) {
+  .shell {
+    display: grid;
+    grid-template-columns: 17rem 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .identity { position: sticky; top: 3rem; }
 }
 
-.role {
-  margin: .5rem 0 0;
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: .875rem;
-  letter-spacing: .02em;
-}
+/* ═══════════════════════════════════════════════════════════
+   4. IDENTITÉ (colonne de gauche)
+   ═══════════════════════════════════════════════════════════ */
+.identity { padding: 3.5rem 0 1rem; }
 
-/* Bandeau pipeline : c'est une vraie séquence, donc une liste ordonnée. */
-.pipeline {
-  display: flex; flex-wrap: wrap; align-items: center;
-  gap: .35rem .5rem;
-  margin: 1.75rem 0 0; padding: .7rem .85rem;
-  list-style: none;
-  border: 1px solid var(--line); border-radius: var(--radius);
-  background: var(--surface);
-  font-family: var(--font-mono); font-size: .75rem;
-  color: var(--muted);
+/* La grille 5×5 : l'initiale, dessinée comme une case de Suguru. */
+.mark {
+  display: grid;
+  grid-template-columns: repeat(5, 13px);
+  gap: 3px;
+  margin-bottom: 1.75rem;
 }
-.pipeline li { display: flex; align-items: center; gap: .5rem; }
-.pipeline li + li::before { content: "→"; color: #5c667e; }
-.pipeline li:last-child { color: var(--accent); }
+.mark i {
+  display: block; aspect-ratio: 1;
+  border: 1px solid var(--line); border-radius: 2px;
+}
+.mark i.on {
+  background: var(--accent); border-color: var(--accent);
+  animation: fill .35s both;
+  animation-delay: calc(var(--i, 0) * 55ms);
+}
+@keyframes fill { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: none; } }
 
-/* Liens de contact */
-.contact { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.75rem; padding: 0; list-style: none; }
+.identity h1 { font-size: clamp(2.1rem, 7vw, 2.6rem); font-weight: 800; letter-spacing: -.025em; }
+.identity .role { margin: .4rem 0 0; color: var(--muted); font-size: .95rem; }
+
+.contact { list-style: none; margin: 1.75rem 0 0; padding: 0; }
+.contact li { border-top: 1px solid var(--line); }
+.contact li:last-child { border-bottom: 1px solid var(--line); }
 .contact a {
-  display: inline-block;
-  padding: .5rem .9rem;
-  border: 1px solid var(--line); border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--text); text-decoration: none;
-  font-size: .9rem;
+  display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+  padding: .65rem .1rem;
+  color: var(--text); text-decoration: none; font-size: .9rem;
 }
-.contact a:hover { border-color: var(--accent); color: var(--accent); }
+.contact a span { color: var(--muted); font-family: var(--mono); font-size: .75rem; }
+.contact a:hover { color: var(--accent); }
+.contact a:hover span { color: var(--accent); }
 
-/* ---------------------------------------------------------------
-   4. SECTIONS
-   --------------------------------------------------------------- */
-.section { padding-top: 3rem; border-top: 1px solid var(--line); margin-top: 3rem; }
+/* ═══════════════════════════════════════════════════════════
+   5. SECTIONS
+   ═══════════════════════════════════════════════════════════ */
+main { padding-top: 1rem; }
+@media (min-width: 62rem) { main { padding-top: 3.5rem; } }
 
-/* Étiquette de section, en monospace, précédée d'un tiret ambre. */
-.section > h2 {
-  display: flex; align-items: center; gap: .6rem;
-  margin-bottom: 1.5rem;
-  font-family: var(--font-mono);
-  font-size: .8rem; font-weight: 600;
-  letter-spacing: .12em; text-transform: uppercase;
-  color: var(--muted);
-}
-.section > h2::before {
-  content: ""; width: 18px; height: 2px; flex: none;
-  background: var(--accent);
+.section + .section { margin-top: 3.5rem; }
+
+.section > h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1.5rem; }
+/* Le titre est surligné, comme dans un cahier de cours. */
+.section > h2 > span {
+  background: linear-gradient(transparent 58%, var(--mark) 58%);
+  padding: 0 .2em .05em 0;
 }
 
-/* ---------------------------------------------------------------
-   5. PROJETS
-   --------------------------------------------------------------- */
+.prose { max-width: 60ch; }
+.prose p + p { margin-top: 0; }
+
+/* ═══════════════════════════════════════════════════════════
+   6. PROJETS
+   ═══════════════════════════════════════════════════════════ */
 .grid {
-  display: grid; gap: var(--gap);
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  display: grid; gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
 }
 
 .card {
   display: flex; flex-direction: column;
   padding: 1.25rem;
-  border: 1px solid var(--line); border-radius: var(--radius);
   background: var(--surface);
-  transition: border-color .18s ease, transform .18s ease;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  transition: border-color .18s ease, background-color .18s ease;
 }
-.card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.card:hover { border-color: var(--accent); background: #232b29; }
 
+.card .when {
+  font-family: var(--mono); font-size: .72rem; letter-spacing: .04em;
+  color: var(--muted); margin-bottom: .45rem;
+}
 .card h3 { font-size: 1.05rem; margin-bottom: .5rem; }
 .card p { font-size: .925rem; color: var(--muted); margin-bottom: 1rem; }
 .card > :last-child { margin-bottom: 0; }
 
 .tags { display: flex; flex-wrap: wrap; gap: .35rem; margin: auto 0 0; padding: 0; list-style: none; }
 .tags li {
-  font-family: var(--font-mono); font-size: .7rem;
-  padding: .2rem .5rem;
-  border: 1px solid var(--line); border-radius: 4px;
-  color: var(--muted);
+  font-family: var(--mono); font-size: .7rem;
+  padding: .18rem .5rem;
+  border: 1px solid var(--line); border-radius: 3px; color: var(--muted);
 }
+.card-link { margin-top: 1rem; font-size: .875rem; }
 
-.card-links { display: flex; gap: 1rem; margin-top: 1rem; font-size: .875rem; }
+/* ═══════════════════════════════════════════════════════════
+   7. PARCOURS
+   ═══════════════════════════════════════════════════════════ */
+.path { list-style: none; margin: 0; padding: 0; }
+.path li { padding: 1rem 0; border-top: 1px solid var(--line); }
+.path li:last-child { border-bottom: 1px solid var(--line); }
 
-/* ---------------------------------------------------------------
-   6. COMPÉTENCES
-   --------------------------------------------------------------- */
-.badges { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0; margin: 0; list-style: none; }
+@media (min-width: 34rem) {
+  .path li { display: grid; grid-template-columns: 8rem 1fr; gap: 1.5rem; }
+}
+.path .when { font-family: var(--mono); font-size: .75rem; color: var(--muted); padding-top: .2rem; }
+.path h3 { font-size: 1rem; font-weight: 600; }
+.path p { margin: .2rem 0 0; font-size: .9rem; color: var(--muted); }
+
+/* ═══════════════════════════════════════════════════════════
+   8. COMPÉTENCES
+   ═══════════════════════════════════════════════════════════ */
+.skills { margin: 0; }
+.skills dt {
+  font-family: var(--mono); font-size: .72rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: .6rem;
+}
+.skills dd { margin: 0 0 1.5rem; }
+.skills dd:last-of-type { margin-bottom: 0; }
+
+.badges { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; padding: 0; list-style: none; }
 .badges li {
-  padding: .4rem .8rem;
-  border: 1px solid var(--line); border-radius: 999px;
+  padding: .3rem .7rem;
   background: var(--surface);
-  font-family: var(--font-mono); font-size: .8rem;
+  border: 1px solid var(--line); border-radius: 999px;
+  font-size: .82rem;
 }
 
-/* ---------------------------------------------------------------
-   7. PIED DE PAGE
-   --------------------------------------------------------------- */
+/* ═══════════════════════════════════════════════════════════
+   9. PIED DE PAGE
+   ═══════════════════════════════════════════════════════════ */
 .site-footer {
-  margin-top: 3rem; padding-top: 2rem;
+  margin-top: 4rem; padding-top: 1.5rem;
   border-top: 1px solid var(--line);
-  color: var(--muted); font-size: .825rem;
+  color: var(--muted); font-size: .82rem;
 }
-.site-footer p { margin-bottom: .25rem; }
+.site-footer p { margin: 0 0 .2rem; }
 
-/* ---------------------------------------------------------------
-   8. PRÉFÉRENCES UTILISATEUR
-   --------------------------------------------------------------- */
+/* ═══════════════════════════════════════════════════════════
+   10. PRÉFÉRENCES UTILISATEUR
+   ═══════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; animation: none !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 </style>
 </head>
@@ -204,115 +228,166 @@ p:last-child { margin-bottom: 0; }
 <body>
 <a class="skip" href="#contenu">Aller au contenu</a>
 
-<div class="wrap">
+<div class="shell">
 
-  <!-- =========================================================
-       EN-TÊTE
-       ========================================================= -->
-  <header class="site-header">
-    <svg class="mark" viewBox="0 0 32 32" role="img" aria-label="Monogramme de Prénom Nom">
-      <rect width="32" height="32" rx="7" fill="#141922" stroke="#232b38"></rect>
-      <path d="M9 21l6-10 6 10" fill="none" stroke="#ffbf47" stroke-width="2.5"
-            stroke-linecap="round" stroke-linejoin="round"></path>
-    </svg>
+  <!-- ════════════════════════════════════════════════════
+       IDENTITÉ
+       ════════════════════════════════════════════════════ -->
+  <header class="identity">
+    <!-- Initiale « N » tracée dans une grille 5×5. --i = ordre d'allumage. -->
+    <div class="mark" aria-hidden="true">
+      <i class="on" style="--i:0"></i><i></i><i></i><i></i><i class="on" style="--i:1"></i>
+      <i class="on" style="--i:2"></i><i class="on" style="--i:3"></i><i></i><i></i><i class="on" style="--i:4"></i>
+      <i class="on" style="--i:5"></i><i></i><i class="on" style="--i:6"></i><i></i><i class="on" style="--i:7"></i>
+      <i class="on" style="--i:8"></i><i></i><i></i><i class="on" style="--i:9"></i><i class="on" style="--i:10"></i>
+      <i class="on" style="--i:11"></i><i></i><i></i><i></i><i class="on" style="--i:12"></i>
+    </div>
 
     <h1>Noa Meunier</h1>
-    <p class="role">Développeur en formation cloud / DevOps</p>
-
-    <!-- Le chemin réel de cette page, de la machine locale au navigateur. -->
-    <ol class="pipeline" aria-label="Chaîne de déploiement de ce site">
-      <li>git push</li>
-      <li>GitHub Actions</li>
-      <li>aws s3 sync</li>
-      <li>CloudFront</li>
-    </ol>
+    <p class="role">Étudiant ingénieur à Polytech Nantes</p>
 
     <ul class="contact">
-      <li><a href="https://github.com/UTILISATEUR">GitHub</a></li>
-      <li><a href="https://www.linkedin.com/in/UTILISATEUR/">LinkedIn</a></li>
-      <li><a href="mailto:prenom.nom@exemple.fr">prenom.nom@exemple.fr</a></li>
+      <li><a href="mailto:noa.meunier@epitaxie.com">Écrire un mail <span>noa.meunier@epitaxie.com</span></a></li>
+      <li><a href="https://www.linkedin.com/in/noa-meunier">LinkedIn <span>noa-meunier</span></a></li>
+      <li><a href="https://github.com/UTILISATEUR">GitHub <span>@noameunier</span></a></li>
     </ul>
   </header>
 
   <main id="contenu">
 
-    <!-- =========================================================
-         À PROPOS
-         ========================================================= -->
+    <!-- ════════════════════════════════════════════════════
+         DESCRIPTION
+         ════════════════════════════════════════════════════ -->
     <section class="section" aria-labelledby="t-apropos">
-      <h2 id="t-apropos">À propos</h2>
-      <p>
-        Je suis en reconversion vers les métiers du cloud et de l'automatisation, après
-        un parcours où j'ai surtout appris à démonter les choses pour comprendre comment
-        elles tiennent debout.
-      </p>
-      <p>
-        Je travaille aujourd'hui sur AWS : stockage, distribution, DNS, et tout ce qui
-        permet de passer d'un dépôt Git à une page en ligne sans intervention manuelle.
-        J'apprends en construisant, puis en cassant ce que j'ai construit.
-      </p>
-      <p>
-        Ce site en est le premier exemple : il est petit, mais chaque brique de son
-        hébergement a été mise en place à la main avant d'être automatisée.
-      </p>
+      <h2 id="t-apropos"><span>Présentation</span></h2>
+      <div class="prose">
+        <p>
+          Actuellement cycle ingénieur, spécialisé en Ingénierie des Données et de 
+          l'Intelligence Artifcielle sous statut d'apprenti. Je réalise mon alternance
+          chez Thales SIX GTS en tant qu'ingénieur système communication aéronautique.
+          Au quotidien je développe des outils pour les ingénieurs afin de faciliter
+          leur travail.
+        </p>
+      </div>
     </section>
 
-    <!-- =========================================================
-         PROJETS — pour ajouter un projet, copiez un bloc <article>
-         ========================================================= -->
+    <!-- ════════════════════════════════════════════════════
+         PROJETS — pour en ajouter un, copiez un bloc <article>
+         ════════════════════════════════════════════════════ -->
     <section class="section" aria-labelledby="t-projets">
-      <h2 id="t-projets">Projets</h2>
+      <h2 id="t-projets"><span>Projets</span></h2>
 
       <div class="grid">
 
         <!-- ▼▼▼ DÉBUT D'UNE CARTE — copiez de <article> à </article> ▼▼▼ -->
         <article class="card">
-          <h3>Portfolio hébergé sur AWS</h3>
+          <p class="when">2023 – 2024 · Polytech Nantes</p>
+          <h3>Suguru</h3>
           <p>
-            Ce site. Fichiers statiques déposés sur S3, distribués par CloudFront,
-            domaine géré par Route&nbsp;53, et déploiement automatique à chaque push
-            grâce à GitHub Actions.
+            Jeu vidéo de Suguru développé dans la spécialité informatique : un puzzle
+            de grille où chaque région doit contenir des chiffres tous différents,
+            sans jamais que deux cases voisines se répètent.
           </p>
           <ul class="tags">
-            <li>S3</li>
-            <li>CloudFront</li>
-            <li>Route 53</li>
-            <li>GitHub Actions</li>
+            <li>Python</li>
+            <li>PyGame</li>
+            <li>Algorithmique</li>
           </ul>
-          <p class="card-links">
-            <a href="https://github.com/UTILISATEUR/portfolio">Code source</a>
-          </p>
         </article>
         <!-- ▲▲▲ FIN D'UNE CARTE ▲▲▲ -->
+
+        <article class="card">
+          <p class="when">2023 – 2024 · Polytech Nantes</p>
+          <h3>Traitement de l'eau</h3>
+          <p>
+            Projet d'ingénieur mené en tant que chef de projet, à la tête d'un groupe
+            de treize étudiants : répartition des tâches, suivi de l'avancement et
+            restitution finale.
+          </p>
+          <ul class="tags">
+            <li>Gestion de projet</li>
+            <li>Équipe de 13</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <p class="when">2023 – 2024 · Polytech Nantes</p>
+          <h3>Construction d'un pont</h3>
+          <p>
+            Projet de la spécialité génie civil : conception et dimensionnement d'un
+            ouvrage, du choix de la structure aux contraintes qu'elle doit encaisser.
+          </p>
+          <ul class="tags">
+            <li>Génie civil</li>
+            <li>Dimensionnement</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <p class="when">Projet personnel</p>
+          <h3>Jeu du Yams</h3>
+          <p>
+            Implémentation du Yams en Python : gestion des lancers, des combinaisons
+            et du décompte des points. Un projet mené en dehors des cours, pour le
+            plaisir de la règle bien écrite.
+          </p>
+          <ul class="tags">
+            <li>Python</li>
+          </ul>
+        </article>
 
       </div>
     </section>
 
-    <!-- =========================================================
+    <!-- ════════════════════════════════════════════════════
          COMPÉTENCES
-         ========================================================= -->
+         ════════════════════════════════════════════════════ -->
     <section class="section" aria-labelledby="t-competences">
-      <h2 id="t-competences">Compétences</h2>
-      <ul class="badges">
-        <li>HTML/CSS</li>
-        <li>Python</li>
-        <li>AWS</li>
-        <li>Git</li>
-        <li>Docker</li>
-        <li>Linux</li>
-        <li>Bash</li>
-      </ul>
+      <h2 id="t-competences"><span>Compétences</span></h2>
+      <dl class="skills">
+        <dt>Maîtrise</dt>
+        <dd>
+          <ul class="badges">
+            <li>Python</li><li>Git</li><li>GitLab</li><li>VS Code</li>
+            <li>MATLAB</li><li>CoCalc</li><li>Figma</li><li>Notion</li>
+          </ul>
+        </dd>
+
+        <dt>Pratique</dt>
+        <dd>
+          <ul class="badges">
+            <li>Java</li><li>JavaScript</li><li>NumPy</li><li>OpenCV</li>
+            <li>PyGame</li><li>Jupyter</li><li>JetBrains</li><li>AWS</li>
+          </ul>
+        </dd>
+
+        <dt>Langues</dt>
+        <dd>
+          <ul class="badges">
+            <li>Français - langue maternelle</li>
+            <li>Anglais - B2</li>
+            <li>Espagnol - B1</li>
+          </ul>
+        </dd>
+      </dl>
     </section>
 
   </main>
 
-  <!-- =========================================================
-       PIED DE PAGE
-       ========================================================= -->
   <footer class="site-footer">
-    <p>© <span id="annee">2026</span> Prénom Nom</p>
+    <p>© <span id="annee">2026</span> Noa Meunier</p>
     <p>Déployé automatiquement depuis GitHub.</p>
   </footer>
+
+</div>
+
+<script>
+  /* Seule ligne de JS du site : l'année du pied de page.
+     Sans JavaScript, la valeur écrite dans le HTML reste affichée. */
+  document.getElementById('annee').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
 
 </div>
 
