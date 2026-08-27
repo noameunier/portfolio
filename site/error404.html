@@ -6,46 +6,50 @@
 <title>Page introuvable — Noa Meunier</title>
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#171d1b">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3.5' fill='%23171d1b'/><path d='M4.5 12V4l7 8V4' stroke='%239fd3e8' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<meta name="theme-color" content="#17191c">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%2317191c'/><path d='M4.5 12V4l7 8V4' stroke='%23dfe2e5' stroke-width='1.6' fill='none' stroke-linecap='square'/></svg>">
 
 <style>
+/* Mêmes jetons que la page d'accueil : anthracite, mono,
+   l'ambre uniquement pour les liens, des filets 1px. */
 :root {
-  --bg:#171d1b; --surface:#1e2523; --line:#2e3835; --grid:#ffffff0d;
-  --text:#e8ece6; --muted:#a5aea8; --accent:#9fd3e8; --mark:#9fd3e833;
-  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-  --radius:8px;
+  --bg:    #17191c;
+  --text:  #dfe2e5;
+  --muted: #979ca2;
+  --rule:  #2a2e33;
+  --link:  #e0a54a;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+          "Liberation Mono", "DejaVu Sans Mono", monospace;
 }
 *, *::before, *::after { box-sizing:border-box; }
 body {
   margin:0; min-height:100vh; padding:2rem 1.25rem;
   display:flex; align-items:center; justify-content:center;
-  color:var(--text); font-family:var(--sans); font-size:1.0625rem; line-height:1.65;
-  background-color:var(--bg);
-  background-image:
-    linear-gradient(to right,  var(--grid) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
-  background-size:26px 26px;
+  background:var(--bg); color:var(--text);
+  font-family:var(--mono); font-size:.9375rem; line-height:1.6;
 }
-main { width:100%; max-width:32rem; }
+main { width:100%; max-width:34rem; }
 
 /* Une grille 3×3 dont il manque une case : la page absente. */
-.hole { display:grid; grid-template-columns:repeat(3,13px); gap:3px; margin-bottom:1.75rem; }
-.hole i { display:block; aspect-ratio:1; border:1px solid var(--line); border-radius:2px; background:var(--accent); border-color:var(--accent); }
-.hole i.gone { background:none; border-color:var(--line); border-style:dashed; }
+.hole { display:grid; grid-template-columns:repeat(3,9px); gap:2px; margin-bottom:1.5rem; }
+.hole i { display:block; aspect-ratio:1; background:var(--text); border:1px solid var(--text); }
+.hole i.gone { background:none; border-color:var(--rule); }
 
-.code { font-family:var(--mono); font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin:0 0 .6rem; }
-h1 { margin:0 0 .75rem; font-size:clamp(1.7rem,6vw,2.3rem); font-weight:800; letter-spacing:-.025em; line-height:1.2; }
-h1 span { background:linear-gradient(transparent 58%, var(--mark) 58%); padding:0 .2em .05em 0; }
-p.lead { margin:0 0 1.75rem; color:var(--muted); }
-a.home {
-  display:inline-block; padding:.55rem 1rem;
-  background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
-  color:var(--accent); text-decoration:none; font-size:.9rem;
+.code {
+  margin:0 0 .75rem; padding-bottom:.6rem;
+  border-bottom:1px solid var(--rule);
+  font-size:.75rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted);
 }
-a.home:hover { border-color:var(--accent); }
-a.home:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+h1 { margin:0 0 .5rem; font-size:1.375rem; font-weight:500; line-height:1.3; letter-spacing:-.01em; }
+p.lead { margin:0 0 1.5rem; color:var(--muted); font-size:.8125rem; }
+
+a.home {
+  color:var(--link); text-decoration:none;
+  border-bottom:1px solid transparent; font-size:.8125rem;
+}
+a.home::before { content:"← "; }
+a.home:hover { border-bottom-color:var(--link); }
+a.home:focus-visible { outline:1px solid var(--link); outline-offset:2px; }
 </style>
 </head>
 <body>
@@ -56,7 +60,7 @@ a.home:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
     <i></i><i></i><i></i>
   </div>
   <p class="code">Erreur 404</p>
-  <h1><span>Cette page n'existe pas</span></h1>
+  <h1>Cette page n'existe pas</h1>
   <p class="lead">L'adresse est peut-être mal orthographiée, ou la page a été retirée du site.</p>
   <a class="home" href="/">Retour à l'accueil</a>
 </main>

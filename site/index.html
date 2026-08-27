@@ -3,31 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Portfolio Noa Meunier</title>
+<title>Noa Meunier — ingénieur système / données &amp; IA</title>
 <meta name="description" content="Portfolio de Noa Meunier, apprenti ingénieur système chez Thales SIX GTS et étudiant à Polytech Nantes en Ingénierie des Données et Intelligence Artificielle. Recherche un stage international, juin – septembre 2026.">
 <meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#171d1b">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3.5' fill='%23171d1b'/><path d='M4.5 12V4l7 8V4' stroke='%239fd3e8' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<meta name="theme-color" content="#17191c">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%2317191c'/><path d='M4.5 12V4l7 8V4' stroke='%23dfe2e5' stroke-width='1.6' fill='none' stroke-linecap='square'/></svg>">
 
 <style>
 /* ═══════════════════════════════════════════════════════════
-   1. JETONS - tout se règle ici
+   1. JETONS — tout se règle ici
+   ───────────────────────────────────────────────────────────
+   Règle du thème : une seule couleur, l'ambre, et elle est
+   réservée aux liens. Rien d'autre n'est coloré.
    ═══════════════════════════════════════════════════════════ */
 :root {
-  --bg:      #171d1b;   /* ardoise                              */
-  --surface: #1e2523;   /* cartes                               */
-  --line:    #2e3835;   /* filets                               */
-  --grid:    #ffffff0d; /* quadrillage du fond (très discret)   */
-  --text:    #e8ece6;   /* craie blanche  - contraste 14:1      */
-  --muted:   #a5aea8;   /* craie usée     - contraste  7:1      */
-  --accent:  #9fd3e8;   /* craie bleue    - contraste 10:1      */
-  --mark:    #9fd3e833; /* surligneur des titres                */
+  --bg:     #17191c;   /* anthracite                            */
+  --text:   #dfe2e5;   /* contraste 13.8:1                      */
+  --muted:  #979ca2;   /* contraste  6.4:1                      */
+  --rule:   #2a2e33;   /* les filets 1px                        */
+  --dim:    #4d545b;   /* micro-marques : numéros, puces         */
+  --chip:   #363c42;   /* contour des bulles                     */
+  --link:   #e0a54a;   /* ambre — liens uniquement, 8.2:1       */
 
-  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-
-  --cell: 26px;         /* pas du quadrillage de fond */
-  --radius: 8px;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+          "Liberation Mono", "DejaVu Sans Mono", monospace;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -37,217 +36,153 @@
 
 body {
   margin: 0;
-  padding: 0 1.25rem 4rem;
+  padding: 0 1.25rem 3rem;
+  background: var(--bg);
   color: var(--text);
-  font-family: var(--sans);
-  font-size: 1.0625rem;
-  line-height: 1.65;
+  font-family: var(--mono);
+  font-size: .9375rem;      /* 15px : dense, mais lisible */
+  line-height: 1.6;
+  font-variant-ligatures: none;
   -webkit-text-size-adjust: 100%;
-
-  /* Le papier quadrillé : deux dégradés répétés, aucune image. */
-  background-color: var(--bg);
-  background-image:
-    linear-gradient(to right,  var(--grid) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
-  background-size: var(--cell) var(--cell);
+  counter-reset: sec;
 }
 
-a { color: var(--accent); text-underline-offset: 3px; text-decoration-thickness: 1px; }
-a:hover { text-decoration-thickness: 2px; }
-
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
-
-h1, h2, h3 { margin: 0; line-height: 1.2; text-wrap: balance; }
-p { margin: 0 0 1rem; }
-p:last-child { margin-bottom: 0; }
-
-.skip {
-  position: absolute; left: -9999px;
-  padding: .6rem 1rem; border-radius: var(--radius);
-  background: var(--accent); color: var(--bg); font-weight: 600;
+/* Le seul élément coloré du document. */
+a {
+  color: var(--link);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
 }
-.skip:focus { left: 1rem; top: 1rem; z-index: 10; }
+a:hover { border-bottom-color: var(--link); }
+
+:focus-visible { outline: 1px solid var(--link); outline-offset: 2px; }
+
+h1, h2, h3 { margin: 0; font-weight: 500; line-height: 1.3; }
+p  { margin: 0; }
+ul, ol, dl, dd { margin: 0; padding: 0; }
+li { list-style: none; }
+
+.skip { position: absolute; left: -9999px; }
+.skip:focus {
+  left: 1rem; top: 1rem; z-index: 10;
+  padding: .4rem .7rem;
+  background: var(--bg); border: 1px solid var(--link); color: var(--link);
+}
 
 /* ═══════════════════════════════════════════════════════════
-   3. GABARIT - une colonne sur mobile, deux à partir de 62rem
+   3. GABARIT — une colonne, deux à partir de 62rem
    ═══════════════════════════════════════════════════════════ */
-.shell { max-width: 68rem; margin-inline: auto; }
+.shell { max-width: 64rem; margin-inline: auto; }
 
 @media (min-width: 62rem) {
   .shell {
     display: grid;
     grid-template-columns: 17rem 1fr;
-    gap: 4rem;
+    gap: 3.5rem;
     align-items: start;
   }
   .identity { position: sticky; top: 3rem; }
+  .site-footer { grid-column: 1 / -1; }
 }
 
 /* ═══════════════════════════════════════════════════════════
    4. IDENTITÉ (colonne de gauche)
    ═══════════════════════════════════════════════════════════ */
-.identity { padding: 3.5rem 0 1rem; }
+.identity { padding: 3rem 0 1rem; }
 
-/* La grille 5×5 : l'initiale, dessinée comme une case de Suguru. */
-.mark {
-  display: grid;
-  grid-template-columns: repeat(5, 13px);
-  gap: 3px;
-  margin-bottom: 1.75rem;
-}
-.mark i {
-  display: block; aspect-ratio: 1;
-  border: 1px solid var(--line); border-radius: 2px;
-}
-.mark i.on {
-  background: var(--accent); border-color: var(--accent);
-  animation: fill .35s both;
-  animation-delay: calc(var(--i, 0) * 55ms);
-}
-@keyframes fill { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: none; } }
+/* L'initiale « N », tracée dans une grille 5×5 de filets 1px. */
+.mark { display: grid; grid-template-columns: repeat(5, 9px); gap: 2px; margin-bottom: 1.5rem; }
+.mark i { display: block; aspect-ratio: 1; }
+.mark i.on { background: var(--text); }
 
-.identity h1 { font-size: clamp(2.1rem, 7vw, 2.6rem); font-weight: 800; letter-spacing: -.025em; }
-.identity .role { margin: .4rem 0 0; color: var(--muted); font-size: .95rem; }
+.identity h1 { font-size: 1.375rem; letter-spacing: -.01em; }
+.identity .role   { margin-top: .35rem; color: var(--muted); font-size: .8125rem; }
+.identity .status { margin-top: .9rem;  color: var(--muted); font-size: .8125rem; }
+.identity .status::before { content: "> "; color: var(--dim); }
 
-/* Pastille de disponibilité - l'information que cherche un recruteur. */
-.status {
-  display: inline-flex; align-items: center; gap: .5rem;
-  margin-top: 1.25rem; padding: .3rem .75rem .3rem .6rem;
-  border: 1px solid var(--line); border-radius: 999px;
-  background: var(--surface);
-  font-size: .78rem; color: var(--muted);
+/* Contacts : clé à gauche, valeur à droite, séparés par un filet. */
+.contact { margin-top: 1.5rem; }
+.contact a {
+  display: grid; grid-template-columns: 4.25rem 1fr;
+  padding: .2rem 0;
+  border-bottom: 0;                 /* pas de filet : la colonne suffit */
+  font-size: .78125rem;             /* l'adresse e-mail tient sur une ligne */
 }
-.status::before {
-  content: ""; width: 7px; height: 7px; border-radius: 50%;
-  background: var(--accent); flex: none;
-}
-
-.contact { list-style: none; margin: 1.75rem 0 0; padding: 0; }
-.contact li { border-top: 1px solid var(--line); }
-.contact li:last-child { border-bottom: 1px solid var(--line); }
-.contact a,
-.contact .row {
-  display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
-  padding: .65rem .1rem;
-  color: var(--text); text-decoration: none; font-size: .9rem;
-}
-.contact a span,
-.contact .row span { color: var(--muted); font-family: var(--mono); font-size: .75rem; }
-.contact a:hover { color: var(--accent); }
-.contact a:hover span { color: var(--accent); }
+.contact a .k { color: var(--muted); }
+.contact a .v { overflow-wrap: anywhere; }
+.contact a:hover .v { text-decoration: underline; text-underline-offset: 3px; }
 
 /* ═══════════════════════════════════════════════════════════
-   5. SECTIONS
+   5. SECTIONS — un titre court, un filet qui court jusqu'au bord
    ═══════════════════════════════════════════════════════════ */
-main { padding-top: 1rem; }
-@media (min-width: 62rem) { main { padding-top: 3.5rem; } }
+main { padding-top: .5rem; }
+@media (min-width: 62rem) { main { padding-top: 3rem; } }
 
-.section + .section { margin-top: 3.5rem; }
+.section { counter-increment: sec; }
+.section + .section { margin-top: 2.75rem; }
 
-.section > h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1.5rem; }
-/* Le titre est surligné, comme dans un cahier de cours. */
-.section > h2 > span {
-  background: linear-gradient(transparent 58%, var(--mark) 58%);
-  padding: 0 .2em .05em 0;
+.section > h2 {
+  display: flex; align-items: center; gap: .75rem;
+  margin-bottom: 1rem;
+  font-size: .75rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--muted);
 }
+.section > h2::before { content: counter(sec, decimal-leading-zero); color: var(--dim); }
+.section > h2::after  { content: ""; flex: 1; height: 1px; background: var(--rule); }
 
-.prose { max-width: 60ch; }
-.prose p + p { margin-top: 0; }
+.prose { max-width: 68ch; color: var(--muted); }
 
 /* ═══════════════════════════════════════════════════════════
-   6. PROJETS
+   6. LIGNES — expérience, formation, projets : même gabarit
+   ───────────────────────────────────────────────────────────
+   Pas de cartes : une date à gauche, le contenu à droite.
+   Un seul filet ENTRE deux entrées — ni au début, ni à la fin.
    ═══════════════════════════════════════════════════════════ */
-.grid {
-  display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+.rows > li { padding: .3rem 0 1.1rem; }
+.rows > li + li { padding-top: 1.1rem; border-top: 1px solid var(--rule); }
+
+@media (min-width: 40rem) {
+  .rows > li { display: grid; grid-template-columns: 10.5rem 1fr; gap: 1.5rem; }
 }
 
-.card {
-  display: flex; flex-direction: column;
-  padding: 1.25rem;
-  background: var(--surface);
-  border: 1px solid var(--line); border-radius: var(--radius);
-  transition: border-color .18s ease, background-color .18s ease;
-}
-.card:hover { border-color: var(--accent); background: #232b29; }
+.when  { color: var(--muted); font-size: .8125rem; }
+.rows h3 { font-size: .9375rem; }
+.where { margin-top: .1rem; color: var(--muted); font-size: .8125rem; }
+.note  { margin-top: .1rem; color: var(--muted); font-size: .8125rem; }
 
-.card .when {
-  font-family: var(--mono); font-size: .72rem; letter-spacing: .04em;
-  color: var(--muted); margin-bottom: .45rem;
-}
-.card h3 { font-size: 1.05rem; margin-bottom: .5rem; }
-.card p { font-size: .925rem; color: var(--muted); margin-bottom: 1rem; }
-.card > :last-child { margin-bottom: 0; }
+/* Les missions : un tiret cadratin en guise de puce. */
+.details { margin-top: .5rem; color: var(--muted); font-size: .8125rem; }
+.details li { padding-left: 1.1rem; text-indent: -1.1rem; }
+.details li::before { content: "— "; color: var(--dim); }
 
-.tags { display: flex; flex-wrap: wrap; gap: .35rem; margin: auto 0 0; padding: 0; list-style: none; }
+/* Les technologies : des bulles au contour 1px, jamais de fond. */
+.tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .7rem; }
 .tags li {
-  font-family: var(--mono); font-size: .7rem;
-  padding: .18rem .5rem;
-  border: 1px solid var(--line); border-radius: 3px; color: var(--muted);
+  padding: .1rem .55rem .15rem;
+  border: 1px solid var(--chip); border-radius: 999px;
+  font-size: .75rem; color: var(--muted); white-space: nowrap;
 }
-.card-link { margin-top: 1rem; font-size: .875rem; }
 
 /* ═══════════════════════════════════════════════════════════
-   7. PARCOURS - expérience et formation
+   7. COMPÉTENCES — même gabarit, la clé remplace la date.
+   Aucun filet : les bulles suffisent à découper les groupes.
    ═══════════════════════════════════════════════════════════ */
-.path { list-style: none; margin: 0; padding: 0; }
-/* « > li » : les puces de .details et .tags ne doivent pas hériter d'ici. */
-.path > li { padding: 1rem 0; border-top: 1px solid var(--line); }
-.path > li:last-child { border-bottom: 1px solid var(--line); }
+.skills > div + div { margin-top: 1.1rem; }
 
-@media (min-width: 34rem) {
-  .path > li { display: grid; grid-template-columns: 8rem 1fr; gap: 1.5rem; }
+@media (min-width: 40rem) {
+  .skills > div { display: grid; grid-template-columns: 10.5rem 1fr; gap: 1.5rem; }
 }
-.path .when { font-family: var(--mono); font-size: .75rem; color: var(--muted); padding-top: .2rem; }
-.path h3 { font-size: 1rem; font-weight: 600; }
-.path .where { margin: .2rem 0 0; font-size: .9rem; color: var(--muted); }
-.path p { margin: .2rem 0 0; font-size: .9rem; color: var(--muted); }
 
-/* Les missions, en retrait sous l'intitulé du poste. */
-.details {
-  margin: .7rem 0 0; padding: 0 0 0 1.1rem;
-  font-size: .9rem; color: var(--muted);
-}
-.details li { margin-bottom: .25rem; }
-.details li::marker { color: var(--accent); }
-.details li:last-child { margin-bottom: 0; }
-.path .tags { margin-top: .8rem; }
+.skills dt { color: var(--muted); font-size: .8125rem; padding-top: .15rem; }
+.skills dd .tags { margin-top: 0; }
 
 /* ═══════════════════════════════════════════════════════════
-   8. COMPÉTENCES
-   ═══════════════════════════════════════════════════════════ */
-.skills { margin: 0; }
-.skills dt {
-  font-family: var(--mono); font-size: .72rem; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--muted);
-  margin-bottom: .6rem;
-}
-.skills dd { margin: 0 0 1.5rem; }
-.skills dd:last-of-type { margin-bottom: 0; }
-
-.badges { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0; padding: 0; list-style: none; }
-.badges li {
-  padding: .3rem .7rem;
-  background: var(--surface);
-  border: 1px solid var(--line); border-radius: 999px;
-  font-size: .82rem;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   9. PIED DE PAGE
+   8. PIED DE PAGE
    ═══════════════════════════════════════════════════════════ */
 .site-footer {
-  margin-top: 4rem; padding-top: 1.5rem;
-  border-top: 1px solid var(--line);
-  color: var(--muted); font-size: .82rem;
-}
-.site-footer p { margin: 0 0 .2rem; }
-
-/* ═══════════════════════════════════════════════════════════
-   10. PRÉFÉRENCES UTILISATEUR
-   ═══════════════════════════════════════════════════════════ */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; }
+  margin-top: 3rem; padding-top: .85rem;
+  border-top: 1px solid var(--rule);
+  color: var(--muted); font-size: .75rem;
 }
 </style>
 </head>
@@ -261,22 +196,23 @@ main { padding-top: 1rem; }
        IDENTITÉ
        ════════════════════════════════════════════════════ -->
   <header class="identity">
-    <!-- Initiale « N » tracée dans une grille 5×5. --i = ordre d'allumage. -->
+    <!-- Initiale « N » tracée dans une grille 5×5. -->
     <div class="mark" aria-hidden="true">
-      <i class="on" style="--i:0"></i><i></i><i></i><i></i><i class="on" style="--i:1"></i>
-      <i class="on" style="--i:2"></i><i class="on" style="--i:3"></i><i></i><i></i><i class="on" style="--i:4"></i>
-      <i class="on" style="--i:5"></i><i></i><i class="on" style="--i:6"></i><i></i><i class="on" style="--i:7"></i>
-      <i class="on" style="--i:8"></i><i></i><i></i><i class="on" style="--i:9"></i><i class="on" style="--i:10"></i>
-      <i class="on" style="--i:11"></i><i></i><i></i><i></i><i class="on" style="--i:12"></i>
+      <i class="on"></i><i></i><i></i><i></i><i class="on"></i>
+      <i class="on"></i><i class="on"></i><i></i><i></i><i class="on"></i>
+      <i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i>
+      <i class="on"></i><i></i><i></i><i class="on"></i><i class="on"></i>
+      <i class="on"></i><i></i><i></i><i></i><i class="on"></i>
     </div>
 
     <h1>Noa Meunier</h1>
-    <p class="role">Apprenti ingénieur système chez Thales SIX GTS · Polytech Nantes, Données &amp; IA</p>
+    <p class="role">Apprenti ingénieur système · Thales SIX GTS<br>Polytech Nantes — Données &amp; IA</p>
+    <p class="status">Recherche un stage international, juin – septembre 2026</p>
 
     <ul class="contact">
-      <li><a href="mailto:noa.meunier@epitaxie.com">E-mail <span>noa.meunier@epitaxie.com</span></a></li>
-      <li><a href="https://www.linkedin.com/in/noa-meunier">LinkedIn <span>noa-meunier</span></a></li>
-      <li><a href="https://github.com/noameunier">GitHub <span>@noameunier</span></a></li>
+      <li><a href="mailto:noa.meunier@epitaxie.com"><span class="k">e-mail</span><span class="v">noa.meunier@epitaxie.com</span></a></li>
+      <li><a href="https://www.linkedin.com/in/noa-meunier"><span class="k">linkedin</span><span class="v">noa-meunier</span></a></li>
+      <li><a href="https://github.com/noameunier"><span class="k">github</span><span class="v">@noameunier</span></a></li>
     </ul>
   </header>
 
@@ -286,46 +222,41 @@ main { padding-top: 1rem; }
          PRÉSENTATION
          ════════════════════════════════════════════════════ -->
     <section class="section" aria-labelledby="t-apropos">
-      <h2 id="t-apropos"><span>Présentation</span></h2>
-      <div class="prose">
-        <p>
-          Élève ingénieur en cycle ingénieur à Polytech Nantes, spécialisé en Ingénierie
-          des Données et de l'Intelligence Artificielle. Je réalise mon alternance chez
-          Thales SIX GTS en tant qu'ingénieur système.
-        </p>
-      </div>
+      <h2 id="t-apropos">Présentation</h2>
+      <p class="prose">
+        Élève ingénieur en cycle ingénieur à Polytech Nantes, spécialisé en Ingénierie
+        des Données et de l'Intelligence Artificielle. Je réalise mon alternance chez
+        Thales SIX GTS en tant qu'ingénieur système.
+      </p>
     </section>
 
     <!-- ════════════════════════════════════════════════════
-         EXPÉRIENCE - pour ajouter un poste, copiez un bloc <li>
+         EXPÉRIENCE — pour ajouter un poste, copiez un bloc <li>
          ════════════════════════════════════════════════════ -->
     <section class="section" aria-labelledby="t-experience">
-      <h2 id="t-experience"><span>Expérience professionnelle</span></h2>
-      <ul class="path">
+      <h2 id="t-experience">Expérience</h2>
+      <ul class="rows">
 
         <li>
-          <p class="when">2024 – aujourd'hui</p>
+          <p class="when">2024 — aujourd'hui</p>
           <div>
             <h3>Apprenti ingénieur système</h3>
-            <p class="where">Thales SIX GTS - Gennevilliers, France</p>
+            <p class="where">Thales SIX GTS — Gennevilliers, France</p>
             <ul class="details">
               <li>Développement d'un outil traduisant les diagrammes de classe en XML / XSD.</li>
               <li>Modélisation de systèmes complexes à l'aide d'outils MBSE (Capella).</li>
             </ul>
             <ul class="tags">
-              <li>Python</li>
-              <li>UML / XSD</li>
-              <li>Capella</li>
-              <li>MBSE</li>
+              <li>Python</li><li>UML / XSD</li><li>Capella</li><li>MBSE</li>
             </ul>
           </div>
         </li>
 
         <li>
-          <p class="when">2023 · 1 mois</p>
+          <p class="when">2023 — 1 mois</p>
           <div>
             <h3>Stagiaire support informatique</h3>
-            <p class="where">Office Notarial du Jeu de Paume - Bordeaux, France</p>
+            <p class="where">Office Notarial du Jeu de Paume — Bordeaux, France</p>
             <ul class="details">
               <li>Appui au service informatique sur la maintenance de l'infrastructure réseau.</li>
               <li>Support technique auprès des collaborateurs de l'étude.</li>
@@ -340,24 +271,24 @@ main { padding-top: 1rem; }
          FORMATION
          ════════════════════════════════════════════════════ -->
     <section class="section" aria-labelledby="t-formation">
-      <h2 id="t-formation"><span>Formation</span></h2>
-      <ul class="path">
+      <h2 id="t-formation">Formation</h2>
+      <ul class="rows">
 
         <li>
-          <p class="when">2022 – 2027</p>
+          <p class="when">2022 — 2027</p>
           <div>
             <h3>Diplôme d'ingénieur en informatique</h3>
-            <p class="where">Polytech Nantes - Nantes, France</p>
-            <p>Spécialité Ingénierie des Données et Intelligence Artificielle.</p>
+            <p class="where">Polytech Nantes — Nantes, France</p>
+            <p class="note">Spécialité Ingénierie des Données et Intelligence Artificielle.</p>
           </div>
         </li>
 
         <li>
-          <p class="when">2019 – 2022</p>
+          <p class="when">2019 — 2022</p>
           <div>
             <h3>Baccalauréat général</h3>
-            <p class="where">Lycée Saint-Martin - Rennes, France</p>
-            <p>Mention Très Bien · Section européenne anglais.</p>
+            <p class="where">Lycée Saint-Martin — Rennes, France</p>
+            <p class="note">Mention Très Bien · Section européenne anglais.</p>
           </div>
         </li>
 
@@ -365,140 +296,149 @@ main { padding-top: 1rem; }
     </section>
 
     <!-- ════════════════════════════════════════════════════
-         PROJETS - pour en ajouter un, copiez un bloc <article>
+         PROJETS — pour en ajouter un, copiez un bloc <li>
          ════════════════════════════════════════════════════ -->
     <section class="section" aria-labelledby="t-projets">
-      <h2 id="t-projets"><span>Projets</span></h2>
+      <h2 id="t-projets">Projets</h2>
+      <ul class="rows">
 
-      <div class="grid">
+        <!-- ▼▼▼ DÉBUT D'UNE ENTRÉE — copiez de <li> à </li> ▼▼▼ -->
+        <li>
+          <p class="when">2023 — 2024 · Polytech</p>
+          <div>
+            <h3>Deep learning — classification d'images pour le jeu du Suguru</h3>
+            <p class="note">
+              Développement d'un jeu vidéo du Suguru avec la création d'un réseau de neurones
+              convolutif (CNN) entraîné pour la classification d'images sous PyTorch.
+            </p>
+            <ul class="tags">
+              <li>Python</li><li>PyTorch</li><li>CNN</li><li>Algorithmique</li>
+            </ul>
+          </div>
+        </li>
+        <!-- ▲▲▲ FIN D'UNE ENTRÉE ▲▲▲ -->
 
-        <!-- ▼▼▼ DÉBUT D'UNE CARTE - copiez de <article> à </article> ▼▼▼ -->
-        <article class="card">
-          <p class="when">2023 – 2024 · Polytech Nantes</p>
-          <h3>Deep learning - classification d'images pour le jeu du Suguru</h3>
-          <p>
-            Développement d'un jeu vidéo du Sugure avec la création d'un réseau de neurones 
-            convolutif (CNN) entraîné pour la classification d'images sous PyTorch.
-          </p>
-          <ul class="tags">
-            <li>Python</li>
-            <li>PyTorch</li>
-            <li>CNN</li>
-            <li>Algorithmique</li>
-          </ul>
-        </article>
-        <!-- ▲▲▲ FIN D'UNE CARTE ▲▲▲ -->
+        <li>
+          <p class="when">2023 — 2024 · Polytech</p>
+          <div>
+            <h3>Traitement de l'eau</h3>
+            <p class="note">
+              Projet d'ingénieur mené en tant que chef de projet, à la tête d'une équipe
+              pluridisciplinaire de treize étudiants : répartition des tâches, suivi des
+              échéances et conformité des livrables techniques.
+            </p>
+            <ul class="tags">
+              <li>Gestion de projet</li><li>Équipe de 13</li>
+            </ul>
+          </div>
+        </li>
 
-        <article class="card">
-          <p class="when">2023 – 2024 · Polytech Nantes</p>
-          <h3>Traitement de l'eau</h3>
-          <p>
-            Projet d'ingénieur mené en tant que chef de projet, à la tête d'une équipe
-            pluridisciplinaire de treize étudiants : répartition des tâches, suivi des
-            échéances et conformité des livrables techniques.
-          </p>
-          <ul class="tags">
-            <li>Gestion de projet</li>
-            <li>Équipe de 13</li>
-          </ul>
-        </article>
+        <li>
+          <p class="when">2023 — 2024 · Polytech</p>
+          <div>
+            <h3>Modélisation de la construction d'un pont</h3>
+            <p class="note">
+              Projet de la spécialité génie civil : conception et dimensionnement d'un
+              ouvrage, du choix de la structure aux contraintes qu'elle doit encaisser.
+            </p>
+            <ul class="tags">
+              <li>Génie civil</li><li>Dimensionnement</li>
+            </ul>
+          </div>
+        </li>
 
-        <article class="card">
-          <p class="when">2023 – 2024 · Polytech Nantes</p>
-          <h3>Modélisation de la construction d'un pont</h3>
-          <p>
-            Projet de la spécialité génie civil : conception et dimensionnement d'un
-            ouvrage, du choix de la structure aux contraintes qu'elle doit encaisser.
-          </p>
-          <ul class="tags">
-            <li>Génie civil</li>
-            <li>Dimensionnement</li>
-          </ul>
-        </article>
+        <li>
+          <p class="when">2022 — 2023 · Polytech</p>
+          <div>
+            <h3>Jeu du Yams</h3>
+            <p class="note">
+              Implémentation du Yams en Python : gestion des lancers, des combinaisons
+              et du décompte des points.
+            </p>
+            <ul class="tags">
+              <li>Algoscript</li><li>JavaScript</li>
+            </ul>
+          </div>
+        </li>
 
-        <article class="card">
-          <p class="when">2022 – 2023 · Polytech Nantes</p>
-          <h3>Jeu du Yams</h3>
-          <p>
-            Implémentation du Yams en Python : gestion des lancers, des combinaisons
-            et du décompte des points.
-          </p>
-          <ul class="tags">
-            <li>Algoscript</li>
-            <li>JavaScript</li>
-          </ul>
-        </article>
-
-      </div>
+      </ul>
     </section>
 
     <!-- ════════════════════════════════════════════════════
          COMPÉTENCES
          ════════════════════════════════════════════════════ -->
     <section class="section" aria-labelledby="t-competences">
-      <h2 id="t-competences"><span>Compétences</span></h2>
+      <h2 id="t-competences">Compétences</h2>
       <dl class="skills">
-        <dt>Programmation</dt>
-        <dd>
-          <ul class="badges">
-            <li>Python (avancé)</li><li>Java</li><li>JavaScript</li>
-            <li>SQL</li><li>XML / XSD</li><li>VBA</li><li>Git</li>
-          </ul>
-        </dd>
 
-        <dt>Données &amp; IA</dt>
-        <dd>
-          <ul class="badges">
-            <li>PyTorch</li><li>DuckDB</li><li>dbt Core</li><li>MATLAB</li>
-            <li>NumPy</li><li>OpenCV</li><li>Jupyter</li>
-          </ul>
-        </dd>
+        <div>
+          <dt>Programmation</dt>
+          <dd>
+            <ul class="tags">
+              <li>Python (avancé)</li><li>Java</li><li>JavaScript</li>
+              <li>SQL</li><li>XML / XSD</li><li>VBA</li><li>Git</li>
+            </ul>
+          </dd>
+        </div>
 
-        <dt>Ingénierie système</dt>
-        <dd>
-          <ul class="badges">
-            <li>Capella</li><li>Modélisation UML</li><li>MBSE</li>
-            <li>Gestion des exigences</li>
-          </ul>
-        </dd>
+        <div>
+          <dt>Données &amp; IA</dt>
+          <dd>
+            <ul class="tags">
+              <li>PyTorch</li><li>DuckDB</li><li>dbt Core</li><li>MATLAB</li>
+              <li>NumPy</li><li>OpenCV</li><li>Jupyter</li>
+            </ul>
+          </dd>
+        </div>
 
-        <dt>Outils</dt>
-        <dd>
-          <ul class="badges">
-            <li>VS Code</li><li>IntelliJ</li><li>PyCharm</li><li>GitHub</li>
-            <li>GitLab</li><li>Bitbucket</li><li>AWS</li><li>Excel</li>
-            <li>Figma</li><li>Notion</li>
-          </ul>
-        </dd>
+        <div>
+          <dt>Ingénierie système</dt>
+          <dd>
+            <ul class="tags">
+              <li>Capella</li><li>Modélisation UML</li><li>MBSE</li>
+              <li>Gestion des exigences</li>
+            </ul>
+          </dd>
+        </div>
 
-        <dt>Langues</dt>
-        <dd>
-          <ul class="badges">
-            <li>Français - langue maternelle</li>
-            <li>Anglais - B2 (TOEIC)</li>
-            <li>Espagnol - B1</li>
-          </ul>
-        </dd>
+        <div>
+          <dt>Outils</dt>
+          <dd>
+            <ul class="tags">
+              <li>VS Code</li><li>IntelliJ</li><li>PyCharm</li><li>GitHub</li>
+              <li>GitLab</li><li>Bitbucket</li><li>AWS</li><li>Excel</li>
+              <li>Figma</li><li>Notion</li>
+            </ul>
+          </dd>
+        </div>
+
+        <div>
+          <dt>Langues</dt>
+          <dd>
+            <ul class="tags">
+              <li>Français — langue maternelle</li>
+              <li>Anglais — B2 (TOEIC)</li>
+              <li>Espagnol — B1</li>
+            </ul>
+          </dd>
+        </div>
+
+        <div>
+          <dt>Centres d'intérêt</dt>
+          <dd>
+            <ul class="tags">
+              <li>Kayak</li><li>Natation</li><li>VTT</li><li>Jeux vidéo</li>
+            </ul>
+          </dd>
+        </div>
+
       </dl>
-    </section>
-
-    <!-- ════════════════════════════════════════════════════
-         CENTRES D'INTÉRÊT
-         ════════════════════════════════════════════════════ -->
-    <section class="section" aria-labelledby="t-interets">
-      <h2 id="t-interets"><span>Centres d'intérêt</span></h2>
-      <ul class="badges">
-        <li>Kayak</li>
-        <li>Natation</li>
-        <li>VTT</li>
-        <li>Jeux vidéo</li>
-      </ul>
     </section>
 
   </main>
 
   <footer class="site-footer">
-    <p>© <span id="annee">2026</span> Noa Meunier</p>
+    © <span id="annee">2026</span> Noa Meunier
   </footer>
 
 </div>
