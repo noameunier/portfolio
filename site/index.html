@@ -21,7 +21,8 @@
   --text:   #dfe2e5;   /* contraste 13.8:1                      */
   --muted:  #979ca2;   /* contraste  6.4:1                      */
   --rule:   #2a2e33;   /* les filets 1px                        */
-  --dim:    #4d545b;   /* micro-marques : numéros, séparateurs   */
+  --dim:    #4d545b;   /* micro-marques : numéros, puces         */
+  --chip:   #363c42;   /* contour des bulles                     */
   --link:   #e0a54a;   /* ambre — liens uniquement, 8.2:1       */
 
   --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
@@ -100,12 +101,11 @@ li { list-style: none; }
 .identity .status::before { content: "> "; color: var(--dim); }
 
 /* Contacts : clé à gauche, valeur à droite, séparés par un filet. */
-.contact { margin-top: 1.75rem; border-bottom: 1px solid var(--rule); }
-.contact li { border-top: 1px solid var(--rule); }
+.contact { margin-top: 1.5rem; }
 .contact a {
   display: grid; grid-template-columns: 4.25rem 1fr;
-  padding: .45rem 0;
-  border-bottom: 0;                 /* le filet de la ligne suffit */
+  padding: .2rem 0;
+  border-bottom: 0;                 /* pas de filet : la colonne suffit */
   font-size: .78125rem;             /* l'adresse e-mail tient sur une ligne */
 }
 .contact a .k { color: var(--muted); }
@@ -135,11 +135,11 @@ main { padding-top: .5rem; }
 /* ═══════════════════════════════════════════════════════════
    6. LIGNES — expérience, formation, projets : même gabarit
    ───────────────────────────────────────────────────────────
-   Pas de cartes : une date à gauche, le contenu à droite,
-   un filet 1px entre chaque entrée.
+   Pas de cartes : une date à gauche, le contenu à droite.
+   Un seul filet ENTRE deux entrées — ni au début, ni à la fin.
    ═══════════════════════════════════════════════════════════ */
-.rows { border-bottom: 1px solid var(--rule); }
-.rows > li { padding: .85rem 0; border-top: 1px solid var(--rule); }
+.rows > li { padding: .3rem 0 1.1rem; }
+.rows > li + li { padding-top: 1.1rem; border-top: 1px solid var(--rule); }
 
 @media (min-width: 40rem) {
   .rows > li { display: grid; grid-template-columns: 10.5rem 1fr; gap: 1.5rem; }
@@ -155,22 +155,26 @@ main { padding-top: .5rem; }
 .details li { padding-left: 1.1rem; text-indent: -1.1rem; }
 .details li::before { content: "— "; color: var(--dim); }
 
-/* Les technologies : une file de mots séparés par des points médians. */
-.tags { display: flex; flex-wrap: wrap; margin-top: .5rem; font-size: .75rem; color: var(--muted); }
-.tags li:not(:last-child)::after { content: "·"; padding: 0 .5em; color: var(--dim); }
+/* Les technologies : des bulles au contour 1px, jamais de fond. */
+.tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .7rem; }
+.tags li {
+  padding: .1rem .55rem .15rem;
+  border: 1px solid var(--chip); border-radius: 999px;
+  font-size: .75rem; color: var(--muted); white-space: nowrap;
+}
 
 /* ═══════════════════════════════════════════════════════════
-   7. COMPÉTENCES — mêmes lignes, la clé remplace la date
+   7. COMPÉTENCES — même gabarit, la clé remplace la date.
+   Aucun filet : les bulles suffisent à découper les groupes.
    ═══════════════════════════════════════════════════════════ */
-.skills { border-bottom: 1px solid var(--rule); }
-.skills > div { padding: .85rem 0; border-top: 1px solid var(--rule); }
+.skills > div + div { margin-top: 1.1rem; }
 
 @media (min-width: 40rem) {
   .skills > div { display: grid; grid-template-columns: 10.5rem 1fr; gap: 1.5rem; }
 }
 
-.skills dt { color: var(--muted); font-size: .8125rem; }
-.skills dd .tags { margin-top: 0; font-size: .8125rem; }
+.skills dt { color: var(--muted); font-size: .8125rem; padding-top: .15rem; }
+.skills dd .tags { margin-top: 0; }
 
 /* ═══════════════════════════════════════════════════════════
    8. PIED DE PAGE
