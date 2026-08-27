@@ -250,6 +250,38 @@ Pourquoi deux `sync` : l'option `--cache-control` s'applique à toute la command
 
 ---
 
+## 6 bis. Options CloudFront ajoutées ensuite
+
+### Pages d'erreur personnalisées
+
+Avoir `error.html` dans le bucket ne suffit pas : CloudFront affiche sa propre page d'erreur tant qu'on ne lui indique pas quoi servir. *(console → CloudFront → distribution → onglet Pages d'erreur → Créer une réponse d'erreur personnalisée)*
+
+| Code d'erreur | Chemin de la page | Code de réponse | TTL |
+|---|---|---|---|
+| 403 | `/error.html` | 403 | 10 s |
+| 404 | `/error.html` | 404 | 10 s |
+
+Pourquoi le 403 compte autant que le 404 : avec un bucket privé lu via OAC, S3 répond « interdit » (403) et non « introuvable » (404) pour un fichier absent, car le rôle de lecture n'autorise pas à lister le bucket. Le 403 est aussi le code renvoyé par la restriction géographique. Les deux cas affichent donc la même page.
+
+Test : ouvrir `https://noameunier.fr/nimportequoi` doit afficher `error.html`.
+
+### Restriction géographique (geofencing)
+
+Fonction native et gratuite de CloudFront, basée sur le pays de l'adresse IP du visiteur. *(console → CloudFront → distribution → onglet Sécurité → Restrictions géographiques → Modifier)*
+
+- Type : liste d'autorisation.
+- Pays : France.
+
+Un visiteur hors de la liste reçoit un 403 (donc `error.html` si la page d'erreur est configurée).
+
+À savoir :
+- La géolocalisation IP n'est pas parfaite : VPN, réseaux d'entreprise et certains opérateurs mobiles peuvent être classés ailleurs. Les DOM-TOM ont leurs propres codes pays.
+- Pour un portfolio, cela bloque aussi un recruteur à l'étranger ou soi-même en déplacement. Facile à désactiver.
+- Le pipeline n'est pas affecté : GitHub Actions parle à l'API S3 et CloudFront, pas à la distribution publique.
+- Pour filtrer par plage d'IP ou combiner plusieurs règles, il faut AWS WAF (payant). La restriction par pays suffit pour ce besoin.
+
+---
+
 ## 7. Pièges rencontrés et solutions
 
 | Symptôme | Cause | Solution |
@@ -306,6 +338,5 @@ Méthode générale qui a débloqué le pipeline : quand tout semble correct, fa
 1. **Test avant déploiement** : ajouter une étape dans le workflow (validation HTML, détection de liens morts) qui bloque le déploiement en cas d'échec.
 2. **Branche + pull request** : développer sur une branche, fusionner via PR ; la fusion sur `main` déclenche le déploiement.
 3. **Terraform** : décrire bucket, OAC, distribution, certificat, zone, enregistrements, fournisseur OIDC, rôle et politiques en code. Détruire et recréer en une commande.
-4. **Page d'erreur** : configurer `error.html` comme réponse personnalisée 403/404 dans CloudFront.
-5. **Observabilité** : regarder les métriques CloudFront (requêtes, taux de cache, erreurs) dans CloudWatch.
-6. **Certification** : AWS Cloud Practitioner, puis Solutions Architect Associate.
+4. **Observabilité** : regarder les métriques CloudFront (requêtes, taux de cache, erreurs, répartition par pays) dans CloudWatch.
+5. **Certification** : AWS Cloud Practitioner, puis Solutions Architect Associate.
