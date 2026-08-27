@@ -2,9 +2,9 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale
-<title>Portfolio Noa Meunier</title>
-<meta name="description" content="Portfolio de Noa Meunier, étudiant ingénieur à Polytech Nantes. Projets de programmation et gestion de projet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio Noa Meunier — Ingénieur système &amp; données</title>
+<meta name="description" content="Portfolio de Noa Meunier, apprenti ingénieur système chez Thales SIX GTS et étudiant à Polytech Nantes en Ingénierie des Données et Intelligence Artificielle. Recherche un stage international, juin – septembre 2026.">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#171d1b">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3.5' fill='%23171d1b'/><path d='M4.5 12V4l7 8V4' stroke='%239fd3e8' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
@@ -109,15 +109,30 @@ p:last-child { margin-bottom: 0; }
 .identity h1 { font-size: clamp(2.1rem, 7vw, 2.6rem); font-weight: 800; letter-spacing: -.025em; }
 .identity .role { margin: .4rem 0 0; color: var(--muted); font-size: .95rem; }
 
+/* Pastille de disponibilité — l'information que cherche un recruteur. */
+.status {
+  display: inline-flex; align-items: center; gap: .5rem;
+  margin-top: 1.25rem; padding: .3rem .75rem .3rem .6rem;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface);
+  font-size: .78rem; color: var(--muted);
+}
+.status::before {
+  content: ""; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent); flex: none;
+}
+
 .contact { list-style: none; margin: 1.75rem 0 0; padding: 0; }
 .contact li { border-top: 1px solid var(--line); }
 .contact li:last-child { border-bottom: 1px solid var(--line); }
-.contact a {
+.contact a,
+.contact .row {
   display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
   padding: .65rem .1rem;
   color: var(--text); text-decoration: none; font-size: .9rem;
 }
-.contact a span { color: var(--muted); font-family: var(--mono); font-size: .75rem; }
+.contact a span,
+.contact .row span { color: var(--muted); font-family: var(--mono); font-size: .75rem; }
 .contact a:hover { color: var(--accent); }
 .contact a:hover span { color: var(--accent); }
 
@@ -173,18 +188,30 @@ main { padding-top: 1rem; }
 .card-link { margin-top: 1rem; font-size: .875rem; }
 
 /* ═══════════════════════════════════════════════════════════
-   7. PARCOURS
+   7. PARCOURS — expérience et formation
    ═══════════════════════════════════════════════════════════ */
 .path { list-style: none; margin: 0; padding: 0; }
-.path li { padding: 1rem 0; border-top: 1px solid var(--line); }
-.path li:last-child { border-bottom: 1px solid var(--line); }
+/* « > li » : les puces de .details et .tags ne doivent pas hériter d'ici. */
+.path > li { padding: 1rem 0; border-top: 1px solid var(--line); }
+.path > li:last-child { border-bottom: 1px solid var(--line); }
 
 @media (min-width: 34rem) {
-  .path li { display: grid; grid-template-columns: 8rem 1fr; gap: 1.5rem; }
+  .path > li { display: grid; grid-template-columns: 8rem 1fr; gap: 1.5rem; }
 }
 .path .when { font-family: var(--mono); font-size: .75rem; color: var(--muted); padding-top: .2rem; }
 .path h3 { font-size: 1rem; font-weight: 600; }
+.path .where { margin: .2rem 0 0; font-size: .9rem; color: var(--muted); }
 .path p { margin: .2rem 0 0; font-size: .9rem; color: var(--muted); }
+
+/* Les missions, en retrait sous l'intitulé du poste. */
+.details {
+  margin: .7rem 0 0; padding: 0 0 0 1.1rem;
+  font-size: .9rem; color: var(--muted);
+}
+.details li { margin-bottom: .25rem; }
+.details li::marker { color: var(--accent); }
+.details li:last-child { margin-bottom: 0; }
+.path .tags { margin-top: .8rem; }
 
 /* ═══════════════════════════════════════════════════════════
    8. COMPÉTENCES
@@ -244,31 +271,110 @@ main { padding-top: 1rem; }
     </div>
 
     <h1>Noa Meunier</h1>
-    <p class="role">Étudiant ingénieur à Polytech Nantes</p>
+    <p class="role">Apprenti ingénieur système chez Thales SIX GTS · Polytech Nantes, Données &amp; IA</p>
+
+    <p class="status">Stage international · juin – septembre 2026</p>
 
     <ul class="contact">
-      <li><a href="mailto:noa.meunier@epitaxie.com">Écrire un mail <span>noa.meunier@epitaxie.com</span></a></li>
+      <li><a href="mailto:noa.meunier@epitaxie.com">E-mail <span>noa.meunier@epitaxie.com</span></a></li>
+      <li><a href="tel:+33618778245">Téléphone <span>+33 6 18 77 82 45</span></a></li>
       <li><a href="https://www.linkedin.com/in/noa-meunier">LinkedIn <span>noa-meunier</span></a></li>
-      <li><a href="https://github.com/UTILISATEUR">GitHub <span>@noameunier</span></a></li>
+      <li><a href="https://github.com/noameunier">GitHub <span>@noameunier</span></a></li>
+      <li><p class="row">Basé à <span>Paris, France</span></p></li>
     </ul>
   </header>
 
   <main id="contenu">
 
     <!-- ════════════════════════════════════════════════════
-         DESCRIPTION
+         PRÉSENTATION
          ════════════════════════════════════════════════════ -->
     <section class="section" aria-labelledby="t-apropos">
       <h2 id="t-apropos"><span>Présentation</span></h2>
       <div class="prose">
         <p>
-          Actuellement cycle ingénieur, spécialisé en Ingénierie des Données et de 
-          l'Intelligence Artifcielle sous statut d'apprenti. Je réalise mon alternance
-          chez Thales SIX GTS en tant qu'ingénieur système communication aéronautique.
-          Au quotidien je développe des outils pour les ingénieurs afin de faciliter
-          leur travail.
+          Élève ingénieur en cycle ingénieur à Polytech Nantes, spécialisé en Ingénierie
+          des Données et de l'Intelligence Artificielle. Je réalise mon alternance chez
+          Thales SIX GTS en tant qu'ingénieur système sur des projets de connectivité
+          aéronautique militaire : au quotidien, je développe des outils qui automatisent
+          le traitement de données pour les équipes d'ingénierie.
+        </p>
+        <p>
+          Je recherche un <strong>stage de 9 à 12 semaines à l'international</strong>, en
+          ingénierie système ou en développement logiciel, disponible de
+          <strong>juin à septembre 2026</strong>.
         </p>
       </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════
+         EXPÉRIENCE — pour ajouter un poste, copiez un bloc <li>
+         ════════════════════════════════════════════════════ -->
+    <section class="section" aria-labelledby="t-experience">
+      <h2 id="t-experience"><span>Expérience professionnelle</span></h2>
+      <ul class="path">
+
+        <li>
+          <p class="when">2024 – aujourd'hui</p>
+          <div>
+            <h3>Apprenti ingénieur système</h3>
+            <p class="where">Thales SIX GTS — Gennevilliers, France</p>
+            <ul class="details">
+              <li>Contribution à des projets de connectivité aéronautique militaire.</li>
+              <li>Développement d'outils Python pour automatiser le traitement de données des équipes d'ingénierie.</li>
+              <li>Conception et mise en œuvre d'un script générant automatiquement des schémas XSD à partir de modèles UML.</li>
+              <li>Application des méthodes MBSE (Capella) pour définir les architectures système.</li>
+            </ul>
+            <ul class="tags">
+              <li>Python</li>
+              <li>UML / XSD</li>
+              <li>Capella</li>
+              <li>MBSE</li>
+            </ul>
+          </div>
+        </li>
+
+        <li>
+          <p class="when">2023 · 1 mois</p>
+          <div>
+            <h3>Stagiaire support informatique</h3>
+            <p class="where">Office Notarial du Jeu de Paume — Bordeaux, France</p>
+            <ul class="details">
+              <li>Appui au service informatique sur la maintenance de l'infrastructure réseau.</li>
+              <li>Support technique auprès des collaborateurs de l'étude.</li>
+            </ul>
+          </div>
+        </li>
+
+      </ul>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════
+         FORMATION
+         ════════════════════════════════════════════════════ -->
+    <section class="section" aria-labelledby="t-formation">
+      <h2 id="t-formation"><span>Formation</span></h2>
+      <ul class="path">
+
+        <li>
+          <p class="when">2022 – 2027</p>
+          <div>
+            <h3>Diplôme d'ingénieur en informatique</h3>
+            <p class="where">Polytech Nantes — Nantes, France</p>
+            <p>Spécialité Ingénierie des Données et Intelligence Artificielle.</p>
+          </div>
+        </li>
+
+        <li>
+          <p class="when">2019 – 2022</p>
+          <div>
+            <h3>Baccalauréat général</h3>
+            <p class="where">Lycée Saint-Martin — Rennes, France</p>
+            <p>Mention Très Bien · Section européenne anglais.</p>
+          </div>
+        </li>
+
+      </ul>
     </section>
 
     <!-- ════════════════════════════════════════════════════
@@ -282,6 +388,36 @@ main { padding-top: 1rem; }
         <!-- ▼▼▼ DÉBUT D'UNE CARTE — copiez de <article> à </article> ▼▼▼ -->
         <article class="card">
           <p class="when">2023 – 2024 · Polytech Nantes</p>
+          <h3>Deep learning — classification d'images</h3>
+          <p>
+            Réseau de neurones convolutif (CNN) entraîné pour la classification
+            d'images, avec un travail d'optimisation de la précision du modèle
+            sous PyTorch.
+          </p>
+          <ul class="tags">
+            <li>Python</li>
+            <li>PyTorch</li>
+            <li>CNN</li>
+          </ul>
+        </article>
+        <!-- ▲▲▲ FIN D'UNE CARTE ▲▲▲ -->
+
+        <article class="card">
+          <p class="when">2023 – 2024 · Polytech Nantes</p>
+          <h3>Traitement de l'eau</h3>
+          <p>
+            Projet d'ingénieur mené en tant que chef de projet, à la tête d'une équipe
+            pluridisciplinaire de treize étudiants : répartition des tâches, suivi des
+            échéances et conformité des livrables techniques.
+          </p>
+          <ul class="tags">
+            <li>Gestion de projet</li>
+            <li>Équipe de 13</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <p class="when">2023 – 2024 · Polytech Nantes</p>
           <h3>Suguru</h3>
           <p>
             Jeu vidéo de Suguru développé dans la spécialité informatique : un puzzle
@@ -292,21 +428,6 @@ main { padding-top: 1rem; }
             <li>Python</li>
             <li>PyGame</li>
             <li>Algorithmique</li>
-          </ul>
-        </article>
-        <!-- ▲▲▲ FIN D'UNE CARTE ▲▲▲ -->
-
-        <article class="card">
-          <p class="when">2023 – 2024 · Polytech Nantes</p>
-          <h3>Traitement de l'eau</h3>
-          <p>
-            Projet d'ingénieur mené en tant que chef de projet, à la tête d'un groupe
-            de treize étudiants : répartition des tâches, suivi de l'avancement et
-            restitution finale.
-          </p>
-          <ul class="tags">
-            <li>Gestion de projet</li>
-            <li>Équipe de 13</li>
           </ul>
         </article>
 
@@ -345,31 +466,60 @@ main { padding-top: 1rem; }
     <section class="section" aria-labelledby="t-competences">
       <h2 id="t-competences"><span>Compétences</span></h2>
       <dl class="skills">
-        <dt>Maîtrise</dt>
+        <dt>Programmation</dt>
         <dd>
           <ul class="badges">
-            <li>Python</li><li>Git</li><li>GitLab</li><li>VS Code</li>
-            <li>MATLAB</li><li>CoCalc</li><li>Figma</li><li>Notion</li>
+            <li>Python — avancé</li><li>Java</li><li>JavaScript</li>
+            <li>SQL</li><li>XML / XSD</li><li>VBA</li><li>Git</li>
           </ul>
         </dd>
 
-        <dt>Pratique</dt>
+        <dt>Données &amp; IA</dt>
         <dd>
           <ul class="badges">
-            <li>Java</li><li>JavaScript</li><li>NumPy</li><li>OpenCV</li>
-            <li>PyGame</li><li>Jupyter</li><li>JetBrains</li><li>AWS</li>
+            <li>PyTorch</li><li>DuckDB</li><li>dbt Core</li><li>MATLAB</li>
+            <li>NumPy</li><li>OpenCV</li><li>Jupyter</li>
+          </ul>
+        </dd>
+
+        <dt>Ingénierie système</dt>
+        <dd>
+          <ul class="badges">
+            <li>Capella</li><li>Modélisation UML</li><li>MBSE</li>
+            <li>Gestion des exigences</li>
+          </ul>
+        </dd>
+
+        <dt>Outils</dt>
+        <dd>
+          <ul class="badges">
+            <li>VS Code</li><li>IntelliJ</li><li>PyCharm</li><li>GitHub</li>
+            <li>GitLab</li><li>Bitbucket</li><li>AWS</li><li>Excel</li>
+            <li>Figma</li><li>Notion</li>
           </ul>
         </dd>
 
         <dt>Langues</dt>
         <dd>
           <ul class="badges">
-            <li>Français - langue maternelle</li>
-            <li>Anglais - B2</li>
-            <li>Espagnol - B1</li>
+            <li>Français — langue maternelle</li>
+            <li>Anglais — B2 (TOEIC)</li>
+            <li>Espagnol — B1</li>
           </ul>
         </dd>
       </dl>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════
+         CENTRES D'INTÉRÊT
+         ════════════════════════════════════════════════════ -->
+    <section class="section" aria-labelledby="t-interets">
+      <h2 id="t-interets"><span>Centres d'intérêt</span></h2>
+      <ul class="badges">
+        <li>Kayak de mer</li>
+        <li>VTT</li>
+        <li>Jeux vidéo</li>
+      </ul>
     </section>
 
   </main>
@@ -383,16 +533,6 @@ main { padding-top: 1rem; }
 
 <script>
   /* Seule ligne de JS du site : l'année du pied de page.
-     Sans JavaScript, la valeur écrite dans le HTML reste affichée. */
-  document.getElementById('annee').textContent = new Date().getFullYear();
-</script>
-</body>
-</html>
-
-</div>
-
-<script>
-  /* Seule ligne de JS du site : garde l'année à jour.
      Sans JavaScript, la valeur écrite dans le HTML reste affichée. */
   document.getElementById('annee').textContent = new Date().getFullYear();
 </script>
