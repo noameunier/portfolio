@@ -1,25 +1,22 @@
 name: Déployer le site
 
-# Se déclenche à chaque push sur main, et manuellement depuis l'onglet Actions.
 on:
   push:
     branches: [main]
     paths: ['site/**', '.github/workflows/deploy.yml']
   workflow_dispatch:
 
-# Requis pour l'authentification AWS par OIDC (aucune clé d'accès stockée).
 permissions:
   id-token: write
   contents: read
 
-# Un seul déploiement à la fois : un push pendant un déploiement annule le précédent.
 concurrency:
   group: deploy-site
   cancel-in-progress: true
 
 env:
-  BUCKET: portfolio-noa 
-  DISTRIBUTION_ID: E3VGRIF45NWE2C    
+  BUCKET: portfolio-noa
+  DISTRIBUTION_ID: E3VGRIF45NWE2C
   AWS_REGION: eu-west-3
 
 jobs:
@@ -31,11 +28,9 @@ jobs:
       - name: S'authentifier auprès d'AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          role-to-assume: arn:aws:iam::710165591195:role/github-deploy-portfolio
           aws-region: ${{ env.AWS_REGION }}
 
-      # Les fichiers HTML changent à chaque publication : cache court côté navigateur,
-      # CloudFront garde la main pour servir la version fraîche après invalidation.
       - name: Envoyer les fichiers HTML
         run: |
           aws s3 sync site/ "s3://$BUCKET" \
@@ -44,16 +39,6 @@ jobs:
             --cache-control 'public, max-age=0, must-revalidate' \
             --content-type 'text/html; charset=utf-8'
 
-      # Tout le reste (robots.txt, futures images, CSS externe éventuel) : cache long.
       - name: Envoyer les autres fichiers
         run: |
           aws s3 sync site/ "s3://$BUCKET" \
-            --delete \
-            --exclude '*.html' \
-            --cache-control 'public, max-age=86400'
-
-      - name: Vider le cache CloudFront
-        run: |
-          aws cloudfront create-invalidation \
-            --distribution-id "$DISTRIBUTION_ID" \
-            --paths '/*'
