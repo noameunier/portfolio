@@ -1,0 +1,16 @@
+# Système
+.DS_Store
+Thumbs.db
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp
+
+# Secrets et variables locales — ne doivent jamais partir sur GitHub
+.env
+.env.*
+*.pem
+
+# Identifiants AWS locaux
+.aws/

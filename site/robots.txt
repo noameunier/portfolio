@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Décommentez et remplacez le domaine une fois un sitemap ajouté :
+# Sitemap: https://exemple.fr/sitemap.xml

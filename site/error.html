@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page introuvable — Prénom Nom</title>
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0d1016">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230d1016'/><path d='M9 21l6-10 6 10' stroke='%23ffbf47' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+
+<style>
+:root {
+  --bg:#0d1016; --surface:#141922; --line:#232b38;
+  --text:#e8ecf3; --muted:#a3adbe; --accent:#ffbf47;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --radius:10px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin:0; min-height:100vh; padding:2rem 1.25rem;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--bg); color:var(--text);
+  font-family:var(--font-sans); line-height:1.65;
+}
+main { width:100%; max-width:34rem; }
+.code {
+  font-family:var(--font-mono); font-size:.8rem; font-weight:600;
+  letter-spacing:.12em; color:var(--muted);
+  display:flex; align-items:center; gap:.6rem; margin-bottom:1.25rem;
+}
+.code::before { content:""; width:18px; height:2px; background:var(--accent); flex:none; }
+h1 { margin:0 0 .75rem; font-size:clamp(1.6rem, 6vw, 2.25rem); letter-spacing:-.02em; line-height:1.2; }
+p { margin:0 0 1.75rem; color:var(--muted); }
+a.home {
+  display:inline-block; padding:.55rem 1rem;
+  border:1px solid var(--line); border-radius:var(--radius);
+  background:var(--surface); color:var(--accent); text-decoration:none; font-size:.9rem;
+}
+a.home:hover { border-color:var(--accent); }
+a.home:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+</style>
+</head>
+<body>
+<main>
+  <p class="code">Erreur 404</p>
+  <h1>Cette page n'existe pas</h1>
+  <p>L'adresse est peut-être mal orthographiée, ou la page a été retirée du site.</p>
+  <a class="home" href="/">Retour à l'accueil</a>
+</main>
+</body>
+</html>

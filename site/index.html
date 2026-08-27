@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prénom Nom — Développeur en formation cloud / DevOps</title>
+<meta name="description" content="Portfolio de Prénom Nom, développeur en formation cloud et DevOps. Projets, compétences et contact.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0d1016">
+
+<!-- Favicon inline : aucun fichier externe, aucune requête réseau. -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230d1016'/><path d='M9 21l6-10 6 10' stroke='%23ffbf47' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+
+<style>
+/* ---------------------------------------------------------------
+   1. JETONS  — toutes les couleurs et mesures se règlent ici
+   --------------------------------------------------------------- */
+:root {
+  --bg:        #0d1016;   /* fond général, bleu-encre */
+  --surface:   #141922;   /* cartes et badges */
+  --line:      #232b38;   /* filets et bordures */
+  --text:      #e8ecf3;   /* texte principal   — contraste 15:1 */
+  --muted:     #a3adbe;   /* texte secondaire  — contraste  8:1 */
+  --accent:    #ffbf47;   /* ambre, un seul accent           */
+  --accent-ink:#0d1016;   /* texte posé sur l'ambre          */
+
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+
+  --measure: 62ch;        /* longueur de ligne confortable */
+  --radius: 10px;
+  --gap: 1rem;
+}
+
+/* ---------------------------------------------------------------
+   2. BASE
+   --------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0 1.25rem 4rem;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Colonne unique sur mobile, centrée et bornée sur grand écran. */
+.wrap { width: 100%; max-width: 46rem; margin-inline: auto; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+h1, h2, h3 { line-height: 1.2; text-wrap: balance; margin: 0; }
+
+p { margin: 0 0 1rem; max-width: var(--measure); }
+p:last-child { margin-bottom: 0; }
+
+/* Lien d'évitement : visible seulement au clavier. */
+.skip {
+  position: absolute; left: -9999px;
+  background: var(--accent); color: var(--accent-ink);
+  padding: .6rem 1rem; border-radius: var(--radius); font-weight: 600;
+}
+.skip:focus { left: 1rem; top: 1rem; z-index: 10; }
+
+/* ---------------------------------------------------------------
+   3. EN-TÊTE
+   --------------------------------------------------------------- */
+.site-header { padding: 3.5rem 0 2.5rem; }
+
+.mark { display: block; width: 34px; height: 34px; margin-bottom: 1.75rem; }
+
+.site-header h1 {
+  font-size: clamp(2rem, 8vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -.02em;
+}
+
+.role {
+  margin: .5rem 0 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: .875rem;
+  letter-spacing: .02em;
+}
+
+/* Bandeau pipeline : c'est une vraie séquence, donc une liste ordonnée. */
+.pipeline {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: .35rem .5rem;
+  margin: 1.75rem 0 0; padding: .7rem .85rem;
+  list-style: none;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface);
+  font-family: var(--font-mono); font-size: .75rem;
+  color: var(--muted);
+}
+.pipeline li { display: flex; align-items: center; gap: .5rem; }
+.pipeline li + li::before { content: "→"; color: #5c667e; }
+.pipeline li:last-child { color: var(--accent); }
+
+/* Liens de contact */
+.contact { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.75rem; padding: 0; list-style: none; }
+.contact a {
+  display: inline-block;
+  padding: .5rem .9rem;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text); text-decoration: none;
+  font-size: .9rem;
+}
+.contact a:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------------------------------------------------------------
+   4. SECTIONS
+   --------------------------------------------------------------- */
+.section { padding-top: 3rem; border-top: 1px solid var(--line); margin-top: 3rem; }
+
+/* Étiquette de section, en monospace, précédée d'un tiret ambre. */
+.section > h2 {
+  display: flex; align-items: center; gap: .6rem;
+  margin-bottom: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: .8rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted);
+}
+.section > h2::before {
+  content: ""; width: 18px; height: 2px; flex: none;
+  background: var(--accent);
+}
+
+/* ---------------------------------------------------------------
+   5. PROJETS
+   --------------------------------------------------------------- */
+.grid {
+  display: grid; gap: var(--gap);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+}
+
+.card {
+  display: flex; flex-direction: column;
+  padding: 1.25rem;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface);
+  transition: border-color .18s ease, transform .18s ease;
+}
+.card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+.card h3 { font-size: 1.05rem; margin-bottom: .5rem; }
+.card p { font-size: .925rem; color: var(--muted); margin-bottom: 1rem; }
+.card > :last-child { margin-bottom: 0; }
+
+.tags { display: flex; flex-wrap: wrap; gap: .35rem; margin: auto 0 0; padding: 0; list-style: none; }
+.tags li {
+  font-family: var(--font-mono); font-size: .7rem;
+  padding: .2rem .5rem;
+  border: 1px solid var(--line); border-radius: 4px;
+  color: var(--muted);
+}
+
+.card-links { display: flex; gap: 1rem; margin-top: 1rem; font-size: .875rem; }
+
+/* ---------------------------------------------------------------
+   6. COMPÉTENCES
+   --------------------------------------------------------------- */
+.badges { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0; margin: 0; list-style: none; }
+.badges li {
+  padding: .4rem .8rem;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface);
+  font-family: var(--font-mono); font-size: .8rem;
+}
+
+/* ---------------------------------------------------------------
+   7. PIED DE PAGE
+   --------------------------------------------------------------- */
+.site-footer {
+  margin-top: 3rem; padding-top: 2rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted); font-size: .825rem;
+}
+.site-footer p { margin-bottom: .25rem; }
+
+/* ---------------------------------------------------------------
+   8. PRÉFÉRENCES UTILISATEUR
+   --------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<div class="wrap">
+
+  <!-- =========================================================
+       EN-TÊTE
+       ========================================================= -->
+  <header class="site-header">
+    <svg class="mark" viewBox="0 0 32 32" role="img" aria-label="Monogramme de Prénom Nom">
+      <rect width="32" height="32" rx="7" fill="#141922" stroke="#232b38"></rect>
+      <path d="M9 21l6-10 6 10" fill="none" stroke="#ffbf47" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+
+    <h1>Noa Meunier</h1>
+    <p class="role">Développeur en formation cloud / DevOps</p>
+
+    <!-- Le chemin réel de cette page, de la machine locale au navigateur. -->
+    <ol class="pipeline" aria-label="Chaîne de déploiement de ce site">
+      <li>git push</li>
+      <li>GitHub Actions</li>
+      <li>aws s3 sync</li>
+      <li>CloudFront</li>
+    </ol>
+
+    <ul class="contact">
+      <li><a href="https://github.com/UTILISATEUR">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/UTILISATEUR/">LinkedIn</a></li>
+      <li><a href="mailto:prenom.nom@exemple.fr">prenom.nom@exemple.fr</a></li>
+    </ul>
+  </header>
+
+  <main id="contenu">
+
+    <!-- =========================================================
+         À PROPOS
+         ========================================================= -->
+    <section class="section" aria-labelledby="t-apropos">
+      <h2 id="t-apropos">À propos</h2>
+      <p>
+        Je suis en reconversion vers les métiers du cloud et de l'automatisation, après
+        un parcours où j'ai surtout appris à démonter les choses pour comprendre comment
+        elles tiennent debout.
+      </p>
+      <p>
+        Je travaille aujourd'hui sur AWS : stockage, distribution, DNS, et tout ce qui
+        permet de passer d'un dépôt Git à une page en ligne sans intervention manuelle.
+        J'apprends en construisant, puis en cassant ce que j'ai construit.
+      </p>
+      <p>
+        Ce site en est le premier exemple : il est petit, mais chaque brique de son
+        hébergement a été mise en place à la main avant d'être automatisée.
+      </p>
+    </section>
+
+    <!-- =========================================================
+         PROJETS — pour ajouter un projet, copiez un bloc <article>
+         ========================================================= -->
+    <section class="section" aria-labelledby="t-projets">
+      <h2 id="t-projets">Projets</h2>
+
+      <div class="grid">
+
+        <!-- ▼▼▼ DÉBUT D'UNE CARTE — copiez de <article> à </article> ▼▼▼ -->
+        <article class="card">
+          <h3>Portfolio hébergé sur AWS</h3>
+          <p>
+            Ce site. Fichiers statiques déposés sur S3, distribués par CloudFront,
+            domaine géré par Route&nbsp;53, et déploiement automatique à chaque push
+            grâce à GitHub Actions.
+          </p>
+          <ul class="tags">
+            <li>S3</li>
+            <li>CloudFront</li>
+            <li>Route 53</li>
+            <li>GitHub Actions</li>
+          </ul>
+          <p class="card-links">
+            <a href="https://github.com/UTILISATEUR/portfolio">Code source</a>
+          </p>
+        </article>
+        <!-- ▲▲▲ FIN D'UNE CARTE ▲▲▲ -->
+
+      </div>
+    </section>
+
+    <!-- =========================================================
+         COMPÉTENCES
+         ========================================================= -->
+    <section class="section" aria-labelledby="t-competences">
+      <h2 id="t-competences">Compétences</h2>
+      <ul class="badges">
+        <li>HTML/CSS</li>
+        <li>Python</li>
+        <li>AWS</li>
+        <li>Git</li>
+        <li>Docker</li>
+        <li>Linux</li>
+        <li>Bash</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <!-- =========================================================
+       PIED DE PAGE
+       ========================================================= -->
+  <footer class="site-footer">
+    <p>© <span id="annee">2026</span> Prénom Nom</p>
+    <p>Déployé automatiquement depuis GitHub.</p>
+  </footer>
+
+</div>
+
+<script>
+  /* Seule ligne de JS du site : garde l'année à jour.
+     Sans JavaScript, la valeur écrite dans le HTML reste affichée. */
+  document.getElementById('annee').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
