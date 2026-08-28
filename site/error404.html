@@ -3,66 +3,36 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Page introuvable — Noa Meunier</title>
+<title>Cette page n'existe pas — Noa Meunier</title>
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#17191c">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%2317191c'/><path d='M4.5 12V4l7 8V4' stroke='%23dfe2e5' stroke-width='1.6' fill='none' stroke-linecap='square'/></svg>">
-
+<meta name="theme-color" content="#07080d">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2337e0c8'/><stop offset='1' stop-color='%236c8cff'/></linearGradient></defs><rect width='32' height='32' rx='8' fill='%2307080d'/><circle cx='16' cy='16' r='7' fill='url(%23g)'/></svg>">
+<link rel="stylesheet" href="/assets/style.css">
 <style>
-/* Mêmes jetons que la page d'accueil : anthracite, mono,
-   l'ambre uniquement pour les liens, des filets 1px. */
-:root {
-  --bg:    #17191c;
-  --text:  #dfe2e5;
-  --muted: #979ca2;
-  --rule:  #2a2e33;
-  --link:  #e0a54a;
-  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-          "Liberation Mono", "DejaVu Sans Mono", monospace;
-}
-*, *::before, *::after { box-sizing:border-box; }
-body {
-  margin:0; min-height:100vh; padding:2rem 1.25rem;
-  display:flex; align-items:center; justify-content:center;
-  background:var(--bg); color:var(--text);
-  font-family:var(--mono); font-size:.9375rem; line-height:1.6;
-}
-main { width:100%; max-width:34rem; }
-
-/* Une grille 3×3 dont il manque une case : la page absente. */
-.hole { display:grid; grid-template-columns:repeat(3,9px); gap:2px; margin-bottom:1.5rem; }
-.hole i { display:block; aspect-ratio:1; background:var(--text); border:1px solid var(--text); }
-.hole i.gone { background:none; border-color:var(--rule); }
-
-.code {
-  margin:0 0 .75rem; padding-bottom:.6rem;
-  border-bottom:1px solid var(--rule);
-  font-size:.75rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted);
-}
-h1 { margin:0 0 .5rem; font-size:1.375rem; font-weight:500; line-height:1.3; letter-spacing:-.01em; }
-p.lead { margin:0 0 1.5rem; color:var(--muted); font-size:.8125rem; }
-
-a.home {
-  color:var(--link); text-decoration:none;
-  border-bottom:1px solid transparent; font-size:.8125rem;
-}
-a.home::before { content:"← "; }
-a.home:hover { border-bottom-color:var(--link); }
-a.home:focus-visible { outline:1px solid var(--link); outline-offset:2px; }
+  /* Page d'erreur : le contenu est centré, sans navigation ni pied de
+     page. On garde le fond animé pour rester chez soi. */
+  body { min-height: 100vh; display: grid; place-items: center; }
+  main { max-width: 34rem; }
+  main h1 { margin: .6rem 0 .75rem; font-size: clamp(1.75rem, 5vw, 2.5rem);
+            font-weight: 600; letter-spacing: -.03em; line-height: 1.1; }
+  main p { margin: 0 0 2rem; color: var(--muted); }
 </style>
 </head>
 <body>
-<main>
-  <div class="hole" aria-hidden="true">
-    <i></i><i></i><i></i>
-    <i></i><i class="gone"></i><i></i>
-    <i></i><i></i><i></i>
-  </div>
-  <p class="code">Erreur 404</p>
+
+<div class="bg" aria-hidden="true">
+  <div class="orb a"></div>
+  <div class="orb b"></div>
+  <div class="orb c"></div>
+</div>
+
+<main class="wrap">
+  <p class="label">Erreur 404</p>
   <h1>Cette page n'existe pas</h1>
-  <p class="lead">L'adresse est peut-être mal orthographiée, ou la page a été retirée du site.</p>
-  <a class="home" href="/">Retour à l'accueil</a>
+  <p>L'adresse est peut-être mal orthographiée, ou la page a été retirée du site.</p>
+  <a class="btn primary" href="/">Retour à l'accueil <span class="arrow" aria-hidden="true">→</span></a>
 </main>
+
 </body>
 </html>

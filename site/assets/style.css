@@ -1,0 +1,717 @@
+/* ═══════════════════════════════════════════════════════════════════
+   NOA MEUNIER — feuille de style unique du site
+   ───────────────────────────────────────────────────────────────────
+   Un seul fichier pour toutes les pages : accueil FR, accueil EN,
+   pages projet, pages d'erreur. On ne modifie une couleur, une taille
+   ou un espacement qu'ici, jamais dans le HTML.
+
+   Sommaire
+     1. Jetons (couleurs, typo, rythme)
+     2. Base et accessibilité
+     3. Fond animé
+     4. Barre de navigation
+     5. Titre de page (hero)
+     6. Sections et titres
+     7. Frise (expérience, formation)
+     8. Cartes de projet
+     9. Compétences
+    10. Pages projet
+    11. Pied de page
+    12. Révélation au défilement
+    13. Impression
+   ═══════════════════════════════════════════════════════════════════ */
+
+
+/* ═══ 1. JETONS — tout se règle ici ════════════════════════════════ */
+:root {
+  /* Fonds, du plus profond au plus clair */
+  --ink:        #07080d;
+  --ink-soft:   #0c0e16;
+  --surface:    rgba(255, 255, 255, .034);
+  --surface-up: rgba(255, 255, 255, .058);
+  --border:     rgba(255, 255, 255, .09);
+  --border-up:  rgba(255, 255, 255, .18);
+
+  /* Fond des blocs posés sur le décor animé (cartes, encadrés, boutons).
+     Assez opaque pour que la lisibilité ne dépende jamais de la couleur
+     qui passe derrière, assez transparent pour qu'on la devine. */
+  --panel:    color-mix(in srgb, var(--ink-soft) 80%, transparent);
+  --panel-up: color-mix(in srgb, var(--ink-soft) 92%, transparent);
+
+  /* Texte, du plus lisible au plus discret */
+  --text:  #e9ecf5;
+  --muted: #a2aac0;
+  --dim:   #6d7690;
+
+  /* Les trois accents. Ils servent au fond, aux liens et aux cartes.
+     Règle : jamais plus de deux accents visibles dans un même bloc. */
+  --a1: #6c8cff;   /* indigo  */
+  --a2: #37e0c8;   /* turquoise */
+  --a3: #ff7ab6;   /* rose    */
+
+  /* Typographie */
+  --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+          "Liberation Mono", "DejaVu Sans Mono", monospace;
+
+  /* Rythme vertical et largeurs */
+  --page:    72rem;   /* largeur maximale du contenu large */
+  --reading: 40rem;   /* largeur maximale d'un paragraphe   */
+  --gap:     clamp(3.5rem, 9vw, 7rem);  /* entre deux sections */
+  --radius:  14px;
+
+  /* Durées : une seule valeur pour tout ce qui bouge au survol */
+  --fast: 180ms;
+  --slow: 700ms;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+
+  color-scheme: dark;
+}
+
+
+/* ═══ 2. BASE ET ACCESSIBILITÉ ═════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  /* Une ancre ne doit pas se cacher sous la barre de navigation. */
+  scroll-padding-top: 5.5rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.65;
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: inherit; }
+
+/* Un seul style de focus pour tout le site, toujours visible. */
+:focus-visible {
+  outline: 2px solid var(--a2);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Lien d'évitement : premier élément focusable de chaque page. */
+.skip {
+  position: absolute; left: -999px; top: 0; z-index: 100;
+  padding: .7rem 1.1rem;
+  background: var(--a1); color: #fff;
+  font-size: .875rem; font-weight: 500; text-decoration: none;
+  border-radius: 0 0 8px 0;
+}
+.skip:focus { left: 0; }
+
+.wrap {
+  width: 100%;
+  max-width: var(--page);
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 5vw, 2.5rem);
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+/* Étiquette monospace : la seule trace de l'ancien thème, gardée
+   parce qu'elle situe le profil (ingénierie) sans faire terminal. */
+.label {
+  font-family: var(--mono);
+  font-size: .6875rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+
+/* ═══ 3. FOND ANIMÉ ════════════════════════════════════════════════ */
+/* Trois taches de couleur floutées qui dérivent lentement, plus un
+   grain et une grille très faibles. Tout est en position fixe et
+   n'anime que `transform` : le défilement reste fluide.
+   Le bloc est `aria-hidden` dans le HTML, il ne dit rien au lecteur. */
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 50% -10%, var(--ink-soft) 0%, var(--ink) 60%);
+}
+
+.orb {
+  position: absolute;
+  width: 60vmax; height: 60vmax;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: .42;
+  will-change: transform;
+}
+.orb.a { background: var(--a1); top: -22vmax; left: -14vmax; opacity: .34;
+         animation: drift-a 34s ease-in-out infinite alternate; }
+.orb.b { background: var(--a2); top: 18vmax;  right: -20vmax;
+         animation: drift-b 44s ease-in-out infinite alternate; opacity: .3; }
+.orb.c { background: var(--a3); bottom: -26vmax; left: 22vmax;
+         animation: drift-c 38s ease-in-out infinite alternate; opacity: .26; }
+
+@keyframes drift-a {
+  from { transform: translate3d(0, 0, 0)          scale(1);    }
+  to   { transform: translate3d(14vw, 10vh, 0)    scale(1.18); }
+}
+@keyframes drift-b {
+  from { transform: translate3d(0, 0, 0)          scale(1.1);  }
+  to   { transform: translate3d(-16vw, 14vh, 0)   scale(.9);   }
+}
+@keyframes drift-c {
+  from { transform: translate3d(0, 0, 0)          scale(.95);  }
+  to   { transform: translate3d(18vw, -12vh, 0)   scale(1.2);  }
+}
+
+/* Grain : casse les bandes de dégradé, invisible autrement. */
+.bg::after {
+  content: "";
+  position: absolute; inset: 0;
+  opacity: .05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Ligne de progression de lecture, en haut de l'écran. */
+.progress {
+  position: fixed; inset: 0 0 auto 0; height: 2px; z-index: 60;
+  transform: scaleX(0); transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--a1), var(--a2));
+  will-change: transform;
+}
+
+
+/* ═══ 4. BARRE DE NAVIGATION ═══════════════════════════════════════ */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--ink) 72%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--fast) var(--ease),
+              background   var(--fast) var(--ease);
+}
+.nav.stuck {
+  border-bottom-color: var(--border);
+  background: color-mix(in srgb, var(--ink) 88%, transparent);
+}
+
+.nav-in {
+  display: flex; align-items: center; gap: 1.5rem;
+  height: 3.75rem;
+}
+
+.brand {
+  font-weight: 600; letter-spacing: -.015em;
+  text-decoration: none; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: .55rem;
+}
+.brand .dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--a2), var(--a1));
+  flex: none;
+}
+
+.nav-links {
+  display: flex; gap: .25rem;
+  margin: 0 0 0 auto; padding: 0; list-style: none;
+}
+.nav-links a {
+  display: block; padding: .4rem .7rem; border-radius: 8px;
+  font-size: .875rem; color: var(--muted); text-decoration: none;
+  transition: color var(--fast), background var(--fast);
+}
+.nav-links a:hover { color: var(--text); background: var(--surface); }
+.nav-links a[aria-current="true"] { color: var(--text); }
+.nav-links a[aria-current="true"]::after {
+  content: ""; display: block; height: 2px; margin-top: .2rem;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--a1), var(--a2));
+}
+
+/* Bascule de langue : deux fichiers, aucune détection automatique. */
+.lang {
+  display: flex; align-items: center; gap: .4rem;
+  margin: 0; padding-left: 1rem;
+  border-left: 1px solid var(--border);
+  font-family: var(--mono); font-size: .75rem;
+}
+.lang a { color: var(--dim); text-decoration: none; transition: color var(--fast); }
+.lang a:hover { color: var(--text); }
+.lang [aria-current="true"] { color: var(--a2); }
+
+/* Sous 720px la liste des sections disparaît : le sommaire du site,
+   c'est la page elle-même. Marque et langue suffisent. */
+@media (max-width: 720px) {
+  .nav-links { display: none; }
+  .lang { margin-left: auto; border-left: 0; padding-left: 0; }
+}
+
+
+/* ═══ 5. TITRE DE PAGE (HERO) ══════════════════════════════════════ */
+.hero {
+  padding-block: clamp(4.5rem, 13vw, 9rem) var(--gap);
+}
+
+.status {
+  display: inline-flex; align-items: center; gap: .55rem;
+  padding: .3rem .8rem .3rem .6rem;
+  margin-bottom: 1.6rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel);
+  font-size: .8125rem; color: var(--muted);
+}
+.status .pulse {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--a2); flex: none;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--a2) 70%, transparent);
+  animation: pulse 2.4s ease-out infinite;
+}
+@keyframes pulse {
+  70%  { box-shadow: 0 0 0 7px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+.hero h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2.75rem, 9vw, 5.5rem);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+/* Le dégradé ne touche qu'une partie du titre : au-delà, ça vire
+   à la page de startup. */
+.grad {
+  background: linear-gradient(100deg, var(--a2), var(--a1) 55%, var(--a3));
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+
+.hero .lead {
+  max-width: 34rem;
+  margin: 0 0 2.25rem;
+  font-size: clamp(1.0625rem, 2.4vw, 1.25rem);
+  color: var(--muted);
+  text-wrap: pretty;
+}
+.hero .lead strong { color: var(--text); font-weight: 500; }
+
+.actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-bottom: 2.5rem; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .7rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--text); font-size: .9375rem; font-weight: 500;
+  text-decoration: none; cursor: pointer;
+  transition: transform var(--fast) var(--ease),
+              border-color var(--fast), background var(--fast);
+}
+.btn:hover { transform: translateY(-2px); border-color: var(--border-up); background: var(--panel-up); }
+.btn.primary {
+  border-color: transparent;
+  background: linear-gradient(120deg, var(--a1), var(--a2));
+  color: #05060a; font-weight: 600;
+}
+.btn.primary:hover { filter: brightness(1.08); }
+.btn .arrow { transition: transform var(--fast) var(--ease); }
+.btn:hover .arrow { transform: translateX(3px); }
+
+/* Contacts : une ligne de liens, séparés par des points. */
+.contact { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; margin: 0; padding: 0; list-style: none; }
+.contact a {
+  display: inline-flex; align-items: baseline; gap: .5rem;
+  font-size: .9375rem; color: var(--muted); text-decoration: none;
+  transition: color var(--fast);
+}
+.contact a .k { font-family: var(--mono); font-size: .6875rem; letter-spacing: .12em;
+                text-transform: uppercase; color: var(--dim); }
+.contact a:hover { color: var(--text); }
+.contact a:hover .k { color: var(--a2); }
+
+
+/* ═══ 6. SECTIONS ET TITRES ════════════════════════════════════════ */
+.section { padding-block: 0 var(--gap); scroll-margin-top: 5rem; }
+
+.section-head {
+  display: flex; align-items: baseline; gap: 1rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.section-head h2 {
+  margin: 0;
+  font-size: clamp(1.5rem, 3.4vw, 2rem);
+  font-weight: 600; letter-spacing: -.025em;
+}
+.section-head .n {
+  font-family: var(--mono); font-size: .8125rem; color: var(--a2);
+}
+.section-head .count { margin-left: auto; }
+
+.prose { max-width: var(--reading); color: var(--muted); text-wrap: pretty; }
+.prose strong { color: var(--text); font-weight: 500; }
+.prose a { color: var(--text); text-decoration: underline; text-decoration-color: var(--a2);
+           text-underline-offset: 3px; }
+.prose + .prose { margin-top: 1rem; }
+
+/* Étiquettes de technologies. Décoratives, jamais cliquables. */
+.tags { display: flex; flex-wrap: wrap; gap: .4rem; margin: .9rem 0 0; padding: 0; list-style: none; }
+.tags li {
+  padding: .2rem .6rem;
+  border: 1px solid var(--border); border-radius: 999px;
+  background: var(--panel);
+  font-family: var(--mono); font-size: .6875rem; color: var(--muted);
+}
+
+
+/* ═══ 7. FRISE (expérience, formation) ═════════════════════════════ */
+.timeline { margin: 0; padding: 0; list-style: none; }
+
+.timeline > li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  gap: 0 2rem;
+  padding: 0 0 2.25rem 0;
+}
+.timeline > li:last-child { padding-bottom: 0; }
+
+/* Le trait vertical et son point, tracés sur la colonne de gauche. */
+.timeline > li::before {
+  content: "";
+  position: absolute; left: 11rem; top: .55rem; bottom: 0;
+  width: 1px; margin-left: -1rem;
+  background: linear-gradient(var(--border), transparent);
+}
+.timeline > li:last-child::before { display: none; }
+.timeline > li::after {
+  content: "";
+  position: absolute; left: 11rem; top: .45rem;
+  width: 7px; height: 7px; margin-left: -1.2rem;
+  border-radius: 50%; background: var(--dim);
+  transition: background var(--fast), box-shadow var(--fast);
+}
+.timeline > li:hover::after {
+  background: var(--a2);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--a2) 18%, transparent);
+}
+
+.timeline .when {
+  margin: 0; padding-top: .1rem;
+  font-family: var(--mono); font-size: .8125rem; color: var(--dim);
+}
+.timeline h3 { margin: 0 0 .2rem; font-size: 1.0625rem; font-weight: 600; letter-spacing: -.01em; }
+.timeline .where { margin: 0 0 .6rem; font-size: .875rem; color: var(--a2); }
+.timeline .note  { margin: 0; color: var(--muted); font-size: .9375rem; max-width: var(--reading); }
+.timeline .details { margin: 0; padding: 0; list-style: none; max-width: var(--reading); }
+.timeline .details li {
+  position: relative; padding-left: 1.1rem; margin-bottom: .3rem;
+  color: var(--muted); font-size: .9375rem;
+}
+.timeline .details li::before {
+  content: ""; position: absolute; left: 0; top: .68em;
+  width: 5px; height: 1px; background: var(--dim);
+}
+
+@media (max-width: 640px) {
+  .timeline > li { grid-template-columns: 1fr; gap: .35rem; padding-left: 1.1rem; }
+  .timeline > li::before { left: 0; margin-left: 0; }
+  .timeline > li::after  { left: 0; margin-left: -3px; }
+  .timeline .when { padding-top: 0; }
+}
+
+
+/* ═══ 8. CARTES DE PROJET ══════════════════════════════════════════ */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17.5rem, 1fr));
+  gap: 1.25rem;
+  margin: 0; padding: 0; list-style: none;
+}
+/* La première carte occupe deux colonnes quand la place existe :
+   c'est le projet qu'on veut voir en premier. */
+@media (min-width: 60rem) {
+  .cards { grid-template-columns: repeat(3, 1fr); }
+  .cards > li.feature { grid-column: span 2; }
+  .cards > li.feature .card-media { aspect-ratio: 2.3 / 1; }
+}
+
+.card {
+  display: flex; flex-direction: column; height: 100%;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--panel);
+  overflow: hidden; text-decoration: none;
+  transition: transform var(--slow) var(--ease),
+              border-color var(--fast), background var(--fast);
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-up);
+  background: var(--panel-up);
+}
+
+/* Zone visuelle. Tant qu'il n'y a pas d'image, elle affiche un
+   dégradé propre au projet : la grille reste homogène. Pour mettre
+   une vraie image, décommentez la balise <img> dans le HTML. */
+.card-media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background:
+    radial-gradient(120% 120% at 20% 10%,
+      color-mix(in srgb, var(--c1, var(--a1)) 55%, transparent) 0%,
+      transparent 60%),
+    radial-gradient(120% 120% at 85% 90%,
+      color-mix(in srgb, var(--c2, var(--a2)) 45%, transparent) 0%,
+      transparent 62%),
+    var(--ink-soft);
+  overflow: hidden;
+}
+.card-media img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform var(--slow) var(--ease);
+}
+.card:hover .card-media img { transform: scale(1.04); }
+
+/* Trame de points : donne une matière au visuel d'attente. */
+.card-media::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,.14) 1px, transparent 1px);
+  background-size: 16px 16px;
+  mask-image: linear-gradient(160deg, #000 10%, transparent 70%);
+  -webkit-mask-image: linear-gradient(160deg, #000 10%, transparent 70%);
+}
+/* Le numéro du projet, en gros, dans le coin. */
+.card-media .idx {
+  position: absolute; right: .9rem; bottom: .4rem;
+  font-family: var(--mono); font-size: 3.25rem; font-weight: 600;
+  line-height: 1; color: rgba(255,255,255,.14);
+  letter-spacing: -.04em;
+}
+
+.card-body { display: flex; flex-direction: column; flex: 1; padding: 1.15rem 1.25rem 1.35rem; }
+.card-body .when { margin: 0 0 .45rem; font-family: var(--mono); font-size: .75rem; color: var(--dim); }
+.card-body h3 { margin: 0 0 .5rem; font-size: 1.0625rem; font-weight: 600; letter-spacing: -.012em; }
+.card-body .note { margin: 0; color: var(--muted); font-size: .9375rem; text-wrap: pretty; }
+.card-body .tags { margin-top: auto; padding-top: 1rem; }
+
+.card .more {
+  display: inline-flex; align-items: center; gap: .35rem;
+  margin-top: .9rem;
+  font-size: .8125rem; font-weight: 500; color: var(--a2);
+}
+.card .more .arrow { transition: transform var(--fast) var(--ease); }
+.card:hover .more .arrow { transform: translateX(4px); }
+
+/* Une carte sans page de détail : même allure, pas de promesse. */
+.cards > li.flat .card { cursor: default; }
+.cards > li.flat .card:hover { transform: none; }
+
+
+/* ═══ 9. COMPÉTENCES ═══════════════════════════════════════════════ */
+.skills {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1.25rem;
+  margin: 0;
+}
+.skills > div {
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--panel);
+  transition: border-color var(--fast), background var(--fast);
+}
+.skills > div:hover { border-color: var(--border-up); background: var(--panel-up); }
+.skills dt {
+  margin-bottom: .3rem;
+  font-family: var(--mono); font-size: .6875rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--a2);
+}
+.skills dd { margin: 0; }
+.skills .tags { margin-top: .55rem; }
+
+
+/* ═══ 10. PAGES PROJET ═════════════════════════════════════════════ */
+.back {
+  display: inline-flex; align-items: center; gap: .45rem;
+  margin-bottom: 2rem;
+  font-size: .875rem; color: var(--muted); text-decoration: none;
+  transition: color var(--fast);
+}
+.back:hover { color: var(--text); }
+.back .arrow { transition: transform var(--fast) var(--ease); }
+.back:hover .arrow { transform: translateX(-3px); }
+
+.project-hero { padding-block: clamp(2.5rem, 7vw, 4.5rem) 2.5rem; }
+.project-hero h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 5.5vw, 3.25rem);
+  font-weight: 600; line-height: 1.06; letter-spacing: -.03em;
+  text-wrap: balance; max-width: 20ch;
+}
+.project-hero .lead {
+  max-width: var(--reading); margin: 0;
+  font-size: 1.0625rem; color: var(--muted); text-wrap: pretty;
+}
+
+/* Fiche d'identité du projet : période, contexte, rôle, état. */
+.meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 1px;
+  margin: 2rem 0 0;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--border);
+  overflow: hidden;
+}
+.meta > div { padding: .9rem 1.1rem; background: var(--ink-soft); }
+.meta dt { margin-bottom: .25rem; font-family: var(--mono); font-size: .6875rem;
+           letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+.meta dd { margin: 0; font-size: .9375rem; }
+
+.project-body { padding-bottom: var(--gap); }
+.project-body h2 {
+  margin: 2.75rem 0 1rem;
+  font-size: 1.25rem; font-weight: 600; letter-spacing: -.02em;
+}
+.project-body h2 .n { font-family: var(--mono); font-size: .8125rem; color: var(--a2);
+                      margin-right: .6rem; }
+.project-body > p, .project-body > ul { max-width: var(--reading); }
+.project-body ul { padding-left: 1.1rem; color: var(--muted); }
+.project-body li { margin-bottom: .4rem; }
+.project-body figure { margin: 1.5rem 0; }
+.project-body figure img { border: 1px solid var(--border); border-radius: var(--radius); }
+.project-body figcaption { margin-top: .6rem; font-size: .8125rem; color: var(--dim); }
+
+/* Chiffres clés : trois cases au maximum, sinon ça ne dit plus rien. */
+.figures {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 1rem; margin: 1.5rem 0; padding: 0; list-style: none;
+}
+.figures li {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--panel);
+}
+.figures .v { display: block; font-size: 1.75rem; font-weight: 600; letter-spacing: -.03em;
+              line-height: 1.1; }
+.figures .k { display: block; margin-top: .2rem; font-size: .8125rem; color: var(--muted); }
+
+/* Liens de sortie du projet : dépôt, rapport, démo. */
+.links { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
+
+/* Encadré « à compléter ». Visible pendant la rédaction, il suffit de
+   supprimer le bloc quand la section est écrite. */
+.todo {
+  max-width: var(--reading);
+  margin: 1rem 0;
+  padding: .9rem 1.1rem;
+  border: 1px dashed var(--border-up); border-radius: var(--radius);
+  background: var(--panel);
+  color: var(--muted); font-size: .875rem;
+}
+.todo::before {
+  content: "À compléter";
+  display: block; margin-bottom: .25rem;
+  font-family: var(--mono); font-size: .6875rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--a3);
+}
+
+/* Navigation d'un projet au suivant, en bas de page. */
+.pager {
+  display: flex; justify-content: space-between; gap: 1rem;
+  padding-top: 1.75rem; border-top: 1px solid var(--border);
+}
+.pager a { font-size: .9375rem; color: var(--muted); text-decoration: none;
+           transition: color var(--fast); }
+.pager a:hover { color: var(--text); }
+
+
+/* ═══ 11. PIED DE PAGE ═════════════════════════════════════════════ */
+.site-footer {
+  padding-block: 2rem 3rem;
+  border-top: 1px solid var(--border);
+  font-size: .875rem; color: var(--dim);
+}
+.footer-in { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+.footer-in .right { margin-left: auto; display: flex; gap: 1.25rem; }
+.footer-in a { color: var(--muted); text-decoration: none; transition: color var(--fast); }
+.footer-in a:hover { color: var(--text); }
+
+
+/* ═══ 12. RÉVÉLATION AU DÉFILEMENT ═════════════════════════════════ */
+/* Principe : le contenu est visible par défaut. La classe `js`, posée
+   par le script dans le <head>, est la seule à pouvoir le masquer.
+   Sans JavaScript, ou si le script échoue, la page reste lisible. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+}
+.js .reveal.in {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--slow) var(--ease),
+              transform var(--slow) var(--ease);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+/* Toute l'animation du site s'arrête ici si le système le demande. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .orb { animation: none; }
+  .status .pulse { animation: none; }
+  .js .reveal { opacity: 1; transform: none; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+
+/* ═══ 13. IMPRESSION ═══════════════════════════════════════════════ */
+/* L'accueil imprimé doit donner un CV noir sur blanc, sans fond ni
+   décor. Les éléments animés sont forcés à leur état final, sinon on
+   imprime une page vide. */
+@media print {
+  :root { --text: #000; --muted: #333; --dim: #555; --border: #ccc; }
+  .bg, .progress, .nav, .actions, .status, .card-media, .pager, .todo { display: none !important; }
+  body { background: #fff; color: #000; font-size: 10.5pt; line-height: 1.45; }
+  .reveal, .js .reveal { opacity: 1 !important; transform: none !important; }
+  .wrap { max-width: none; padding: 0; }
+  .hero { padding-block: 0 1rem; }
+  .hero h1 { font-size: 22pt; }
+  .grad { color: #000 !important; -webkit-text-fill-color: #000; background: none; }
+  .section { padding-bottom: 1rem; break-inside: avoid; }
+  .section-head { margin-bottom: .75rem; }
+  .cards { display: block; }
+  .cards > li { break-inside: avoid; margin-bottom: .6rem; }
+  .card, .skills > div, .figures li, .tags li {
+    border-color: #ccc; background: none;
+  }
+  .card { border: 0; border-left: 2px solid #ccc; border-radius: 0; padding-left: .6rem; }
+  .card .more { display: none; }
+  a { text-decoration: none; color: #000; }
+  .site-footer { border-top: 1px solid #ccc; }
+}

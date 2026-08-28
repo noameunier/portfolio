@@ -3,25 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Noa Meunier Portfolio</title>
-<meta name="description" content="Portfolio of Noa Meunier, systems engineering apprentice at Thales SIX GTS and engineering student at Polytech Nantes, majoring in Data Engineering and Artificial Intelligence. Seeking an international internship, June – September 2026.">
+<title>Noa Meunier - systems engineering apprentice</title>
+<meta name="description" content="Portfolio of Noa Meunier, systems engineering apprentice at Thales SIX GTS and engineering student at Polytech Nantes, majoring in Data Engineering and Artificial Intelligence. Looking for an international internship, June – September 2026.">
 <meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#17191c">
+<meta name="theme-color" content="#07080d">
 <link rel="canonical" href="https://noameunier.fr/en.html">
 
-<!-- Les deux versions se déclarent l'une l'autre pour les moteurs. -->
+<!-- Both versions declare each other for search engines. -->
 <link rel="alternate" hreflang="fr" href="https://noameunier.fr/">
 <link rel="alternate" hreflang="en" href="https://noameunier.fr/en.html">
 <link rel="alternate" hreflang="x-default" href="https://noameunier.fr/">
 
-<!-- Aperçu au partage (LinkedIn, Slack, e-mail, messageries). -->
+<!-- Share preview (LinkedIn, Slack, email, messaging apps). -->
 <meta property="og:type" content="profile">
 <meta property="og:locale" content="en_GB">
 <meta property="og:locale:alternate" content="fr_FR">
 <meta property="og:url" content="https://noameunier.fr/en.html">
 <meta property="og:site_name" content="Noa Meunier">
 <meta property="og:title" content="Noa Meunier - systems engineering apprentice">
-<meta property="og:description" content="Systems engineering apprentice at Thales SIX GTS, engineering student at Polytech Nantes in Data &amp; AI. Seeking an international internship, June – September 2026.">
+<meta property="og:description" content="Systems engineering apprentice at Thales SIX GTS, engineering student at Polytech Nantes in Data &amp; AI. Looking for an international internship, June – September 2026.">
 <meta property="og:image" content="https://noameunier.fr/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -29,357 +29,112 @@
 <meta property="profile:first_name" content="Noa">
 <meta property="profile:last_name" content="Meunier">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%2317191c'/><path d='M4.5 12V4l7 8V4' stroke='%23dfe2e5' stroke-width='1.6' fill='none' stroke-linecap='square'/></svg>">
 
-<style>
-/* ═══════════════════════════════════════════════════════════
-   1. JETONS - tout se règle ici
-   ───────────────────────────────────────────────────────────
-   Règle du thème : une seule couleur, l'ambre, et elle est
-   réservée aux liens. Rien d'autre n'est coloré.
-   ═══════════════════════════════════════════════════════════ */
-:root {
-  --bg:     #17191c;   /* anthracite                            */
-  --text:   #dfe2e5;   /* contraste 13.8:1                      */
-  --muted:  #979ca2;   /* contraste  6.4:1                      */
-  --rule:   #2a2e33;   /* les filets 1px                        */
-  --dim:    #4d545b;   /* micro-marques : numéros, puces         */
-  --chip:   #363c42;   /* contour des bulles                     */
-  --link:   #e0a54a;   /* ambre - liens uniquement, 8.2:1       */
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%2337e0c8'/><stop offset='1' stop-color='%236c8cff'/></linearGradient></defs><rect width='32' height='32' rx='8' fill='%2307080d'/><circle cx='16' cy='16' r='7' fill='url(%23g)'/></svg>">
 
-  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-          "Liberation Mono", "DejaVu Sans Mono", monospace;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   2. BASE
-   ═══════════════════════════════════════════════════════════ */
-*, *::before, *::after { box-sizing: border-box; }
-
-@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
-
-body {
-  margin: 0;
-  padding: 0 1.25rem 3rem;
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--mono);
-  font-size: .9375rem;      /* 15px : dense, mais lisible */
-  line-height: 1.6;
-  font-variant-ligatures: none;
-  -webkit-text-size-adjust: 100%;
-  counter-reset: sec;
-}
-
-/* Le seul élément coloré du document. */
-a {
-  color: var(--link);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-}
-a:hover { border-bottom-color: var(--link); }
-
-:focus-visible { outline: 1px solid var(--link); outline-offset: 2px; }
-
-h1, h2, h3 { margin: 0; font-weight: 500; line-height: 1.3; }
-p  { margin: 0; }
-ul, ol, dl, dd { margin: 0; padding: 0; }
-li { list-style: none; }
-
-.skip { position: absolute; left: -9999px; }
-.skip:focus {
-  left: 1rem; top: 1rem; z-index: 10;
-  padding: .4rem .7rem;
-  background: var(--bg); border: 1px solid var(--link); color: var(--link);
-}
-
-/* ═══════════════════════════════════════════════════════════
-   3. GABARIT - une colonne, deux à partir de 62rem
-   ═══════════════════════════════════════════════════════════ */
-.shell { max-width: 64rem; margin-inline: auto; }
-
-@media (min-width: 62rem) {
-  .shell {
-    display: grid;
-    grid-template-columns: 17rem 1fr;
-    gap: 3.5rem;
-    align-items: start;
-  }
-  .identity { position: sticky; top: 3rem; }
-  .site-footer { grid-column: 1 / -1; }
-}
-
-/* ═══════════════════════════════════════════════════════════
-   4. IDENTITÉ (colonne de gauche)
-   ═══════════════════════════════════════════════════════════ */
-.identity { padding: 3rem 0 1rem; }
-
-/* L'initiale « N », tracée dans une grille 5×5 de filets 1px. */
-.mark { display: grid; grid-template-columns: repeat(5, 9px); gap: 2px; margin-bottom: 1.5rem; }
-.mark i { display: block; aspect-ratio: 1; }
-.mark i.on { background: var(--text); }
-
-.identity h1 { font-size: 1.375rem; letter-spacing: -.01em; }
-.identity .role   { margin-top: .35rem; color: var(--muted); font-size: .8125rem; }
-.identity .status { margin-top: .9rem;  color: var(--muted); font-size: .8125rem; }
-.identity .status::before { content: "> "; color: var(--dim); }
-
-/* Contacts : clé à gauche, valeur à droite, séparés par un filet. */
-.contact { margin-top: 1.5rem; }
-.contact a {
-  display: grid; grid-template-columns: 4.25rem 1fr;
-  padding: .2rem 0;
-  border-bottom: 0;                 /* pas de filet : la colonne suffit */
-  font-size: .78125rem;             /* l'adresse e-mail tient sur une ligne */
-}
-.contact a .k { color: var(--muted); }
-.contact a .v { overflow-wrap: anywhere; }
-.contact a:hover .v { text-decoration: underline; text-underline-offset: 3px; }
-
-/* ── Bascule de langue ─────────────────────────────────────── */
-.lang { margin-top: 1.25rem; font-size: .78125rem; color: var(--dim); }
-.lang [aria-current] { color: var(--muted); }
-
-/* ── Sommaire - sticky avec le rail, la section courante ressort ──
-   Les entrées restent grises au repos : cinq lignes ambre en
-   permanence noieraient les vrais liens du document. L'ambre
-   revient au survol et au focus, là où elle veut dire « cliquable ».
-   ─────────────────────────────────────────────────────────────── */
-.toc { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
-.toc a {
-  display: grid; grid-template-columns: 1.75rem 1fr;
-  padding: .1rem 0;
-  border-bottom: 0;
-  color: var(--muted); font-size: .78125rem;
-}
-.toc a::before { content: attr(data-n); color: var(--dim); }
-.toc a:hover, .toc a:focus-visible { color: var(--link); }
-.toc a[aria-current="true"] { color: var(--text); }
-.toc a[aria-current="true"]::before { color: var(--text); }
-
-/* Révélé par le script : sans JS, la boîte d'impression du
-   navigateur reste évidemment accessible par Ctrl/⌘+P. */
-.print {
-  margin-top: 1.1rem;
-  padding: 0 0 0 1.75rem;           /* aligné sur les libellés du sommaire */
-  background: none; border: 0;
-  color: var(--muted); font: inherit; font-size: .78125rem;
-  cursor: pointer; text-align: left;
-}
-.print:hover, .print:focus-visible { color: var(--link); }
-
-/* ═══════════════════════════════════════════════════════════
-   5. SECTIONS - un titre court, un filet qui court jusqu'au bord
-   ═══════════════════════════════════════════════════════════ */
-main { padding-top: .5rem; }
-@media (min-width: 62rem) { main { padding-top: 3rem; } }
-
-.section { counter-increment: sec; scroll-margin-top: 2rem; }
-.section + .section { margin-top: 2.75rem; }
-
-.section > h2 {
-  display: flex; align-items: center; gap: .75rem;
-  margin-bottom: 1rem;
-  font-size: .75rem; letter-spacing: .18em; text-transform: uppercase;
-  color: var(--muted);
-}
-.section > h2::before { content: counter(sec, decimal-leading-zero); color: var(--dim); }
-.section > h2::after  { content: ""; flex: 1; height: 1px; background: var(--rule); }
-
-.prose { max-width: 68ch; color: var(--muted); }
-
-/* ═══════════════════════════════════════════════════════════
-   6. LIGNES - expérience, formation, projets : même gabarit
-   ───────────────────────────────────────────────────────────
-   Pas de cartes : une date à gauche, le contenu à droite.
-   Un seul filet ENTRE deux entrées - ni au début, ni à la fin.
-   ═══════════════════════════════════════════════════════════ */
-.rows > li { padding: .3rem 0 1.1rem; }
-.rows > li + li { padding-top: 1.1rem; border-top: 1px solid var(--rule); }
-
-@media (min-width: 40rem) {
-  .rows > li { display: grid; grid-template-columns: 10.5rem 1fr; gap: 1.5rem; }
-}
-
-.when  { color: var(--muted); font-size: .8125rem; }
-.rows h3 { font-size: .9375rem; }
-.where { margin-top: .1rem; color: var(--muted); font-size: .8125rem; }
-.note  { margin-top: .1rem; color: var(--muted); font-size: .8125rem; }
-
-/* Les missions : un tiret cadratin en guise de puce. */
-.details { margin-top: .5rem; color: var(--muted); font-size: .8125rem; }
-.details li { padding-left: 1.1rem; text-indent: -1.1rem; }
-.details li::before { content: "- "; color: var(--dim); }
-
-/* Les technologies : des bulles au contour 1px, jamais de fond. */
-.tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .7rem; }
-.tags li {
-  padding: .1rem .55rem .15rem;
-  border: 1px solid var(--chip); border-radius: 999px;
-  font-size: .75rem; color: var(--muted); white-space: nowrap;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   7. COMPÉTENCES - même gabarit, la clé remplace la date.
-   Aucun filet : les bulles suffisent à découper les groupes.
-   ═══════════════════════════════════════════════════════════ */
-.skills > div + div { margin-top: 1.1rem; }
-
-@media (min-width: 40rem) {
-  .skills > div { display: grid; grid-template-columns: 10.5rem 1fr; gap: 1.5rem; }
-}
-
-.skills dt { color: var(--muted); font-size: .8125rem; padding-top: .15rem; }
-.skills dd .tags { margin-top: 0; }
-
-/* ═══════════════════════════════════════════════════════════
-   8. PIED DE PAGE
-   ═══════════════════════════════════════════════════════════ */
-.site-footer {
-  margin-top: 3rem; padding-top: .85rem;
-  border-top: 1px solid var(--rule);
-  color: var(--muted); font-size: .75rem;
-}
-/* ═══════════════════════════════════════════════════════════
-   9. IMPRESSION / PDF
-   ───────────────────────────────────────────────────────────
-   Un recruteur qui imprime doit obtenir un CV noir sur blanc,
-   sur une colonne, sans aplat d'encre. On repeint les jetons
-   plutôt que de réécrire les règles.
-   ═══════════════════════════════════════════════════════════ */
-@media print {
-  :root {
-    --bg:    #ffffff;
-    --text:  #000000;
-    --muted: #333333;
-    --rule:  #bbbbbb;
-    --dim:   #888888;
-    --chip:  #999999;
-    --link:  #000000;
-  }
-  @page { margin: 14mm 15mm; }
-
-  body { padding: 0; font-size: 9.25pt; line-height: 1.45; }
-
-  /* Une seule colonne : le rail passe au-dessus du contenu. */
-  .shell { display: block; max-width: none; }
-  .identity { position: static; padding: 0 0 .5rem; }
-  main { padding-top: 0; }
-
-  /* Navigation, bouton et lien d'évitement n'ont pas de sens sur papier. */
-  .skip, .toc, .print, .lang { display: none; }
-
-  /* Les liens sont noirs : l'adresse écrite à côté suffit. */
-  a { border-bottom: 0; }
-
-  /* Rien ne doit se couper au milieu d'une entrée. */
-  .rows > li, .skills > div, .section > h2 { break-inside: avoid; }
-  .section > h2 { break-after: avoid; }
-  .section + .section { margin-top: 1.4rem; }
-
-  /* Le lecteur du papier doit pouvoir retrouver le site. */
-  .site-footer::after { content: " · noameunier.fr"; }
-}
-</style>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Noa Meunier",
-  "givenName": "Noa",
-  "familyName": "Meunier",
-  "url": "https://noameunier.fr/",
-  "image": "https://noameunier.fr/og.png",
-  "email": "mailto:noa.meunier@epitaxie.com",
-  "jobTitle": "Systems engineering apprentice",
-  "description": "Engineering student at Polytech Nantes majoring in Data Engineering and Artificial Intelligence, working as a systems engineer apprentice at Thales SIX GTS.",
-  "worksFor": { "@type": "Organization", "name": "Thales SIX GTS" },
-  "alumniOf": [
-    { "@type": "CollegeOrUniversity", "name": "Polytech Nantes" },
-    { "@type": "HighSchool", "name": "Lycée Saint-Martin" }
-  ],
-  "knowsAbout": ["Python", "PyTorch", "Data engineering", "Artificial intelligence", "MBSE", "Capella", "UML", "XML / XSD", "SQL"],
-  "knowsLanguage": [
-    { "@type": "Language", "name": "French" },
-    { "@type": "Language", "name": "English" },
-    { "@type": "Language", "name": "Spanish" }
-  ],
-  "sameAs": [
-    "https://www.linkedin.com/in/noa-meunier",
-    "https://github.com/noameunier"
-  ]
-}
-</script>
+<link rel="stylesheet" href="/assets/style.css">
+<script>document.documentElement.classList.add('js');</script>
 </head>
 
 <body>
+
 <a class="skip" href="#contenu">Skip to content</a>
 
-<div class="shell">
+<div class="bg" aria-hidden="true">
+  <div class="orb a"></div>
+  <div class="orb b"></div>
+  <div class="orb c"></div>
+</div>
+<div class="progress" aria-hidden="true"></div>
 
-  <!-- ════════════════════════════════════════════════════
-       IDENTITÉ
-       ════════════════════════════════════════════════════ -->
-  <header class="identity">
-    <!-- Initiale « N » tracée dans une grille 5×5. -->
-    <div class="mark" aria-hidden="true">
-      <i class="on"></i><i></i><i></i><i></i><i class="on"></i>
-      <i class="on"></i><i class="on"></i><i></i><i></i><i class="on"></i>
-      <i class="on"></i><i></i><i class="on"></i><i></i><i class="on"></i>
-      <i class="on"></i><i></i><i></i><i class="on"></i><i class="on"></i>
-      <i class="on"></i><i></i><i></i><i></i><i class="on"></i>
-    </div>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/en.html"><span class="dot" aria-hidden="true"></span>Noa Meunier</a>
 
-    <h1>Noa Meunier</h1>
-    <p class="role">Systems engineering apprentice · Thales SIX GTS<br>Polytech Nantes - Data &amp; AI</p>
-
-    <ul class="contact">
-      <li><a href="mailto:noa.meunier@epitaxie.com"><span class="k">email</span><span class="v">noa.meunier@epitaxie.com</span></a></li>
-      <li><a href="https://www.linkedin.com/in/noa-meunier"><span class="k">linkedin</span><span class="v">noa-meunier</span></a></li>
-      <li><a href="https://github.com/noameunier"><span class="k">github</span><span class="v">@noameunier</span></a></li>
+    <ul class="nav-links">
+      <li><a href="#presentation">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projets">Projects</a></li>
+      <li><a href="#formation">Education</a></li>
+      <li><a href="#competences">Skills</a></li>
     </ul>
 
-    <!-- Bascule de langue : deux fichiers, pas de détection automatique. -->
-    <p class="lang"><a href="/" hreflang="fr" lang="fr">FR</a> · <span aria-current="true">EN</span></p>
+    <!-- Language switch: two files, no automatic detection. -->
+    <p class="lang"><a href="/" hreflang="fr" lang="fr">FR</a><span aria-hidden="true">/</span><span aria-current="true">EN</span></p>
+  </div>
+</header>
 
-    <!-- Sommaire : les mêmes numéros que les titres, tenus par le script. -->
-    <nav class="toc" aria-label="Page sections">
-      <a href="#presentation" data-n="01">About</a>
-      <a href="#experience"   data-n="02">Experience</a>
-      <a href="#formation"    data-n="03">Education</a>
-      <a href="#projets"      data-n="04">Projects</a>
-      <a href="#competences"  data-n="05">Skills</a>
-    </nav>
+<main id="contenu">
 
-    <button class="print" type="button" hidden>Print / PDF</button>
-  </header>
-
-  <main id="contenu">
-
-    <!-- ════════════════════════════════════════════════════
-         PRÉSENTATION
-         ════════════════════════════════════════════════════ -->
-    <section class="section" id="presentation" aria-labelledby="t-apropos">
-      <h2 id="t-apropos">About</h2>
-      <p class="prose">
-        Engineering student at Polytech Nantes, majoring in Data Engineering and
-        Artificial Intelligence. I am completing my apprenticeship at Thales SIX GTS
-        as a systems engineer.
+  <section class="hero">
+    <div class="wrap">
+      <p class="status reveal">
+        <span class="pulse" aria-hidden="true"></span>
+        Looking for an international internship · June – September 2026
       </p>
-    </section>
 
-    <!-- ════════════════════════════════════════════════════
-         EXPÉRIENCE - pour ajouter un poste, copiez un bloc <li>
-         ════════════════════════════════════════════════════ -->
-    <section class="section" id="experience" aria-labelledby="t-experience">
-      <h2 id="t-experience">Experience</h2>
-      <ul class="rows">
+      <h1 class="reveal">Noa Meunier,<br><span class="grad">systems engineer</span><br>in the making.</h1>
 
-        <li>
+      <p class="lead reveal">
+        Apprentice at <strong>Thales SIX GTS</strong> and engineering student at
+        <strong>Polytech Nantes</strong>, majoring in Data Engineering and Artificial
+        Intelligence. I build tools that make complex systems legible — from MBSE
+        modelling to neural networks.
+      </p>
+
+      <div class="actions reveal">
+        <a class="btn primary" href="#projets">See the projects <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn" href="mailto:noa.meunier@epitaxie.com">Get in touch</a>
+        <button class="btn print" type="button" hidden>Print / PDF</button>
+      </div>
+
+      <ul class="contact reveal">
+        <li><a href="mailto:noa.meunier@epitaxie.com"><span class="k">email</span>noa.meunier@epitaxie.com</a></li>
+        <li><a href="https://www.linkedin.com/in/noa-meunier"><span class="k">linkedin</span>noa-meunier</a></li>
+        <li><a href="https://github.com/noameunier"><span class="k">github</span>@noameunier</a></li>
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- 01 — ABOUT -->
+  <section class="section" id="presentation" aria-labelledby="t-presentation">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="n" aria-hidden="true">01</span>
+        <h2 id="t-presentation">About</h2>
+      </div>
+
+      <p class="prose reveal">
+        Engineering student at Polytech Nantes, majoring in
+        <strong>Data Engineering and Artificial Intelligence</strong>. I am completing
+        my apprenticeship at Thales SIX GTS as a systems engineer, working on the
+        modelling of complex systems and the tooling that goes with it.
+      </p>
+      <p class="prose reveal">
+        What interests me is where systems engineering meets data: describing a system
+        precisely enough that a machine can generate its code, then instrumenting it so
+        it can report what it actually does.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- 02 — EXPERIENCE -->
+  <section class="section" id="experience" aria-labelledby="t-experience">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="n" aria-hidden="true">02</span>
+        <h2 id="t-experience">Experience</h2>
+      </div>
+
+      <ul class="timeline">
+
+        <li class="reveal">
           <p class="when">2024 - present</p>
           <div>
             <h3>Systems engineering apprentice</h3>
-            <p class="where">Thales SIX GTS - Gennevilliers, France</p>
+            <p class="where">Thales SIX GTS — Gennevilliers, France</p>
             <ul class="details">
               <li>Built a tool that translates class diagrams into XML / XSD.</li>
               <li>Modelled complex systems using MBSE tooling (Capella).</li>
@@ -390,11 +145,11 @@ main { padding-top: .5rem; }
           </div>
         </li>
 
-        <li>
-          <p class="when">2023 - 1 month</p>
+        <li class="reveal">
+          <p class="when">2023 · 1 month</p>
           <div>
             <h3>IT support intern</h3>
-            <p class="where">Office Notarial du Jeu de Paume - Bordeaux, France</p>
+            <p class="where">Office Notarial du Jeu de Paume — Bordeaux, France</p>
             <ul class="details">
               <li>Supported the IT team on network infrastructure maintenance.</li>
               <li>Provided technical support to the firm's staff.</li>
@@ -403,113 +158,176 @@ main { padding-top: .5rem; }
         </li>
 
       </ul>
-    </section>
+    </div>
+  </section>
 
-    <!-- ════════════════════════════════════════════════════
-         FORMATION
-         ════════════════════════════════════════════════════ -->
-    <section class="section" id="formation" aria-labelledby="t-formation">
-      <h2 id="t-formation">Education</h2>
-      <ul class="rows">
 
-        <li>
+  <!-- 03 — PROJECTS
+       The case studies are written in French for now; the link label
+       says so. When an English version exists, point the card at it. -->
+  <section class="section" id="projets" aria-labelledby="t-projets">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="n" aria-hidden="true">03</span>
+        <h2 id="t-projets">Projects</h2>
+        <span class="label count">5 projects</span>
+      </div>
+
+      <ul class="cards">
+
+        <li class="feature reveal">
+          <a class="card" href="/projets/suguru.html" hreflang="fr" style="--c1:#6c8cff; --c2:#37e0c8">
+            <div class="card-media">
+              <span class="idx" aria-hidden="true">01</span>
+            </div>
+            <div class="card-body">
+              <p class="when">2023 - 2024 · Polytech</p>
+              <h3>Deep learning — image classification for the Suguru puzzle</h3>
+              <p class="note">
+                A complete Suguru game, paired with a convolutional neural network
+                trained in PyTorch to read a grid from an image.
+              </p>
+              <ul class="tags">
+                <li>Python</li><li>PyTorch</li><li>CNN</li><li>Algorithms</li>
+              </ul>
+              <span class="more">Read the case study (FR) <span class="arrow" aria-hidden="true">→</span></span>
+            </div>
+          </a>
+        </li>
+
+        <li class="reveal">
+          <a class="card" href="/projets/site-aws.html" hreflang="fr" style="--c1:#ff7ab6; --c2:#6c8cff">
+            <div class="card-media">
+              <span class="idx" aria-hidden="true">02</span>
+            </div>
+            <div class="card-body">
+              <p class="when">2026 · Personal project</p>
+              <h3>This website — AWS hosting and continuous deployment</h3>
+              <p class="note">
+                A private S3 bucket read by CloudFront, an ACM certificate, Route 53
+                DNS and a GitHub Actions pipeline that authenticates through OIDC,
+                with no stored keys.
+              </p>
+              <ul class="tags">
+                <li>AWS</li><li>S3 / CloudFront</li><li>GitHub Actions</li><li>OIDC</li>
+              </ul>
+              <span class="more">Read the case study (FR) <span class="arrow" aria-hidden="true">→</span></span>
+            </div>
+          </a>
+        </li>
+
+        <li class="reveal">
+          <a class="card" href="/projets/traitement-eau.html" hreflang="fr" style="--c1:#37e0c8; --c2:#6c8cff">
+            <div class="card-media">
+              <span class="idx" aria-hidden="true">03</span>
+            </div>
+            <div class="card-body">
+              <p class="when">2023 - 2024 · Polytech</p>
+              <h3>Water treatment — project manager</h3>
+              <p class="note">
+                Engineering project led as project manager, heading a multidisciplinary
+                team of thirteen students: task allocation, deadline tracking and
+                compliance of the technical deliverables.
+              </p>
+              <ul class="tags">
+                <li>Project management</li><li>Team of 13</li>
+              </ul>
+              <span class="more">Read the case study (FR) <span class="arrow" aria-hidden="true">→</span></span>
+            </div>
+          </a>
+        </li>
+
+        <li class="reveal">
+          <a class="card" href="/projets/risk.html" hreflang="fr" style="--c1:#ff7ab6; --c2:#37e0c8">
+            <div class="card-media">
+              <span class="idx" aria-hidden="true">04</span>
+            </div>
+            <div class="card-body">
+              <!-- TO FILL IN: real dates and context -->
+              <p class="when">Year · Context</p>
+              <h3>Risk board game</h3>
+              <!-- TO FILL IN: two sentences, including the outcome -->
+              <p class="note">
+                Two-sentence summary: what was built, and what it achieves.
+              </p>
+              <ul class="tags">
+                <li>To fill in</li>
+              </ul>
+              <span class="more">Read the case study (FR) <span class="arrow" aria-hidden="true">→</span></span>
+            </div>
+          </a>
+        </li>
+
+        <li class="reveal">
+          <a class="card" href="/projets/poly-loon.html" hreflang="fr" style="--c1:#6c8cff; --c2:#ff7ab6">
+            <div class="card-media">
+              <span class="idx" aria-hidden="true">05</span>
+            </div>
+            <div class="card-body">
+              <!-- TO FILL IN: real dates and context -->
+              <p class="when">Year · Context</p>
+              <h3>Poly Loon project</h3>
+              <!-- TO FILL IN: two sentences, including the outcome -->
+              <p class="note">
+                Two-sentence summary: what was built, and what it achieves.
+              </p>
+              <ul class="tags">
+                <li>To fill in</li>
+              </ul>
+              <span class="more">Read the case study (FR) <span class="arrow" aria-hidden="true">→</span></span>
+            </div>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- 04 — EDUCATION -->
+  <section class="section" id="formation" aria-labelledby="t-formation">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="n" aria-hidden="true">04</span>
+        <h2 id="t-formation">Education</h2>
+      </div>
+
+      <ul class="timeline">
+
+        <li class="reveal">
           <p class="when">2022 - 2027</p>
           <div>
             <h3>Engineering degree in computer science</h3>
-            <p class="where">Polytech Nantes - Nantes, France</p>
+            <p class="where">Polytech Nantes — Nantes, France</p>
             <p class="note">French <span lang="fr">diplôme d'ingénieur</span> · major in Data Engineering and Artificial Intelligence.</p>
           </div>
         </li>
 
-        <li>
+        <li class="reveal">
           <p class="when">2019 - 2022</p>
           <div>
-            <h3>Baccalauréat - French secondary school diploma</h3>
-            <p class="where">Lycée Saint-Martin - Rennes, France</p>
+            <h3><span lang="fr">Baccalauréat</span> — French secondary school diploma</h3>
+            <p class="where">Lycée Saint-Martin — Rennes, France</p>
             <p class="note">Highest honours · European section, English.</p>
           </div>
         </li>
 
       </ul>
-    </section>
+    </div>
+  </section>
 
-    <!-- ════════════════════════════════════════════════════
-         PROJETS - pour en ajouter un, copiez un bloc <li>
-         ════════════════════════════════════════════════════ -->
-    <section class="section" id="projets" aria-labelledby="t-projets">
-      <h2 id="t-projets">Projects</h2>
-      <ul class="rows">
 
-        <!-- ▼▼▼ DÉBUT D'UNE ENTRÉE - copiez de <li> à </li> ▼▼▼ -->
-        <li>
-          <p class="when">2023 - 2024 · Polytech</p>
-          <div>
-            <h3>Deep learning - image classification for the Suguru puzzle</h3>
-            <p class="note">
-              Built a Suguru video game together with a convolutional neural network
-              (CNN) trained for image classification in PyTorch.
-            </p>
-            <ul class="tags">
-              <li>Python</li><li>PyTorch</li><li>CNN</li><li>Algorithms</li>
-            </ul>
-          </div>
-        </li>
-        <!-- ▲▲▲ FIN D'UNE ENTRÉE ▲▲▲ -->
+  <!-- 05 — SKILLS -->
+  <section class="section" id="competences" aria-labelledby="t-competences">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="n" aria-hidden="true">05</span>
+        <h2 id="t-competences">Skills</h2>
+      </div>
 
-        <li>
-          <p class="when">2023 - 2024 · Polytech</p>
-          <div>
-            <h3>Water treatment</h3>
-            <p class="note">
-              Engineering project led as project manager, heading a multidisciplinary
-              team of thirteen students: task allocation, deadline tracking and
-              compliance of the technical deliverables.
-            </p>
-            <ul class="tags">
-              <li>Project management</li><li>Team of 13</li>
-            </ul>
-          </div>
-        </li>
-
-        <li>
-          <p class="when">2023 - 2024 · Polytech</p>
-          <div>
-            <h3>Modelling the construction of a bridge</h3>
-            <p class="note">
-              Civil engineering project: design and sizing of a structure, from
-              choosing its form to the loads it has to withstand.
-            </p>
-            <ul class="tags">
-              <li>Civil engineering</li><li>Structural sizing</li>
-            </ul>
-          </div>
-        </li>
-
-        <li>
-          <p class="when">2022 - 2023 · Polytech</p>
-          <div>
-            <h3>Yahtzee game</h3>
-            <p class="note">
-              Implementation of Yahtzee in Python: roll handling, combinations
-              and scoring.
-            </p>
-            <ul class="tags">
-              <li>Algoscript</li><li>JavaScript</li>
-            </ul>
-          </div>
-        </li>
-
-      </ul>
-    </section>
-
-    <!-- ════════════════════════════════════════════════════
-         COMPÉTENCES
-         ════════════════════════════════════════════════════ -->
-    <section class="section" id="competences" aria-labelledby="t-competences">
-      <h2 id="t-competences">Skills</h2>
       <dl class="skills">
 
-        <div>
+        <div class="reveal">
           <dt>Programming</dt>
           <dd>
             <ul class="tags">
@@ -519,7 +337,7 @@ main { padding-top: .5rem; }
           </dd>
         </div>
 
-        <div>
+        <div class="reveal">
           <dt>Data &amp; AI</dt>
           <dd>
             <ul class="tags">
@@ -529,7 +347,7 @@ main { padding-top: .5rem; }
           </dd>
         </div>
 
-        <div>
+        <div class="reveal">
           <dt>Systems engineering</dt>
           <dd>
             <ul class="tags">
@@ -539,7 +357,7 @@ main { padding-top: .5rem; }
           </dd>
         </div>
 
-        <div>
+        <div class="reveal">
           <dt>Tools</dt>
           <dd>
             <ul class="tags">
@@ -550,18 +368,18 @@ main { padding-top: .5rem; }
           </dd>
         </div>
 
-        <div>
+        <div class="reveal">
           <dt>Languages</dt>
           <dd>
             <ul class="tags">
-              <li>French - native</li>
-              <li>English - B2 (TOEIC)</li>
-              <li>Spanish - B1</li>
+              <li>French — native</li>
+              <li>English — B2 (TOEIC)</li>
+              <li>Spanish — B1</li>
             </ul>
           </dd>
         </div>
 
-        <div>
+        <div class="reveal">
           <dt>Interests</dt>
           <dd>
             <ul class="tags">
@@ -571,94 +389,22 @@ main { padding-top: .5rem; }
         </div>
 
       </dl>
-    </section>
+    </div>
+  </section>
 
-  </main>
+</main>
 
-  <footer class="site-footer">
-    © <span id="annee">2026</span> Noa Meunier
-  </footer>
+<footer class="site-footer">
+  <div class="wrap footer-in">
+    <span>© <span id="annee">2026</span> Noa Meunier</span>
+    <span class="right">
+      <a href="mailto:noa.meunier@epitaxie.com">Email</a>
+      <a href="https://www.linkedin.com/in/noa-meunier">LinkedIn</a>
+      <a href="https://github.com/noameunier">GitHub</a>
+    </span>
+  </div>
+</footer>
 
-</div>
-
-<script>
-/* Tout le JS du site. Sans lui, la page reste entièrement lisible :
-   l'année est écrite en dur, le sommaire est fait d'ancres ordinaires
-   et l'impression passe par Ctrl/⌘+P. */
-(function () {
-  'use strict';
-
-  /* 1. L'année du pied de page. */
-  var annee = document.getElementById('annee');
-  if (annee) { annee.textContent = new Date().getFullYear(); }
-
-  /* 2. Le bouton d'impression n'apparaît que si le script tourne :
-        proposer un bouton mort serait pire que pas de bouton. */
-  var bouton = document.querySelector('.print');
-  if (bouton) {
-    bouton.hidden = false;
-    bouton.addEventListener('click', function () { window.print(); });
-  }
-
-  /* 3. Sommaire actif : on marque l'entrée dont la section traverse
-        une bande située au premier tiers de la fenêtre. */
-  var liens = [].slice.call(document.querySelectorAll('.toc a'));
-  if (!liens.length || !('IntersectionObserver' in window)) { return; }
-
-  var sections = [], lienDe = {};
-  liens.forEach(function (lien) {
-    var section = document.getElementById(lien.getAttribute('href').slice(1));
-    if (section) { sections.push(section); lienDe[section.id] = lien; }
-  });
-
-  var actif = null;
-  var visible = {};
-
-  function marquer(lien) {
-    if (!lien || lien === actif) { return; }
-    if (actif) { actif.removeAttribute('aria-current'); }
-    lien.setAttribute('aria-current', 'true');
-    actif = lien;
-  }
-
-  function choisir() {
-    /* Haut de page : sur un grand écran la première section passe
-       au-dessus de la bande. Tant qu'on n'a pas défilé, c'est elle. */
-    if (window.scrollY <= 4) { marquer(lienDe[sections[0].id]); return; }
-
-    /* Fin de page : symétriquement, la dernière section commence sous
-       la bande et la page ne peut plus défiler - sans ce cas elle ne
-       serait jamais marquée. Arrivé en bas, c'est elle qu'on lit. */
-    var fond = window.innerHeight + window.scrollY;
-    if (fond >= document.documentElement.scrollHeight - 4) {
-      marquer(lienDe[sections[sections.length - 1].id]);
-      return;
-    }
-    /* Sinon : la première section du document encore dans la bande.
-       Si aucune n'y est (on passe d'une section à l'autre), on garde
-       le dernier marquage plutôt que de tout éteindre. */
-    for (var i = 0; i < sections.length; i++) {
-      if (visible[sections[i].id]) { marquer(lienDe[sections[i].id]); return; }
-    }
-  }
-
-  var observateur = new IntersectionObserver(function (entrees) {
-    entrees.forEach(function (e) { visible[e.target.id] = e.isIntersecting; });
-    choisir();
-  }, { rootMargin: '-15% 0px -70% 0px' });
-
-  sections.forEach(function (section) { observateur.observe(section); });
-
-  /* L'observateur ne se déclenche pas quand on atteint le bas sans
-     qu'aucune section ne change d'état : un écouteur de défilement
-     passif, calé sur le rafraîchissement de l'écran, complète. */
-  var enAttente = false;
-  window.addEventListener('scroll', function () {
-    if (enAttente) { return; }
-    enAttente = true;
-    requestAnimationFrame(function () { enAttente = false; choisir(); });
-  }, { passive: true });
-})();
-</script>
+<script src="/assets/site.js" defer></script>
 </body>
 </html>
