@@ -245,22 +245,10 @@ a { color: inherit; }
   background: linear-gradient(90deg, var(--a1), var(--a2));
 }
 
-/* Bascule de langue : deux fichiers, aucune détection automatique. */
-.lang {
-  display: flex; align-items: center; gap: .4rem;
-  margin: 0; padding-left: 1rem;
-  border-left: 1px solid var(--border);
-  font-family: var(--mono); font-size: .75rem;
-}
-.lang a { color: var(--dim); text-decoration: none; transition: color var(--fast); }
-.lang a:hover { color: var(--text); }
-.lang [aria-current="true"] { color: var(--a2); }
-
 /* Sous 720px la liste des sections disparaît : le sommaire du site,
-   c'est la page elle-même. Marque et langue suffisent. */
+   c'est la page elle-même, et la marque suffit à revenir en haut. */
 @media (max-width: 720px) {
   .nav-links { display: none; }
-  .lang { margin-left: auto; border-left: 0; padding-left: 0; }
 }
 
 

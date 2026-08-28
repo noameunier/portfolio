@@ -5,23 +5,11 @@
   décommentez la ligne correspondante en même temps que vous retirez
   ce meta de la page.
 -->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
     <loc>https://noameunier.fr/</loc>
     <lastmod>2026-08-28</lastmod>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://noameunier.fr/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://noameunier.fr/en.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://noameunier.fr/"/>
-  </url>
-
-  <url>
-    <loc>https://noameunier.fr/en.html</loc>
-    <lastmod>2026-08-28</lastmod>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://noameunier.fr/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://noameunier.fr/en.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://noameunier.fr/"/>
   </url>
 
   <!-- <url><loc>https://noameunier.fr/projets/suguru.html</loc></url> -->
