@@ -3,16 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Deep learning — classification d'images pour le Suguru — Noa Meunier</title>
+<title>Deep learning - classification d'images pour le Suguru</title>
 
-<!-- ⚠ À COMPLÉTER : résumé en une phrase, 150 caractères environ.
-     C'est le texte affiché sous le titre dans les résultats de recherche. -->
-<meta name="description" content="Deep learning — classification d'images pour le Suguru — étude de cas du portfolio de Noa Meunier.">
-
-<!-- ⚠ Tant que la page n'est pas écrite, on demande aux moteurs de ne pas
-     l'indexer : une page vide référencée dessert tout le site.
-     SUPPRIMEZ CETTE LIGNE une fois le contenu rédigé. -->
-<meta name="robots" content="noindex">
+<meta name="description" content="Deep learning - classification d'images pour le Suguru à l'aide d'un réseau de neurones convolutif entraîné avec la Dataset MNIST">
 
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#08090c">
@@ -22,9 +15,8 @@
 <meta property="og:locale" content="fr_FR">
 <meta property="og:url" content="https://noameunier.fr/projets/suguru.html">
 <meta property="og:site_name" content="Noa Meunier">
-<meta property="og:title" content="Deep learning — classification d'images pour le Suguru">
-<!-- ⚠ À COMPLÉTER : même phrase que la description ci-dessus. -->
-<meta property="og:description" content="Deep learning — classification d'images pour le Suguru — étude de cas du portfolio de Noa Meunier.">
+<meta property="og:title" content="Deep learning - classification d'images pour le Suguru">
+<meta property="og:description" content="Deep learning - classification d'images pour le Suguru à l'aide d'un réseau de neurones convolutif entraîné avec la Dataset MNIST">
 <!-- ⚠ À COMPLÉTER : une image propre au projet donnera un bien meilleur
      aperçu au partage que l'image générique du site.
      <meta property="og:image" content="https://noameunier.fr/assets/projets/suguru-og.png"> -->
@@ -50,7 +42,7 @@
 
 <header class="nav">
   <div class="wrap nav-in">
-    <a class="brand" href="/"><span class="dot" aria-hidden="true"></span>Noa Meunier</a>
+    <a class="brand" href="/"><span class="dot" aria-hidden="true"></span>Portfolio</a>
     <ul class="nav-links">
       <li><a href="/#presentation">Présentation</a></li>
       <li><a href="/#experience">Expérience</a></li>
@@ -70,34 +62,29 @@
     <div class="wrap">
       <a class="back" href="/#projets"><span class="arrow" aria-hidden="true">←</span> Tous les projets</a>
 
-      <p class="label reveal">Projet 01</p>
-      <h1 class="reveal">Deep learning — classification d'images pour le Suguru</h1>
+      <h1 class="reveal">Deep learning - classification d'images pour le Suguru</h1>
 
-      <!-- ⚠ À COMPLÉTER : deux phrases maximum. Ce qui a été construit,
-           et pour qui. Pas d'introduction, pas de mise en contexte : on
-           entre directement dans le sujet. -->
       <p class="lead reveal">
-        Une ou deux phrases qui disent ce qu'est ce projet et ce qu'il produit.
-        C'est le seul texte que la moitié des visiteurs lira : il doit tenir debout seul.
+        Développement d'un jeu vidéo de Suguru avec reconnaissance de grille par 
+        un réseau de neurones convolutif (CNN)
       </p>
 
-      <!-- Fiche d'identité. Supprimez une case si elle ne s'applique pas. -->
       <dl class="meta reveal">
         <div>
           <dt>Période</dt>
-          <dd><!-- ⚠ ex. 2023 - 2024 -->À compléter</dd>
+          <dd>2023 - 2024</dd>
         </div>
         <div>
           <dt>Contexte</dt>
-          <dd><!-- ⚠ ex. Polytech Nantes · Thales · Projet personnel -->À compléter</dd>
+          <dd>Polytech Nantes</dd>
         </div>
         <div>
           <dt>Rôle</dt>
-          <dd><!-- ⚠ ex. Développeur · Chef de projet · Seul -->À compléter</dd>
+          <dd>Développeur</dd>
         </div>
         <div>
           <dt>Stack</dt>
-          <dd><!-- ⚠ ex. Python, PyTorch -->À compléter</dd>
+          <dd>Python, PyGame, PyTorch</dd>
         </div>
       </dl>
     </div>
@@ -106,62 +93,34 @@
 
   <div class="wrap project-body">
 
-    <!-- ══════════════════════════════════════════════════════════
-         01 — LE PROBLÈME
-         Trois ou quatre phrases. Ce qu'il fallait résoudre et
-         pourquoi ce n'était pas évident. Sans le problème, tout ce
-         qui suit ressemble à une liste de technologies.
-         ══════════════════════════════════════════════════════════ -->
     <h2 class="reveal"><span class="n" aria-hidden="true">01</span>Le problème</h2>
-    <p class="prose reveal">
-      Ce qu'il fallait résoudre, et pourquoi ce n'était pas trivial.
-    </p>
+
     <p class="todo reveal">
-      Écrivez ici la contrainte de départ : le besoin, le délai, l'existant,
-      ce qui rendait la solution évidente impraticable.
+      A partir d'une image / un screen d'une grille de Suguru : en extraire 
+      les informations pour la résoudre et proposer la solution sous forme
+      d'un jeu vidéo.
     </p>
 
-
-    <!-- ══════════════════════════════════════════════════════════
-         02 — CE QUE J'AI FAIT
-         Les décisions, pas le tutoriel. « J'ai choisi X plutôt que Y
-         parce que Z » vaut dix lignes de description d'outil.
-         ══════════════════════════════════════════════════════════ -->
     <h2 class="reveal"><span class="n" aria-hidden="true">02</span>Ce que j'ai fait</h2>
-    <p class="prose reveal">
-      L'approche retenue, et les deux ou trois décisions qui l'ont façonnée.
-    </p>
+
     <ul class="reveal">
-      <li>Décision 1 — et l'option écartée, avec la raison.</li>
-      <li>Décision 2.</li>
-      <li>Décision 3.</li>
+      <li>Entraînement d'un réseaux de neurones convolutif (CNN) pour la reconnaissance d'image</li>
+      <li>Modélisation du problème par la satisfaction de contraintes</li>
+      <li>Résolution du problème à l'aide d'un solveur SAT</li>
     </ul>
     <p class="todo reveal">
       Un recruteur cherche votre raisonnement, pas la documentation de l'outil.
       Chaque puce devrait pouvoir se lire « j'ai choisi X plutôt que Y, parce que Z ».
     </p>
 
-    <!-- Illustration. Décommentez quand l'image existe.
-    <figure class="reveal">
-      <img src="/assets/projets/suguru-01.webp" alt="Décrivez ce que montre l'image" width="1400" height="875" loading="lazy" decoding="async">
-      <figcaption>Ce que montre la capture, en une ligne.</figcaption>
-    </figure>
-    -->
-
-
-    <!-- ══════════════════════════════════════════════════════════
-         03 — LE RÉSULTAT
-         Des chiffres si vous en avez, une capture sinon. Trois
-         chiffres au maximum : au-delà, plus aucun ne ressort.
-         ══════════════════════════════════════════════════════════ -->
     <h2 class="reveal"><span class="n" aria-hidden="true">03</span>Le résultat</h2>
     <p class="prose reveal">
       Ce que ça donne au bout, en une ou deux phrases.
     </p>
     <ul class="figures reveal">
-      <li><span class="v">—</span><span class="k">À compléter</span></li>
-      <li><span class="v">—</span><span class="k">À compléter</span></li>
-      <li><span class="v">—</span><span class="k">À compléter</span></li>
+      <li><span class="v">-</span><span class="k">À compléter</span></li>
+      <li><span class="v">-</span><span class="k">À compléter</span></li>
+      <li><span class="v">-</span><span class="k">À compléter</span></li>
     </ul>
     <p class="todo reveal">
       Exemples de chiffres qui parlent : précision d'un modèle, temps d'exécution
@@ -170,43 +129,9 @@
     </p>
 
 
-    <!-- ══════════════════════════════════════════════════════════
-         04 — CE QUI A RATÉ
-         La section que presque personne n'écrit, et celle qui sert
-         le plus en entretien. Un vrai échec, et ce qu'il a changé
-         dans votre façon de faire.
-         ══════════════════════════════════════════════════════════ -->
-    <h2 class="reveal"><span class="n" aria-hidden="true">04</span>Ce qui a raté, et ce que j'en ai tiré</h2>
-    <p class="prose reveal">
-      Une difficulté réelle, comment elle a été levée, et ce qu'elle a changé
-      pour la suite.
-    </p>
-    <p class="todo reveal">
-      Restez concret et honnête : une piste abandonnée, une hypothèse fausse,
-      un temps mal estimé. La leçon compte plus que l'erreur.
-    </p>
-
-
-    <!-- ══════════════════════════════════════════════════════════
-         05 — LIENS
-         Supprimez les liens qui n'existent pas. Un lien mort ou
-         vers un dépôt vide fait plus de mal que son absence.
-         ══════════════════════════════════════════════════════════ -->
-    <h2 class="reveal"><span class="n" aria-hidden="true">05</span>Aller plus loin</h2>
-    <ul class="links reveal">
-      <li><a class="btn" href="#">Dépôt GitHub <span class="arrow" aria-hidden="true">→</span></a></li>
-      <li><a class="btn" href="#">Rapport (PDF) <span class="arrow" aria-hidden="true">→</span></a></li>
-      <li><a class="btn" href="#">Démo <span class="arrow" aria-hidden="true">→</span></a></li>
-    </ul>
-    <p class="todo reveal">
-      Remplacez les <code>#</code> par les vraies adresses, et supprimez les
-      boutons sans destination.
-    </p>
-
-
     <nav class="pager" aria-label="Autres projets">
       <span></span>
-      <a href="/projets/site-aws.html" rel="next">Ce site — AWS <span class="arrow" aria-hidden="true">→</span></a>
+      <a href="/projets/site-aws.html" rel="next">Portfolio - AWS <span class="arrow" aria-hidden="true">→</span></a>
     </nav>
 
   </div>
