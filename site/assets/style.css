@@ -354,8 +354,16 @@ a { color: inherit; }
   font-size: clamp(1.5rem, 3.4vw, 2rem);
   font-weight: 600; letter-spacing: -.025em;
 }
+/* Le numéro est aligné sur la ligne de base du titre et pèse presque
+   autant que lui : il structure la page au lieu de la décorer. La
+   largeur fixe garde les cinq titres alignés entre eux. */
 .section-head .n {
-  font-family: var(--mono); font-size: .8125rem; color: var(--a2);
+  font-family: var(--mono);
+  font-size: clamp(1.375rem, 3.2vw, 1.875rem);
+  font-weight: 500;
+  letter-spacing: -.02em;
+  color: var(--a2);
+  min-width: 2.25ch;
 }
 .section-head .count { margin-left: auto; }
 
@@ -586,8 +594,8 @@ a { color: inherit; }
   margin: 2.75rem 0 1rem;
   font-size: 1.25rem; font-weight: 600; letter-spacing: -.02em;
 }
-.project-body h2 .n { font-family: var(--mono); font-size: .8125rem; color: var(--a2);
-                      margin-right: .6rem; }
+.project-body h2 .n { font-family: var(--mono); font-size: 1.0625rem; font-weight: 500;
+                      color: var(--a2); margin-right: .7rem; }
 .project-body > p, .project-body > ul { max-width: var(--reading); }
 .project-body ul { padding-left: 1.1rem; color: var(--muted); }
 .project-body li { margin-bottom: .4rem; }

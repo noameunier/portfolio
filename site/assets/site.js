@@ -148,17 +148,10 @@
   if (annee) { annee.textContent = new Date().getFullYear(); }
 
 
-  /* ── 5. Bouton d'impression ──────────────────────────────────────
-     Caché dans le HTML, révélé seulement ici : proposer un bouton
-     mort serait pire que ne pas en proposer.                         */
-  var bouton = doc.querySelector('.print');
-  if (bouton) {
-    bouton.hidden = false;
-    bouton.addEventListener('click', function () { window.print(); });
-  }
-
-  /* Avant toute impression, y compris Ctrl/⌘+P, on force l'affichage
-     des blocs pas encore apparus. Sans cela, on imprime du vide. */
+  /* ── 5. Impression ───────────────────────────────────────────────
+     Il n'y a plus de bouton dans la page, mais Ctrl/⌘+P reste
+     possible : avant toute impression, on force l'affichage des blocs
+     pas encore apparus. Sans cela, on imprimerait du vide. */
   window.addEventListener('beforeprint', toutMontrer);
   if (window.matchMedia) {
     var impression = window.matchMedia('print');
