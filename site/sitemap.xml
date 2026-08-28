@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  N'inscrivez ici que les pages rédigées. Les pages projet portent
+  <meta name="robots" content="noindex"> tant qu'elles sont vides :
+  décommentez la ligne correspondante en même temps que vous retirez
+  ce meta de la page.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://noameunier.fr/</loc>
+    <lastmod>2026-08-28</lastmod>
+  </url>
+
+  <!-- <url><loc>https://noameunier.fr/projets/suguru.html</loc></url> -->
+  <!-- <url><loc>https://noameunier.fr/projets/site-aws.html</loc></url> -->
+  <!-- <url><loc>https://noameunier.fr/projets/traitement-eau.html</loc></url> -->
+  <!-- <url><loc>https://noameunier.fr/projets/risk.html</loc></url> -->
+  <!-- <url><loc>https://noameunier.fr/projets/poly-loon.html</loc></url> -->
+
+</urlset>
