@@ -25,8 +25,8 @@
 /* ═══ 1. JETONS — tout se règle ici ════════════════════════════════ */
 :root {
   /* Fonds, du plus profond au plus clair */
-  --ink:        #07080d;
-  --ink-soft:   #0c0e16;
+  --ink:        #08090c;
+  --ink-soft:   #0e1015;
   --surface:    rgba(255, 255, 255, .034);
   --surface-up: rgba(255, 255, 255, .058);
   --border:     rgba(255, 255, 255, .09);
@@ -43,11 +43,15 @@
   --muted: #a2aac0;
   --dim:   #6d7690;
 
-  /* Les trois accents. Ils servent au fond, aux liens et aux cartes.
-     Règle : jamais plus de deux accents visibles dans un même bloc. */
-  --a1: #6c8cff;   /* indigo  */
-  --a2: #37e0c8;   /* turquoise */
-  --a3: #ff7ab6;   /* rose    */
+  /* Une seule famille de teinte, déclinée en trois valeurs. C'est ce
+     qui sépare une identité d'un dégradé décoratif : la couleur ne
+     sert qu'à hiérarchiser, jamais à faire joli.
+       --a1 porte les aplats (bouton principal, taches de fond)
+       --a2 est la seule valeur assez claire pour du texte
+       --a3 ne sert qu'aux fonds sombres (troisième tache, cartes) */
+  --a1: #3b5bdb;   /* bleu, aplats   */
+  --a2: #7c9cff;   /* bleu clair, texte et détails */
+  --a3: #22337a;   /* bleu profond, fonds seulement */
 
   /* Typographie */
   --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
@@ -59,7 +63,7 @@
   --page:    72rem;   /* largeur maximale du contenu large */
   --reading: 40rem;   /* largeur maximale d'un paragraphe   */
   --gap:     clamp(3.5rem, 9vw, 7rem);  /* entre deux sections */
-  --radius:  14px;
+  --radius:  4px;
 
   /* Durées : une seule valeur pour tout ce qui bouge au survol */
   --fast: 180ms;
@@ -156,16 +160,16 @@ a { color: inherit; }
   position: absolute;
   width: 60vmax; height: 60vmax;
   border-radius: 50%;
-  filter: blur(90px);
-  opacity: .42;
+  filter: blur(130px);
+  opacity: .24;
   will-change: transform;
 }
-.orb.a { background: var(--a1); top: -22vmax; left: -14vmax; opacity: .34;
+.orb.a { background: var(--a1); top: -22vmax; left: -14vmax; opacity: .26;
          animation: drift-a 34s ease-in-out infinite alternate; }
 .orb.b { background: var(--a2); top: 18vmax;  right: -20vmax;
-         animation: drift-b 44s ease-in-out infinite alternate; opacity: .3; }
+         animation: drift-b 44s ease-in-out infinite alternate; opacity: .2; }
 .orb.c { background: var(--a3); bottom: -26vmax; left: 22vmax;
-         animation: drift-c 38s ease-in-out infinite alternate; opacity: .26; }
+         animation: drift-c 38s ease-in-out infinite alternate; opacity: .16; }
 
 @keyframes drift-a {
   from { transform: translate3d(0, 0, 0)          scale(1);    }
@@ -233,7 +237,7 @@ a { color: inherit; }
   margin: 0 0 0 auto; padding: 0; list-style: none;
 }
 .nav-links a {
-  display: block; padding: .4rem .7rem; border-radius: 8px;
+  display: block; padding: .4rem .7rem; border-radius: var(--radius);
   font-size: .875rem; color: var(--muted); text-decoration: none;
   transition: color var(--fast), background var(--fast);
 }
@@ -262,7 +266,7 @@ a { color: inherit; }
   padding: .3rem .8rem .3rem .6rem;
   margin-bottom: 1.6rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: var(--radius);
   background: var(--panel);
   font-size: .8125rem; color: var(--muted);
 }
@@ -285,13 +289,11 @@ a { color: inherit; }
   letter-spacing: -.035em;
   text-wrap: balance;
 }
-/* Le dégradé ne touche qu'une partie du titre : au-delà, ça vire
-   à la page de startup. */
-.grad {
-  background: linear-gradient(100deg, var(--a2), var(--a1) 55%, var(--a3));
-  -webkit-background-clip: text; background-clip: text;
-  color: transparent;
-}
+/* La hiérarchie du titre se fait sur deux valeurs de gris, pas sur
+   une couleur : le nom en pleine valeur, la fonction en retrait. Un
+   dégradé sur du texte est le marqueur le plus reconnaissable d'une
+   page générée — on s'en passe. */
+.soft { color: color-mix(in srgb, var(--text) 58%, transparent); }
 
 .hero .lead {
   max-width: 34rem;
@@ -308,7 +310,7 @@ a { color: inherit; }
   display: inline-flex; align-items: center; gap: .5rem;
   padding: .7rem 1.25rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: var(--radius);
   background: var(--panel);
   color: var(--text); font-size: .9375rem; font-weight: 500;
   text-decoration: none; cursor: pointer;
@@ -318,10 +320,10 @@ a { color: inherit; }
 .btn:hover { transform: translateY(-2px); border-color: var(--border-up); background: var(--panel-up); }
 .btn.primary {
   border-color: transparent;
-  background: linear-gradient(120deg, var(--a1), var(--a2));
-  color: #05060a; font-weight: 600;
+  background: var(--a1);
+  color: #fff; font-weight: 600;
 }
-.btn.primary:hover { filter: brightness(1.08); }
+.btn.primary:hover { background: color-mix(in srgb, var(--a1) 84%, #fff); }
 .btn .arrow { transition: transform var(--fast) var(--ease); }
 .btn:hover .arrow { transform: translateX(3px); }
 
@@ -367,7 +369,7 @@ a { color: inherit; }
 .tags { display: flex; flex-wrap: wrap; gap: .4rem; margin: .9rem 0 0; padding: 0; list-style: none; }
 .tags li {
   padding: .2rem .6rem;
-  border: 1px solid var(--border); border-radius: 999px;
+  border: 1px solid var(--border); border-radius: var(--radius);
   background: var(--panel);
   font-family: var(--mono); font-size: .6875rem; color: var(--muted);
 }
@@ -624,7 +626,7 @@ a { color: inherit; }
   content: "À compléter";
   display: block; margin-bottom: .25rem;
   font-family: var(--mono); font-size: .6875rem; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--a3);
+  text-transform: uppercase; color: var(--a2);
 }
 
 /* Navigation d'un projet au suivant, en bas de page. */
@@ -690,7 +692,7 @@ a { color: inherit; }
   .wrap { max-width: none; padding: 0; }
   .hero { padding-block: 0 1rem; }
   .hero h1 { font-size: 22pt; }
-  .grad { color: #000 !important; -webkit-text-fill-color: #000; background: none; }
+  .soft { color: #333 !important; }
   .section { padding-bottom: 1rem; break-inside: avoid; }
   .section-head { margin-bottom: .75rem; }
   .cards { display: block; }

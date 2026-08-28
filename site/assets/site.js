@@ -79,6 +79,8 @@
     }
     if (nav) { nav.classList.toggle('stuck', y > 8); }
 
+    marquerSection();
+
     tic = false;
   }
 
@@ -96,44 +98,49 @@
 
 
   /* ── 3. Section active dans la navigation ────────────────────────
-     On suit les <section id> et on marque le lien correspondant. La
-     bande observée est le tiers haut de l'écran : la section active
-     est celle qu'on est en train de lire, pas celle qui affleure.    */
+     Calculé à la géométrie, dans le même passage que le défilement.
+     Un IntersectionObserver accumulait un état qui pouvait rester
+     périmé après un saut brusque (ancre, fin de page) et désignait
+     alors la mauvaise section. Ici rien n'est mémorisé : à chaque
+     image, on relit les positions réelles.
+
+     Règle : la section active est la dernière dont le haut est déjà
+     passé au-dessus du tiers supérieur de l'écran. Arrivé en bas de
+     page, c'est toujours la dernière, sinon la section finale ne
+     serait jamais marquée. */
   var liens = [].slice.call(doc.querySelectorAll('.nav-links a[href^="#"]'));
+  var sections = [];
 
-  if (liens.length && 'IntersectionObserver' in window) {
-    var parId = {};
-    var cibles = [];
+  liens.forEach(function (a) {
+    var section = doc.getElementById(a.getAttribute('href').slice(1));
+    if (section) { sections.push({ lien: a, el: section }); }
+  });
 
-    liens.forEach(function (a) {
-      var section = doc.getElementById(a.getAttribute('href').slice(1));
-      if (section) { parId[section.id] = a; cibles.push(section); }
-    });
+  function marquerSection() {
+    /* Appelée une première fois par auDefilement(), avant même que la
+       liste ci-dessus soit construite : elle doit le supporter. */
+    if (!sections || !sections.length) { return; }
 
-    var visibles = new Set();
+    var seuil = window.innerHeight * 0.3;
+    var enBas = window.innerHeight + window.scrollY >=
+                doc.documentElement.scrollHeight - 2;
+    var actif = enBas ? sections[sections.length - 1] : null;
 
-    var suiveur = new IntersectionObserver(function (entrees) {
-      entrees.forEach(function (e) {
-        if (e.isIntersecting) { visibles.add(e.target.id); }
-        else { visibles.delete(e.target.id); }
-      });
-
-      /* La première section visible dans l'ordre du document gagne. */
-      var actif = null;
-      for (var i = 0; i < cibles.length; i++) {
-        if (visibles.has(cibles[i].id)) { actif = cibles[i].id; break; }
+    if (!actif) {
+      for (var i = 0; i < sections.length; i++) {
+        if (sections[i].el.getBoundingClientRect().top <= seuil) {
+          actif = sections[i];
+        }
       }
+    }
 
-      liens.forEach(function (a) {
-        var id = a.getAttribute('href').slice(1);
-        if (id === actif) { a.setAttribute('aria-current', 'true'); }
-        else { a.removeAttribute('aria-current'); }
-      });
-    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
-
-    cibles.forEach(function (s) { suiveur.observe(s); });
+    sections.forEach(function (s) {
+      if (s === actif) { s.lien.setAttribute('aria-current', 'true'); }
+      else { s.lien.removeAttribute('aria-current'); }
+    });
   }
 
+  marquerSection();
 
   /* ── 4. L'année du pied de page ──────────────────────────────────
      Écrite en dur dans le HTML : ceci ne fait que la rafraîchir.     */
