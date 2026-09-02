@@ -632,6 +632,16 @@ code {
 }
 .shots figure { margin: 0; }
 
+/* Une photo verticale ferait trois fois la hauteur d'une horizontale.
+   On borne la hauteur et on laisse la largeur suivre : rien n'est
+   recadré, et la rangée garde une hauteur raisonnable. */
+.shots img {
+  max-height: 24rem;
+  width: auto;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
 /* Chiffres clés : trois cases au maximum, sinon ça ne dit plus rien. */
 .figures {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
