@@ -61,7 +61,11 @@
 
   /* Rythme vertical et largeurs */
   --page:    72rem;   /* largeur maximale du contenu large */
-  --reading: 40rem;   /* largeur maximale d'un paragraphe   */
+  /* Plus de bride sur la largeur des paragraphes : le texte occupe
+     toute la largeur du conteneur. Pour revenir à une mesure de
+     lecture, il suffit de remettre une valeur ici, 40rem donnait
+     65 signes par ligne. */
+  --reading: none;
   --gap:     clamp(3.5rem, 9vw, 7rem);  /* entre deux sections */
   --radius:  4px;
 
