@@ -62,7 +62,7 @@
     <div class="wrap">
       <a class="back" href="/#projets"><span class="arrow" aria-hidden="true">←</span> Tous les projets</a>
 
-      <h1 class="reveal">Ce site - hébergement AWS et déploiement continu</h1>
+      <h1 class="reveal">Portfolio : hébergement AWS et déploiement continu</h1>
 
       <p class="lead reveal">
         Le site que vous lisez : des fichiers statiques dans un bucket S3 privé,
@@ -109,19 +109,17 @@
         bucket public.
       </li>
       <li>
-        CloudFront comme seule porte d'entrée : certificat ACM pour le HTTPS,
-        à créer en us-east-1 sinon la distribution ne le voit pas, et redirection
+        CloudFront comme seule porte d'entrée : certificat ACM pour le HTTPS, et redirection
         de HTTP vers HTTPS.
       </li>
       <li>
         Domaine acheté chez Gandi, DNS délégué à Route 53 par ses quatre serveurs
-        de noms, puis deux enregistrements A en Alias vers la distribution.
+        de noms.
       </li>
       <li>
         Déploiement par GitHub Actions : le workflow s'authentifie auprès d'IAM
         par OIDC et endosse un rôle temporaire, plutôt que de stocker une clé
-        d'accès dans le dépôt. Ce rôle ne peut qu'écrire dans ce bucket et
-        invalider cette distribution.
+        d'accès dans le dépôt.
       </li>
       <li>
         Pages d'erreur personnalisées et restriction géographique configurées
@@ -139,22 +137,9 @@
       </li>
       <li>
         Environ 0,50 $ par mois : la zone Route 53 est le seul poste réellement
-        facturé, le reste tient dans les paliers gratuits.
+        facturé.
       </li>
     </ul>
-
-    <h2 class="reveal"><span class="n" aria-hidden="true">04</span>Ce qui a raté</h2>
-    <p class="prose reveal">
-      Le pipeline a longtemps échoué sur « Not authorized to perform
-      sts:AssumeRoleWithWebIdentity ». La politique d'approbation du rôle
-      attendait un <code>sub</code> dans un format que le jeton envoyé par GitHub
-      n'utilisait pas. Je l'ai débloqué en affichant le jeton réel dans une étape
-      du workflow, au lieu de continuer à deviner, puis en adaptant la condition.
-    </p>
-    <p class="prose reveal">
-      Depuis, quand une configuration semble correcte mais ne marche pas, je
-      commence par faire afficher la donnée réelle avant de modifier quoi que ce soit.
-    </p>
 
     <nav class="pager" aria-label="Autres projets">
       <a href="/projets/suguru.html" rel="prev"><span class="arrow" aria-hidden="true">←</span> Suguru</a>

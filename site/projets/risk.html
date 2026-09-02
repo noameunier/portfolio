@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Poly Ris</title>
+<title>Poly Risk</title>
 
 <meta name="description" content="Deux IA pour PolyRisk : une heuristique dont les poids sont calibrés par algorithme génétique, et un MCTS guidé par cette heuristique.">
 
@@ -62,12 +62,12 @@
     <div class="wrap">
       <a class="back" href="/#projets"><span class="arrow" aria-hidden="true">←</span> Tous les projets</a>
 
-      <h1 class="reveal">Jeu du Risk - IA heuristique optimisée et MCTS</h1>
+      <h1 class="reveal">Jeu du Risk : IA heuristique optimisée et MCTS</h1>
 
       <p class="lead reveal">
-        Deux intelligences artificielles pour PolyRisk, la version simplifiée du
+        Deux intelligences artificielles pour le PolyRisk, la version simplifiée du
         Risk utilisée à Polytech : une heuristique dont les poids sont calibrés
-        par algorithme génétique, et un MCTS guidé par cette heuristique.
+        par un algorithme génétique, et un MCTS guidé par cette heuristique.
       </p>
 
       <dl class="meta reveal">
@@ -81,7 +81,7 @@
         </div>
         <div>
           <dt>Rôle</dt>
-          <dd>Binôme, avec Enzo Repessé</dd>
+          <dd>Développeur</dd>
         </div>
         <div>
           <dt>Stack</dt>
@@ -96,7 +96,7 @@
 
     <h2 class="reveal"><span class="n" aria-hidden="true">01</span>Le problème</h2>
     <p class="prose reveal">
-      Écrire une IA capable de gagner à PolyRisk : des territoires regroupés en
+      Écrire une IA capable de gagner au PolyRisk : des territoires regroupés en
       régions, plusieurs armées, et trois phases par tour (placement, attaque,
       déplacement). L'espace des actions est trop grand pour être parcouru
       entièrement, entre les trois types d'action, le hasard des dés et la
@@ -124,22 +124,11 @@
         mutation à 15 %, élitisme sur les 20 % meilleurs.
       </li>
       <li>
-        Grid search écarté, trop de paramètres pour un temps de calcul acceptable.
-        Optimisation bayésienne écartée aussi : la fonction est bruitée, deux
-        évaluations des mêmes poids ne donnent pas le même résultat. L'algorithme
-        génétique résiste à ce bruit et se parallélise.
-      </li>
-      <li>
         Un MCTS ensuite, pour voir au-delà du coup immédiat : constante
         d'exploration ajustée selon l'avancement de la partie, progressive
-        widening pour n'ouvrir que les nœuds déjà prometteurs, et simulations
+        widening pour n'ouvrir que les noeuds déjà prometteurs, et simulations
         guidées par l'heuristique plutôt qu'aléatoires, ce qui réduit fortement
         le nombre de simulations nécessaires.
-      </li>
-      <li>
-        MCTS limité aux phases d'attaque et de renforcement, le reste passant par
-        des fonctions dédiées. Cache de simulations et table de transposition pour
-        ne pas réévaluer deux fois le même état.
       </li>
     </ul>
 
@@ -147,7 +136,7 @@
     <ul class="reveal">
       <li>
         Calibrer les poids fait passer l'heuristique de 53 % à 86 % de victoires
-        contre des adversaires aléatoires, sans changer sa logique.
+        contre des adversaires aléatoires.
       </li>
       <li>
         En duel contre cette meilleure heuristique, le MCTS gagne 86 % des parties
@@ -155,7 +144,7 @@
       </li>
       <li>
         En mêlée à quatre avec deux joueurs aléatoires, le MCTS reste devant
-        l'heuristique, 54 % contre 46 %.
+        l'heuristique, 54 % contre 46 %. de victoire
       </li>
       <li>
         Le temps de calcul est le revers : 40 minutes pour 50 parties en
