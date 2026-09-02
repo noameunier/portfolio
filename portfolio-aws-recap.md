@@ -254,31 +254,60 @@ Pourquoi deux `sync` : l'option `--cache-control` s'applique à toute la command
 
 ### Pages d'erreur personnalisées
 
-Avoir `error.html` dans le bucket ne suffit pas : CloudFront affiche sa propre page d'erreur tant qu'on ne lui indique pas quoi servir. *(console → CloudFront → distribution → onglet Pages d'erreur → Créer une réponse d'erreur personnalisée)*
+Avoir une page d'erreur dans le bucket ne suffit pas : CloudFront affiche sa propre page tant qu'on ne lui indique pas quoi servir. *(console → CloudFront → distribution → onglet Pages d'erreur)*
+
+Configuration actuelle (deux pages distinctes depuis la refonte du site) :
 
 | Code d'erreur | Chemin de la page | Code de réponse | TTL |
 |---|---|---|---|
-| 403 | `/error.html` | 403 | 10 s |
-| 404 | `/error.html` | 404 | 10 s |
+| 403 | `/error403.html` | 403 | 10 s |
+| 404 | `/error404.html` | 404 | 10 s |
 
-Pourquoi le 403 compte autant que le 404 : avec un bucket privé lu via OAC, S3 répond « interdit » (403) et non « introuvable » (404) pour un fichier absent, car le rôle de lecture n'autorise pas à lister le bucket. Le 403 est aussi le code renvoyé par la restriction géographique. Les deux cas affichent donc la même page.
+Pourquoi le 403 compte autant que le 404 : avec un bucket privé lu via OAC, S3 répond « interdit » (403) et non « introuvable » (404) pour un fichier absent, car le rôle de lecture n'autorise pas à lister le bucket. Le 403 est aussi le code renvoyé par la restriction géographique — la page `error403.html` mentionne d'ailleurs explicitement la restriction régionale pour que le visiteur bloqué comprenne. La page d'erreur est servie par la même distribution, donc elle reste accessible même pour un visiteur hors zone.
 
-Test : ouvrir `https://noameunier.fr/nimportequoi` doit afficher `error.html`.
+Attention à la cohérence : si les fichiers d'erreur sont renommés dans le dépôt, les règles CloudFront doivent être mises à jour à la main, sinon une erreur affiche… une erreur.
+
+Test : ouvrir `https://noameunier.fr/nimportequoi` doit afficher `error403.html`.
 
 ### Restriction géographique (geofencing)
 
 Fonction native et gratuite de CloudFront, basée sur le pays de l'adresse IP du visiteur. *(console → CloudFront → distribution → onglet Sécurité → Restrictions géographiques → Modifier)*
 
 - Type : liste d'autorisation.
-- Pays : France.
+- Pays : liste de pays européens (élargie depuis la France seule ; pas de case « Europe », chaque pays se coche individuellement).
 
-Un visiteur hors de la liste reçoit un 403 (donc `error.html` si la page d'erreur est configurée).
+Un visiteur hors de la liste reçoit un 403, donc `error403.html`.
 
 À savoir :
 - La géolocalisation IP n'est pas parfaite : VPN, réseaux d'entreprise et certains opérateurs mobiles peuvent être classés ailleurs. Les DOM-TOM ont leurs propres codes pays.
-- Pour un portfolio, cela bloque aussi un recruteur à l'étranger ou soi-même en déplacement. Facile à désactiver.
+- Pour un portfolio, cela bloque un recruteur situé hors de la liste. Facile à élargir ou désactiver.
 - Le pipeline n'est pas affecté : GitHub Actions parle à l'API S3 et CloudFront, pas à la distribution publique.
 - Pour filtrer par plage d'IP ou combiner plusieurs règles, il faut AWS WAF (payant). La restriction par pays suffit pour ce besoin.
+
+---
+
+## 6 ter. Structure du site et choix d'URL
+
+Depuis la refonte, le site est multi-pages, en français uniquement, ~150 Ko, sans framework ni étape de build :
+
+```
+site/                          (= racine du bucket)
+├── index.html                 page d'accueil
+├── assets/style.css           feuille de style unique
+├── assets/site.js             script unique
+├── projets/*.html             5 pages projet (gabarits en noindex tant que vides)
+├── error403.html              page d'erreur 403 (mentionne la restriction géo)
+├── error404.html              page d'erreur 404
+├── sitemap.xml                ne déclare que « / » pour l'instant
+├── robots.txt                 déclare le sitemap
+└── og.png                     image de partage
+```
+
+**Choix d'URL : des fichiers `.html` plats** (`/projets/suguru.html`), pas des dossiers (`/projets/suguru/`). Raison : l'objet racine par défaut de CloudFront (`index.html`) ne s'applique qu'à la racine de la distribution, pas aux sous-dossiers. Une requête sur `/projets/suguru/` chercherait la clé S3 `projets/suguru/`, inexistante, et renverrait 403. Conséquence : aucune modification CloudFront n'est nécessaire pour les pages en sous-dossier. Pour des URL sans extension un jour, il faudrait une CloudFront Function en viewer-request qui réécrit les chemins vers le `.html` correspondant.
+
+**Compatibilité avec le workflow** : dans les filtres S3 de l'AWS CLI, `*` traverse les `/`. La passe `--include '*.html'` attrape donc `projets/suguru.html`, et la passe `--exclude '*.html'` attrape `assets/style.css` et `assets/site.js`. Aucun changement de workflow requis. Le `--delete` retire du bucket les fichiers supprimés du dépôt (ex. l'ancienne version anglaise `en.html`).
+
+**Développement local** : les chemins étant absolus (`/assets/style.css`), ouvrir `index.html` en `file://` ne fonctionne pas. Servir le dossier comme racine : `cd site && python -m http.server 8000`.
 
 ---
 
@@ -296,6 +325,8 @@ Un visiteur hors de la liste reçoit un 403 (donc `error.html` si la page d'erre
 | CloudFront : erreur sur `/` mais OK sur `/index.html` | Objet racine par défaut non renseigné | Général → Paramètres → Objet racine = `index.html` |
 | GitHub Actions : « Not authorized to perform sts:AssumeRoleWithWebIdentity » | Le `sub` du jeton GitHub a un nouveau format `repo:owner@ID/repo@ID:...` | Lire le jeton réel (étape de debug) et adapter la condition `sub` du rôle |
 | Page IAM « Identité Web » vs « Service AWS » | Mauvais type d'entité de confiance | GitHub = Identité Web ; EC2/Lambda = Service AWS |
+| Une erreur affiche le XML AWS malgré des pages d'erreur configurées | Les règles CloudFront pointent vers un fichier renommé ou supprimé du bucket (ex. `/error.html` devenu `error403.html`) | Aligner les règles Pages d'erreur sur les noms de fichiers réels après chaque refonte |
+| `/projets/xxx/` (avec slash) renvoie 403 | L'objet racine par défaut ne s'applique qu'à la racine, et la clé S3 `projets/xxx/` n'existe pas | Utiliser des URL plates `.html`, ou ajouter une CloudFront Function de réécriture |
 
 Méthode générale qui a débloqué le pipeline : quand tout semble correct, faire afficher la donnée réelle (ici le jeton OIDC) plutôt que de deviner.
 
