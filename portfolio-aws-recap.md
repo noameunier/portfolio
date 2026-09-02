@@ -232,11 +232,19 @@ jobs:
             --cache-control 'public, max-age=0, must-revalidate' \
             --content-type 'text/html; charset=utf-8'
 
+      - name: Envoyer le CSS et le JS
+        run: |
+          aws s3 sync site/ "s3://$BUCKET" \
+            --delete \
+            --exclude '*' --include 'assets/*.css' --include 'assets/*.js' \
+            --cache-control 'public, max-age=0, must-revalidate'
+
       - name: Envoyer les autres fichiers
         run: |
           aws s3 sync site/ "s3://$BUCKET" \
             --delete \
             --exclude '*.html' \
+            --exclude 'assets/*.css' --exclude 'assets/*.js' \
             --cache-control 'public, max-age=86400'
 
       - name: Vider le cache CloudFront
@@ -327,6 +335,7 @@ site/                          (= racine du bucket)
 | Page IAM « Identité Web » vs « Service AWS » | Mauvais type d'entité de confiance | GitHub = Identité Web ; EC2/Lambda = Service AWS |
 | Une erreur affiche le XML AWS malgré des pages d'erreur configurées | Les règles CloudFront pointent vers un fichier renommé ou supprimé du bucket (ex. `/error.html` devenu `error403.html`) | Aligner les règles Pages d'erreur sur les noms de fichiers réels après chaque refonte |
 | `/projets/xxx/` (avec slash) renvoie 403 | L'objet racine par défaut ne s'applique qu'à la racine, et la clé S3 `projets/xxx/` n'existe pas | Utiliser des URL plates `.html`, ou ajouter une CloudFront Function de réécriture |
+| Après déploiement, HTML à jour mais design cassé, alors que tout est correct dans le dépôt | Le CSS était envoyé avec `max-age=86400`. L'invalidation CloudFront vide le cache du CDN, pas celui du navigateur, qui garde son ancienne feuille de style jusqu'à 24 h | Vérifier d'abord avec `Ctrl+Maj+R` ou une fenêtre privée. Correction durable : envoyer le CSS et le JS avec `max-age=0, must-revalidate`, comme le HTML |
 
 Méthode générale qui a débloqué le pipeline : quand tout semble correct, faire afficher la donnée réelle (ici le jeton OIDC) plutôt que de deviner.
 
