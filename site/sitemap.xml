@@ -21,7 +21,10 @@
   </url>
 
   <!-- <url><loc>https://noameunier.fr/projets/traitement-eau.html</loc></url> -->
-  <!-- <url><loc>https://noameunier.fr/projets/risk.html</loc></url> -->
+  <url>
+    <loc>https://noameunier.fr/projets/risk.html</loc>
+  </url>
+
   <!-- <url><loc>https://noameunier.fr/projets/poly-loon.html</loc></url> -->
 
 </urlset>
