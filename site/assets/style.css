@@ -379,7 +379,7 @@ code {
 }
 .section-head .count { margin-left: auto; }
 
-.prose { max-width: var(--reading); color: var(--muted); text-wrap: pretty; text-align: center; }
+.prose { max-width: var(--reading); color: var(--muted); text-wrap: pretty; }
 .prose strong { color: var(--text); font-weight: 500; }
 .prose a { color: var(--text); text-decoration: underline; text-decoration-color: var(--a2);
            text-underline-offset: 3px; }
