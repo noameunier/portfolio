@@ -512,6 +512,10 @@ code {
   mask-image: linear-gradient(160deg, #000 10%, transparent 70%);
   -webkit-mask-image: linear-gradient(160deg, #000 10%, transparent 70%);
 }
+/* Dès qu'une vraie image est en place, le numéro et la trame de points
+   n'ont plus de raison d'être : ils servaient à meubler l'attente. */
+.card-media:has(img) .idx { display: none; }
+
 /* Le numéro du projet, en gros, dans le coin. */
 .card-media .idx {
   position: absolute; right: .9rem; bottom: .4rem;
