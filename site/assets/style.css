@@ -622,6 +622,16 @@ code {
 .project-body figure img { border: 1px solid var(--border); border-radius: var(--radius); }
 .project-body figcaption { margin-top: .6rem; font-size: .8125rem; color: var(--dim); }
 
+/* Rangée de captures : elles se répartissent sur la largeur et passent
+   les unes sous les autres quand la place manque. */
+.shots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1.5rem;
+  margin: 1.75rem 0 0;
+}
+.shots figure { margin: 0; }
+
 /* Chiffres clés : trois cases au maximum, sinon ça ne dit plus rien. */
 .figures {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
