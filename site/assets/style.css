@@ -459,12 +459,11 @@ code {
   gap: 1.25rem;
   margin: 0; padding: 0; list-style: none;
 }
-/* La première carte occupe deux colonnes quand la place existe :
-   c'est le projet qu'on veut voir en premier. */
+/* Deux colonnes sur grand écran : avec quatre projets, la grille tombe
+   juste en 2 × 2. Une troisième colonne laisserait une case vide, et
+   une carte mise en avant sur deux colonnes ferait la même chose. */
 @media (min-width: 60rem) {
-  .cards { grid-template-columns: repeat(3, 1fr); }
-  .cards > li.feature { grid-column: span 2; }
-  .cards > li.feature .card-media { aspect-ratio: 2.3 / 1; }
+  .cards { grid-template-columns: repeat(2, 1fr); }
 }
 
 .card {
