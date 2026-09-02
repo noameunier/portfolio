@@ -95,23 +95,27 @@
 
     <h2 class="reveal"><span class="n" aria-hidden="true">01</span>Le problème</h2>
 
-      A partir d'une image / un screen d'une grille de Suguru : en extraire 
-      les informations pour la résoudre et proposer la solution sous forme
-      d'un jeu vidéo.
+      Peut-on faire résoudre automatiquement un Suguru à une machine, 
+      à partir d'une simple photographie d'une grille papier ? Le problème se décompose
+      en deux sous-problèmes : lire la grille (reconnaissance d'image) et la résoudre 
+      (logique combinatoire).
 
     <h2 class="reveal"><span class="n" aria-hidden="true">02</span>Ce que j'ai fait</h2>
 
     <ul class="reveal">
-      <li>Entraînement d'un réseaux de neurones convolutif (CNN) pour la reconnaissance d'image</li>
-      <li>Modélisation du problème par la satisfaction de contraintes</li>
-      <li>Résolution du problème à l'aide d'un solveur SAT</li>
+      <li>Détection du contour de la grille par seuillage et recherche du plus grand contour,  puis redressement par transformation perspective pour corriger l'angle de la photo.</li>
+      <li>Découpage en imagettes 28×28, nettoyage des bords et centrage par centre de masse avant classification.</li>
+      <li>CNN de 5 couches convolutives avec batch normalization et une couche de global average pooling implémentée à la main, entraîné sur des chiffres manuscrits et livré sous forme de checkpoint.</li>
+      <li>Traduction de la grille en formule logique CNF : une variable booléenne par triplet (ligne, colonne, valeur).</li>
+      <li>Résolution déléguée à un solveur SAT, puis décodage inverse du modèle vers la grille.</li>
+      <li>Jeu à états d'écrans en pygame (accueil → Import guidé → jeu), chronomètre, et trois niveaux de difficulté qui modulent l'aide.</li>
     </ul>
 
     <h2 class="reveal"><span class="n" aria-hidden="true">03</span>Le résultat</h2>
     <ul class="reveal">
-      <li>Jeu vidéo jouable avec plusieurs niveaux de difficultés (facile, intermédiaire, difficile) qui permet au joueur
-      d'avoir accès à certains niveaux d'indices</li>
-      <li>Le réseau de neurone entraîné reconnait une grille avec un taux de réussite de 98%</li>
+      <li>Le CNN reconnaît les grilles avec un taux de 98%.</li>
+      <li>La logique de résolution est instantanée.</li>
+      <li>Le jeu vidéo est fluide est adapté aux différents niveaux.</li>
     </ul>
 
     <nav class="pager" aria-label="Autres projets">
