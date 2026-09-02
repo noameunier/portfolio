@@ -61,7 +61,11 @@
 
   /* Rythme vertical et largeurs */
   --page:    72rem;   /* largeur maximale du contenu large */
-  --reading: 40rem;   /* largeur maximale d'un paragraphe   */
+  /* Plus de bride sur la largeur des paragraphes : le texte occupe
+     toute la largeur du conteneur. Pour revenir à une mesure de
+     lecture, il suffit de remettre une valeur ici, 40rem donnait
+     65 signes par ligne. */
+  --reading: none;
   --gap:     clamp(3.5rem, 9vw, 7rem);  /* entre deux sections */
   --radius:  4px;
 
@@ -384,55 +388,6 @@ code {
 .prose a { color: var(--text); text-decoration: underline; text-decoration-color: var(--a2);
            text-underline-offset: 3px; }
 .prose + .prose { margin-top: 1rem; }
-
-/* Sur grand écran, le titre de section passe dans une colonne de gauche
-   et le contenu occupe celle de droite. La page se remplit d'un bord à
-   l'autre sans que les lignes s'allongent : elles restent autour de 65
-   signes, la mesure confortable. Auparavant le filet de section
-   traversait toute la largeur alors que le texte s'arrêtait au milieu,
-   ce qui se lisait comme un travail inachevé.
-
-   La section Projets est exclue : ses cartes ont besoin de toute la
-   largeur, et lui retirer la colonne de titre les faisait tomber de
-   526 à 396 px. C'est le bloc que l'on vient voir, il ne rétrécit pas. */
-@media (min-width: 64rem) {
-  .section:not(#projets) .wrap {
-    display: grid;
-    grid-template-columns: 13rem minmax(0, 1fr);
-    column-gap: 3.5rem;
-    align-items: start;
-  }
-
-  /* Le filet remonte en haut de la section, sur toute la largeur : il
-     sépare sans promettre une largeur de texte qui n'existe pas. */
-  .section:not(#projets) .wrap::before {
-    content: "";
-    grid-column: 1 / -1;
-    height: 1px;
-    background: var(--border);
-    margin-bottom: 2.5rem;
-  }
-
-  /* Le titre reste visible pendant la lecture de sa section. */
-  .section:not(#projets) .section-head {
-    grid-column: 1;
-    display: block;
-    border-bottom: 0; margin-bottom: 0; padding-bottom: 0;
-    position: sticky; top: 5.5rem;
-  }
-  .section:not(#projets) .section-head .n     { display: block; margin-bottom: .3rem; }
-  .section:not(#projets) .section-head .count { display: block; margin: .9rem 0 0; }
-
-  .section:not(#projets) .wrap > :not(.section-head) { grid-column: 2; }
-
-  /* La frise récupère la place prise par la colonne de titre : dates
-     resserrées, contenu maintenu à la mesure de lecture. Le retrait à
-     droite des dates les empêche de toucher le point de la frise. */
-  .timeline > li { grid-template-columns: 10rem minmax(0, 1fr); }
-  .timeline > li::before, .timeline > li::after { left: 10rem; }
-  .timeline .when { padding-right: 1.6rem; }
-  .timeline .details, .timeline .note { max-width: var(--reading); }
-}
 
 /* Étiquettes de technologies. Décoratives, jamais cliquables. */
 .tags { display: flex; flex-wrap: wrap; gap: .4rem; margin: .9rem 0 0; padding: 0; list-style: none; }
