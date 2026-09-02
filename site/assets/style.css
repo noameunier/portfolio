@@ -100,6 +100,18 @@ img { max-width: 100%; height: auto; display: block; }
 
 a { color: inherit; }
 
+/* Un nom de fichier, de branche ou de champ cité dans une phrase.
+   Assez marqué pour se distinguer, assez discret pour ne pas couper
+   la lecture. */
+code {
+  font-family: var(--mono);
+  font-size: .875em;
+  padding: .1em .35em;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+
 /* Un seul style de focus pour tout le site, toujours visible. */
 :focus-visible {
   outline: 2px solid var(--a2);
@@ -447,12 +459,11 @@ a { color: inherit; }
   gap: 1.25rem;
   margin: 0; padding: 0; list-style: none;
 }
-/* La première carte occupe deux colonnes quand la place existe :
-   c'est le projet qu'on veut voir en premier. */
+/* Deux colonnes sur grand écran : avec quatre projets, la grille tombe
+   juste en 2 × 2. Une troisième colonne laisserait une case vide, et
+   une carte mise en avant sur deux colonnes ferait la même chose. */
 @media (min-width: 60rem) {
-  .cards { grid-template-columns: repeat(3, 1fr); }
-  .cards > li.feature { grid-column: span 2; }
-  .cards > li.feature .card-media { aspect-ratio: 2.3 / 1; }
+  .cards { grid-template-columns: repeat(2, 1fr); }
 }
 
 .card {
