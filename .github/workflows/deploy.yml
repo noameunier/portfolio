@@ -39,11 +39,27 @@ jobs:
             --cache-control 'public, max-age=0, must-revalidate' \
             --content-type 'text/html; charset=utf-8'
 
+      # Le CSS et le JS sont traités comme le HTML. Avec un cache d'un
+      # jour, l'invalidation CloudFront vidait le cache du CDN mais pas
+      # celui du visiteur : il recevait un HTML à jour et une feuille de
+      # style périmée, donc une mise en page cassée jusqu'à 24 h.
+      # Ici CloudFront cache toujours, mais le navigateur revalide à
+      # chaque visite et reçoit un 304 tant que rien n'a changé.
+      - name: Envoyer le CSS et le JS
+        run: |
+          aws s3 sync site/ "s3://$BUCKET" \
+            --delete \
+            --exclude '*' --include 'assets/*.css' --include 'assets/*.js' \
+            --cache-control 'public, max-age=0, must-revalidate'
+
+      # Images, sitemap, robots : ils changent rarement, un jour de cache
+      # navigateur ne pose pas de problème.
       - name: Envoyer les autres fichiers
         run: |
           aws s3 sync site/ "s3://$BUCKET" \
             --delete \
             --exclude '*.html' \
+            --exclude 'assets/*.css' --exclude 'assets/*.js' \
             --cache-control 'public, max-age=86400'
 
       - name: Vider le cache CloudFront
