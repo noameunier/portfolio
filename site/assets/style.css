@@ -100,6 +100,18 @@ img { max-width: 100%; height: auto; display: block; }
 
 a { color: inherit; }
 
+/* Un nom de fichier, de branche ou de champ cité dans une phrase.
+   Assez marqué pour se distinguer, assez discret pour ne pas couper
+   la lecture. */
+code {
+  font-family: var(--mono);
+  font-size: .875em;
+  padding: .1em .35em;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+
 /* Un seul style de focus pour tout le site, toujours visible. */
 :focus-visible {
   outline: 2px solid var(--a2);
