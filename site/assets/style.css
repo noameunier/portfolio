@@ -61,7 +61,11 @@
 
   /* Rythme vertical et largeurs */
   --page:    72rem;   /* largeur maximale du contenu large */
-  --reading: 40rem;   /* largeur maximale d'un paragraphe   */
+  /* Plus de bride sur la largeur des paragraphes : le texte occupe
+     toute la largeur du conteneur. Pour revenir à une mesure de
+     lecture, il suffit de remettre une valeur ici, 40rem donnait
+     65 signes par ligne. */
+  --reading: none;
   --gap:     clamp(3.5rem, 9vw, 7rem);  /* entre deux sections */
   --radius:  4px;
 
@@ -512,6 +516,10 @@ code {
   mask-image: linear-gradient(160deg, #000 10%, transparent 70%);
   -webkit-mask-image: linear-gradient(160deg, #000 10%, transparent 70%);
 }
+/* Dès qu'une vraie image est en place, le numéro et la trame de points
+   n'ont plus de raison d'être : ils servaient à meubler l'attente. */
+.card-media:has(img) .idx { display: none; }
+
 /* Le numéro du projet, en gros, dans le coin. */
 .card-media .idx {
   position: absolute; right: .9rem; bottom: .4rem;
@@ -613,6 +621,26 @@ code {
 .project-body figure { margin: 1.5rem 0; }
 .project-body figure img { border: 1px solid var(--border); border-radius: var(--radius); }
 .project-body figcaption { margin-top: .6rem; font-size: .8125rem; color: var(--dim); }
+
+/* Rangée de captures : elles se répartissent sur la largeur et passent
+   les unes sous les autres quand la place manque. */
+.shots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1.5rem;
+  margin: 1.75rem 0 0;
+}
+.shots figure { margin: 0; }
+
+/* Une photo verticale ferait trois fois la hauteur d'une horizontale.
+   On borne la hauteur et on laisse la largeur suivre : rien n'est
+   recadré, et la rangée garde une hauteur raisonnable. */
+.shots img {
+  max-height: 24rem;
+  width: auto;
+  max-width: 100%;
+  margin-inline: auto;
+}
 
 /* Chiffres clés : trois cases au maximum, sinon ça ne dit plus rien. */
 .figures {
