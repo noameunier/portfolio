@@ -9,7 +9,6 @@
 <meta name="theme-color" content="#08090c">
 <link rel="canonical" href="https://noameunier.fr/">
 
-<!-- Aperçu au partage (LinkedIn, Slack, e-mail, messageries). -->
 <meta property="og:type" content="profile">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:url" content="https://noameunier.fr/">
@@ -26,14 +25,8 @@
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2308090c'/><text x='16' y='22' text-anchor='middle' font-family='system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif' font-size='17' font-weight='600' letter-spacing='-1' fill='%23ffffff'>NM</text></svg>">
 
-<!-- La police part en téléchargement en même temps que la feuille de style,
-     au lieu d'attendre que le CSS soit analysé : la bascule depuis la police
-     système devient invisible dans la plupart des cas. L'attribut crossorigin
-     est obligatoire pour une police, même servie depuis le même domaine. -->
 <link rel="preload" href="/assets/fonts/inter-v20-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/style.css">
-<!-- Posée avant le premier rendu : elle seule autorise le CSS à masquer
-     les blocs en attente d'apparition. Sans JS, la page reste entière. -->
 <script>document.documentElement.classList.add('js');</script>
 </head>
 
@@ -41,8 +34,6 @@
 
 <a class="skip" href="#contenu">Aller au contenu</a>
 
-<!-- Fond animé : trois taches de couleur qui dérivent lentement.
-     Purement décoratif, invisible pour les lecteurs d'écran. -->
 <div class="bg" aria-hidden="true">
   <div class="orb a"></div>
   <div class="orb b"></div>
@@ -73,7 +64,7 @@
     <div class="wrap">
       <p class="status reveal">
         <span class="pulse" aria-hidden="true"></span>
-        Recherche un stage international : juillet - septembre 2027
+        Recherche un stage international de 9 à 12 semaines : juillet - septembre 2027
       </p>
 
       <h1 class="reveal">Noa Meunier</h1>
@@ -116,7 +107,6 @@
 
   <!-- ══════════════════════════════════════════════════════════════
        02 - EXPÉRIENCE
-       Pour ajouter un poste : copiez un bloc <li> à </li>.
        ══════════════════════════════════════════════════════════════ -->
   <section class="section" id="experience" aria-labelledby="t-experience">
     <div class="wrap">
@@ -161,9 +151,6 @@
 
   <!-- ══════════════════════════════════════════════════════════════
        03 - PROJETS
-       Chaque carte pointe vers sa page de détail dans /projets/.
-       Les couleurs --c1 / --c2 pilotent le visuel d'attente ; dès
-       qu'une vraie capture existe, décommentez la balise <img>.
        ══════════════════════════════════════════════════════════════ -->
   <section class="section" id="projets" aria-labelledby="t-projets">
     <div class="wrap">
@@ -174,7 +161,6 @@
 
       <ul class="cards">
 
-        <!-- ▼▼▼ DÉBUT D'UNE CARTE - copiez de <li> à </li> ▼▼▼ -->
         <li class="reveal">
           <a class="card" href="/projets/suguru.html" style="--c1:#3b5bdb; --c2:#7c9cff">
             <div class="card-media">
@@ -194,7 +180,6 @@
             </div>
           </a>
         </li>
-        <!-- ▲▲▲ FIN D'UNE CARTE ▲▲▲ -->
 
         <li class="reveal">
           <a class="card" href="/projets/site-aws.html" style="--c1:#22337a; --c2:#3b5bdb">
