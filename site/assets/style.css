@@ -289,12 +289,6 @@ code {
 .status .pulse {
   width: 7px; height: 7px; border-radius: 50%;
   background: var(--a2); flex: none;
-  box-shadow: 0 0 0 0 color-mix(in srgb, var(--a2) 70%, transparent);
-  animation: pulse 2.4s ease-out infinite;
-}
-@keyframes pulse {
-  70%  { box-shadow: 0 0 0 7px transparent; }
-  100% { box-shadow: 0 0 0 0 transparent; }
 }
 
 .hero h1 {
@@ -424,11 +418,10 @@ code {
   position: absolute; left: 11rem; top: .45rem;
   width: 7px; height: 7px; margin-left: -1.2rem;
   border-radius: 50%; background: var(--dim);
-  transition: background var(--fast), box-shadow var(--fast);
+  transition: background var(--fast);
 }
 .timeline > li:hover::after {
   background: var(--a2);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--a2) 18%, transparent);
 }
 
 .timeline .when {
@@ -718,7 +711,6 @@ code {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .orb { animation: none; }
-  .status .pulse { animation: none; }
   .js .reveal { opacity: 1; transform: none; }
   *, *::before, *::after {
     animation-duration: .001ms !important;
