@@ -6,6 +6,7 @@
    ou un espacement qu'ici, jamais dans le HTML.
 
    Sommaire
+     0. Police (Inter, auto-hébergée)
      1. Jetons (couleurs, typo, rythme)
      2. Base et accessibilité
      3. Fond animé
@@ -20,6 +21,40 @@
     12. Révélation au défilement
     13. Impression
    ═══════════════════════════════════════════════════════════════════ */
+
+
+/* ═══ 0. POLICE ════════════════════════════════════════════════════
+   Inter est hébergée avec le site plutôt que chargée depuis Google :
+   aucune requête vers un tiers, donc aucune adresse IP de visiteur
+   transmise, et un fichier de moins sur le chemin critique côté DNS.
+
+   Un seul fichier pour les trois graisses utilisées (400, 500, 600) :
+   c'est une police variable, l'axe wght couvre 100 à 900. Le
+   sous-ensemble « latin » suffit au français — il contient U+0000-00FF
+   (é è à ç ù â ê î ô û ë ï ü ÿ), Œ/œ, les guillemets « », les tirets
+   cadratins et l'euro. Le sous-ensemble latin-ext, deux fois plus
+   lourd, n'apporterait rien ici.
+
+   Le numéro de version est dans le nom du fichier, et c'est volontaire :
+   le workflow le sert avec un cache d'un an « immutable ». Pour changer
+   de version de police, on change le nom du fichier, jamais son
+   contenu, sinon les visiteurs gardent l'ancienne jusqu'à un an.
+
+   font-display: swap — le texte s'affiche immédiatement dans la police
+   système, puis bascule sur Inter. Le <link rel="preload"> posé dans
+   chaque page lance le téléchargement en parallèle de la feuille de
+   style, si bien que la bascule est le plus souvent invisible. */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/fonts/inter-v20-latin-var.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+                 U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F,
+                 U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+                 U+FEFF, U+FFFD;
+}
 
 
 /* ═══ 1. JETONS — tout se règle ici ════════════════════════════════ */

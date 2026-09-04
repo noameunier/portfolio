@@ -26,6 +26,11 @@
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2308090c'/><text x='16' y='22' text-anchor='middle' font-family='system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif' font-size='17' font-weight='600' letter-spacing='-1' fill='%23ffffff'>NM</text></svg>">
 
+<!-- La police part en téléchargement en même temps que la feuille de style,
+     au lieu d'attendre que le CSS soit analysé : la bascule depuis la police
+     système devient invisible dans la plupart des cas. L'attribut crossorigin
+     est obligatoire pour une police, même servie depuis le même domaine. -->
+<link rel="preload" href="/assets/fonts/inter-v20-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/style.css">
 <!-- Posée avant le premier rendu : elle seule autorise le CSS à masquer
      les blocs en attente d'apparition. Sans JS, la page reste entière. -->
