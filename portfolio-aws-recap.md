@@ -239,12 +239,20 @@ jobs:
             --exclude '*' --include 'assets/*.css' --include 'assets/*.js' \
             --cache-control 'public, max-age=0, must-revalidate'
 
+      - name: Envoyer les polices
+        run: |
+          aws s3 sync site/ "s3://$BUCKET" \
+            --delete \
+            --exclude '*' --include 'assets/fonts/*' \
+            --cache-control 'public, max-age=31536000, immutable'
+
       - name: Envoyer les autres fichiers
         run: |
           aws s3 sync site/ "s3://$BUCKET" \
             --delete \
             --exclude '*.html' \
             --exclude 'assets/*.css' --exclude 'assets/*.js' \
+            --exclude 'assets/fonts/*' \
             --cache-control 'public, max-age=86400'
 
       - name: Vider le cache CloudFront
@@ -254,7 +262,11 @@ jobs:
             --paths '/*'
 ```
 
-Pourquoi deux `sync` : l'option `--cache-control` s'applique à toute la commande. Le HTML est envoyé sans cache navigateur (toujours la dernière version), le reste avec un cache d'un jour. L'invalidation force CloudFront à relire S3.
+Pourquoi plusieurs `sync` : l'option `--cache-control` s'applique à toute la commande, il faut donc une passe par durée de cache. Le HTML, le CSS et le JS sont envoyés sans cache navigateur (toujours la dernière version), les polices avec un an de cache `immutable`, le reste avec un jour. L'invalidation force CloudFront à relire S3.
+
+Le `--delete` de chaque passe est sans danger : les filtres `--exclude` / `--include` s'appliquent aussi bien au dossier local qu'au bucket, donc une passe ne peut supprimer que des fichiers qu'elle gère elle-même.
+
+Le cas des polices mérite l'attention inverse de celle du CSS (voir le dernier piège de la section 7). Une police ne change jamais : la mettre en cache un an évite de refaire descendre 47 Ko à chaque visiteur. En contrepartie, l'invalidation CloudFront ne rattrape pas le cache du navigateur — **pour changer de police il faut changer le nom du fichier**, jamais seulement son contenu, sinon les visiteurs gardent l'ancienne jusqu'à un an. D'où le numéro de version dans `inter-v20-latin-var.woff2`.
 
 ---
 
@@ -296,13 +308,14 @@ Un visiteur hors de la liste reçoit un 403, donc `error403.html`.
 
 ## 6 ter. Structure du site et choix d'URL
 
-Depuis la refonte, le site est multi-pages, en français uniquement, ~150 Ko, sans framework ni étape de build :
+Depuis la refonte, le site est multi-pages, en français uniquement, ~200 Ko, sans framework ni étape de build :
 
 ```
 site/                          (= racine du bucket)
 ├── index.html                 page d'accueil
 ├── assets/style.css           feuille de style unique
 ├── assets/site.js             script unique
+├── assets/fonts/              Inter auto-hébergée (47 Ko, un fichier variable)
 ├── projets/*.html             5 pages projet (gabarits en noindex tant que vides)
 ├── error403.html              page d'erreur 403 (mentionne la restriction géo)
 ├── error404.html              page d'erreur 404
@@ -346,7 +359,7 @@ Méthode générale qui a débloqué le pipeline : quand tout semble correct, fa
 | Poste | Coût mensuel estimé |
 |---|---|
 | Zone hébergée Route 53 | 0,50 $ |
-| S3 (quelques Mo) | < 0,01 $ |
+| S3 (quelques Mo, police incluse) | < 0,01 $ |
 | CloudFront (1 To et 10 M requêtes gratuits à vie) | 0 $ |
 | ACM, IAM, Budgets | 0 $ |
 | GitHub Actions (dépôt public) | 0 $ |
