@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Deep learning - classification d'images pour le Suguru</title>
 
-<meta name="description" content="Deep learning - classification d'images pour le Suguru à l'aide d'un réseau de neurones convolutif entraîné avec la Dataset MNIST">
+<meta name="description" content="Deep learning - classification d'images pour le Suguru à l'aide d'un réseau de neurones convolutif entraîné avec le jeu de données MNIST.">
 
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#08090c">
@@ -16,7 +16,7 @@
 <meta property="og:url" content="https://noameunier.fr/projets/suguru.html">
 <meta property="og:site_name" content="Noa Meunier">
 <meta property="og:title" content="Deep learning - classification d'images pour le Suguru">
-<meta property="og:description" content="Deep learning - classification d'images pour le Suguru à l'aide d'un réseau de neurones convolutif entraîné avec la Dataset MNIST">
+<meta property="og:description" content="Deep learning - classification d'images pour le Suguru à l'aide d'un réseau de neurones convolutif entraîné avec le jeu de données MNIST.">
 <meta property="og:image" content="https://noameunier.fr/og.png">
 <meta name="twitter:card" content="summary_large_image">
 
@@ -63,7 +63,7 @@
       <h1 class="reveal">Deep learning : classification d'images pour le jeu du Suguru</h1>
 
       <p class="lead reveal">
-        Développement d'un jeu vidéo de Suguru avec reconnaissance de grille par 
+        Développement d'un jeu vidéo de Suguru avec reconnaissance de grille par
         un réseau de neurones convolutif (CNN).
       </p>
 
@@ -82,7 +82,7 @@
         </div>
         <div>
           <dt>Stack</dt>
-          <dd>Python, PyGame, PyTorch</dd>
+          <dd>Python, pygame, PyTorch</dd>
         </div>
       </dl>
     </div>
@@ -93,15 +93,17 @@
 
     <h2 class="reveal"><span class="n" aria-hidden="true">01</span>Le problème</h2>
 
-      Peut-on faire résoudre automatiquement un Suguru à une machine, 
-      à partir d'une simple photographie d'une grille papier ? Le problème se décompose
-      en deux sous-problèmes : lire la grille (reconnaissance d'image) et la résoudre 
+    <p class="prose reveal">
+      Peut-on faire résoudre automatiquement un Suguru à une machine, à partir d'une
+      simple photographie d'une grille papier&nbsp;? Le problème se décompose en deux
+      sous-problèmes : lire la grille (reconnaissance d'image) et la résoudre
       (logique combinatoire).
+    </p>
 
     <h2 class="reveal"><span class="n" aria-hidden="true">02</span>Ce que j'ai fait</h2>
 
     <ul class="reveal">
-      <li>Détection du contour de la grille par seuillage et recherche du plus grand contour,  puis redressement par transformation perspective pour corriger l'angle de la photo.</li>
+      <li>Détection du contour de la grille par seuillage et recherche du plus grand contour, puis redressement par transformation perspective pour corriger l'angle de la photo.</li>
       <li>Découpage en imagettes 28×28, nettoyage des bords et centrage par centre de masse avant classification.</li>
       <li>CNN de 5 couches convolutives avec batch normalization et une couche de global average pooling implémentée à la main, entraîné sur des chiffres manuscrits et livré sous forme de checkpoint.</li>
       <li>Traduction de la grille en formule logique CNF : une variable booléenne par triplet (ligne, colonne, valeur).</li>
@@ -111,7 +113,7 @@
 
     <h2 class="reveal"><span class="n" aria-hidden="true">03</span>Le résultat</h2>
     <ul class="reveal">
-      <li>Le CNN reconnaît les grilles avec un taux de 98%.</li>
+      <li>Le CNN reconnaît les grilles avec un taux de réussite de 98&nbsp;%.</li>
       <li>La logique de résolution est instantanée.</li>
       <li>Le jeu vidéo est fluide et adapté aux différents niveaux de joueur.</li>
     </ul>

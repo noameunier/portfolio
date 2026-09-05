@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Poly Risk</title>
+<title>Jeu du Risk - IA heuristique optimisée et MCTS</title>
 
 <meta name="description" content="Deux IA pour PolyRisk : une heuristique dont les poids sont calibrés par algorithme génétique, et un MCTS guidé par cette heuristique.">
 
@@ -119,12 +119,12 @@
       <li>
         Calibrage de ces poids par algorithme génétique : population de 20,
         fitness sur 10 parties, sélection par tournoi, croisement uniforme,
-        mutation à 15 %, élitisme sur les 20 % meilleurs.
+        mutation à 15&nbsp;%, élitisme sur les 20&nbsp;% meilleurs.
       </li>
       <li>
         Un MCTS ensuite, pour voir au-delà du coup immédiat : constante
         d'exploration ajustée selon l'avancement de la partie, progressive
-        widening pour n'ouvrir que les noeuds déjà prometteurs, et simulations
+        widening pour n'ouvrir que les nœuds déjà prometteurs, et simulations
         guidées par l'heuristique plutôt qu'aléatoires, ce qui réduit fortement
         le nombre de simulations nécessaires.
       </li>
@@ -154,16 +154,16 @@
     <h2 class="reveal"><span class="n" aria-hidden="true">03</span>Le résultat</h2>
     <ul class="reveal">
       <li>
-        Calibrer les poids fait passer l'heuristique de 53 % à 86 % de victoires
+        Calibrer les poids fait passer l'heuristique de 53&nbsp;% à 86&nbsp;% de victoires
         contre des adversaires aléatoires.
       </li>
       <li>
-        En duel contre cette meilleure heuristique, le MCTS gagne 86 % des parties
-        en configuration rapide, et 94 % en configuration par défaut.
+        En duel contre cette meilleure heuristique, le MCTS gagne 86&nbsp;% des parties
+        en configuration rapide, et 94&nbsp;% en configuration par défaut.
       </li>
       <li>
         En mêlée à quatre avec deux joueurs aléatoires, le MCTS reste devant
-        l'heuristique, 54 % de victoire contre 46 %.
+        l'heuristique, 54&nbsp;% de victoire contre 46&nbsp;%.
       </li>
       <li>
         Le temps de calcul est le revers : 40 minutes pour 50 parties en
@@ -176,8 +176,8 @@
     <p class="prose reveal">
       La version la plus élaborée de l'heuristique, avec un score non linéaire,
       une normalisation par rapport aux adversaires et une détection de phase de
-      jeu, s'est révélée moins bonne que la version simple bien calibrée : 60 %
-      de victoires contre 86 %. Ses nouveaux paramètres agrandissent l'espace de
+      jeu, s'est révélée moins bonne que la version simple bien calibrée : 60&nbsp;%
+      de victoires contre 86&nbsp;%. Ses nouveaux paramètres agrandissent l'espace de
       recherche, que l'algorithme génétique n'a pas eu le temps de parcourir, et
       sa planification à long terme sert peu face à des adversaires qui jouent au
       hasard.
