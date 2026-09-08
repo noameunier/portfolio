@@ -520,10 +520,10 @@ code {
   aspect-ratio: 16 / 10;
   background:
     radial-gradient(120% 120% at 20% 10%,
-      color-mix(in srgb, var(--c1, var(--a1)) 55%, transparent) 0%,
+      color-mix(in srgb, var(--c1, var(--a1)) 25%, transparent) 0%,
       transparent 60%),
     radial-gradient(120% 120% at 85% 90%,
-      color-mix(in srgb, var(--c2, var(--a2)) 45%, transparent) 0%,
+      color-mix(in srgb, var(--c2, var(--a2)) 20%, transparent) 0%,
       transparent 62%),
     var(--ink-soft);
   overflow: hidden;
