@@ -194,7 +194,7 @@ Le fichier complet vit dans le dépôt : il n'est volontairement pas recopié ic
 
 1. Un job `verifier` appelle `check.yml` (liens, SEO, sitemap, ressources). Un échec bloque la publication.
 2. `aws s3 sync site/ s3://portfolio-noa`, en quatre passes (HTML ; CSS et JS ; polices ; le reste), chacune avec son `Cache-Control`.
-3. `aws cloudfront create-invalidation --paths '/*'`, puis attente de la fin de l'invalidation.
+3. `aws cloudfront create-invalidation --paths '/*'`. L'invalidation n'est pas attendue : le rôle ne dispose que de `cloudfront:CreateInvalidation`, alors que le waiter utilise `cloudfront:GetInvalidation`. Ajouter cette permission au rôle permettrait de l'attendre.
 4. Vérification des objets publiés : `Content-Type`, `Cache-Control`, et ETag (MD5) comparé au fichier local. Le test interroge S3 et non l'URL publique, car la restriction géographique renvoie 403 aux runners GitHub.
 
 L'authentification se fait avec `aws-actions/configure-aws-credentials` et le secret `AWS_DEPLOY_ROLE_ARN`, qui contient l'ARN du rôle endossé par OIDC.
@@ -286,6 +286,7 @@ site/                          (= racine du bucket)
 | Une erreur affiche le XML AWS malgré des pages d'erreur configurées | Les règles CloudFront pointent vers un fichier renommé ou supprimé du bucket (ex. `/error.html` devenu `error403.html`) | Aligner les règles Pages d'erreur sur les noms de fichiers réels après chaque refonte |
 | `/projets/xxx/` (avec slash) renvoie 403 | L'objet racine par défaut ne s'applique qu'à la racine, et la clé S3 `projets/xxx/` n'existe pas | Utiliser des URL plates `.html`, ou ajouter une CloudFront Function de réécriture |
 | Après déploiement, HTML à jour mais design cassé, alors que tout est correct dans le dépôt | Le CSS était envoyé avec `max-age=86400`. L'invalidation CloudFront vide le cache du CDN, pas celui du navigateur, qui garde son ancienne feuille de style jusqu'à 24 h | Vérifier d'abord avec `Ctrl+Maj+R` ou une fenêtre privée. Correction durable : envoyer le CSS et le JS avec `max-age=0, must-revalidate`, comme le HTML |
+| `aws cloudfront wait invalidation-completed` échoue aussitôt pendant le déploiement | Le waiter appelle `cloudfront:GetInvalidation`, absent de la politique du rôle (limitée à `CreateInvalidation`) | Soit ne pas attendre, soit ajouter `cloudfront:GetInvalidation` à la politique de déploiement |
 
 Méthode générale qui a débloqué le pipeline : quand tout semble correct, faire afficher la donnée réelle (ici le jeton OIDC) plutôt que de deviner.
 

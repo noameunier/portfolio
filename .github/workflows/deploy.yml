@@ -83,16 +83,15 @@ jobs:
             --exclude 'assets/fonts/*' \
             --cache-control 'public, max-age=86400'
 
+      # L'invalidation est lancée mais pas attendue : le rôle IAM ne
+      # dispose que de cloudfront:CreateInvalidation. Attendre la fin
+      # demanderait cloudfront:GetInvalidation (utilisé par le waiter),
+      # à ajouter à la politique du rôle si le besoin se présente.
       - name: Vider le cache CloudFront
         run: |
-          ID=$(aws cloudfront create-invalidation \
+          aws cloudfront create-invalidation \
             --distribution-id "$DISTRIBUTION_ID" \
-            --paths '/*' \
-            --query 'Invalidation.Id' --output text)
-          echo "Invalidation $ID créée, attente de sa fin…"
-          aws cloudfront wait invalidation-completed \
-            --distribution-id "$DISTRIBUTION_ID" \
-            --id "$ID"
+            --paths '/*'
 
       # Vérification des objets réellement stockés. On interroge S3 et non
       # l'URL publique : la restriction géographique de CloudFront renvoie

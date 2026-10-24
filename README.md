@@ -79,7 +79,7 @@ push sur main
    ▼
 aws s3 sync site/ → s3://portfolio-noa     (4 passes, une par cache)
    ▼
-invalidation CloudFront /*  + attente de fin
+invalidation CloudFront /*  (lancée, non attendue — voir récap)
    ▼
 vérification des objets publiés (Content-Type, Cache-Control, ETag)
 ```
