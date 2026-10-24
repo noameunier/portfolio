@@ -62,7 +62,9 @@ Le script ne dépend de rien (bibliothèque standard) et contrôle notamment :
 - l'unicité des `id` et la présence d'un seul `<h1>` par page ;
 - les attributs `alt`, `width` et `height` des images (évite le CLS) ;
 - `sitemap.xml` (pages déclarées, pages indexables non déclarées, `lastmod`) ;
-- `robots.txt` et l'absence de fichiers système dans `site/`.
+- `robots.txt` et l'absence de fichiers système dans `site/` ;
+- l'absence de style inline, de gestionnaire `on…=` et de script inline non hashé
+  (compatibilité CSP).
 
 Les avertissements sont des points de qualité (SEO, métadonnées) qui ne cassent
 pas le site ; les erreurs bloquent le déploiement.
@@ -104,6 +106,20 @@ contrôler aussi `Content-Type` et `Cache-Control` exigerait `s3:GetObject`.
 Pour changer la police, **renommer le fichier** : l'invalidation CloudFront ne
 vide pas le cache du navigateur.
 
+## Sécurité HTTP
+
+Les en-têtes (HSTS, CSP, `Referrer-Policy`, `Permissions-Policy`) sont configurés
+dans CloudFront, pas dans ce dépôt ; la procédure exacte et les valeurs sont dans
+[le récap](portfolio-aws-recap.md#6-quater-en-têtes-de-sécurité-et-csp).
+
+Deux conséquences côté code :
+
+- aucun style inline : les accents passent par `.accent-bleu`, `.accent-nuit` et
+  `.accent-azur`, les pages d'erreur par `.error-page` ;
+- le seul script inline est autorisé par son empreinte SHA-256, vérifiée en CI
+  (`HASH_SCRIPT` dans `tools/check_site.py`). Si vous le modifiez, mettez à jour
+  la constante **et** l'en-tête CloudFront.
+
 ## Ajouter ou modifier une page
 
 1. Créer le fichier dans `site/` et reprendre le `<head>` d'une page existante
@@ -122,6 +138,7 @@ vide pas le cache du navigateur.
 
 - Pas de build : ce qui est dans `site/` est exactement ce qui est publié.
 - Le site doit rester lisible sans JavaScript ; le script n'ajoute que du confort.
+- Aucun style inline, pour rester compatible avec une CSP stricte.
 - Une seule feuille de style, un seul script, une police auto-hébergée.
 - Textes en français, contenu personnel : le code est réutilisable, les textes,
   photos et visuels ne le sont pas.

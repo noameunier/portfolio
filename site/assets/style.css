@@ -112,6 +112,15 @@
   color-scheme: dark;
 }
 
+/* Accents de page et de carte. Ils étaient posés en style inline
+   (--a1/--a2 sur <body>, --c1/--c2 sur chaque carte) ; la CSP peut
+   désormais interdire tout style inline, donc ils vivent ici.
+   Une classe porte les quatre variables : les pages lisent --a1/--a2,
+   les cartes --c1/--c2, et les valeurs de repli restent identiques. */
+.accent-bleu { --a1:#3b5bdb; --a2:#7c9cff; --c1:#3b5bdb; --c2:#7c9cff; }
+.accent-nuit { --a1:#22337a; --a2:#3b5bdb; --c1:#22337a; --c2:#3b5bdb; }
+.accent-azur { --a1:#22337a; --a2:#7c9cff; --c1:#22337a; --c2:#7c9cff; }
+
 
 /* ═══ 2. BASE ET ACCESSIBILITÉ ═════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; }
@@ -167,6 +176,18 @@ code {
   border-radius: 0 0 8px 0;
 }
 .skip:focus { left: 0; }
+
+/* Pages d'erreur 403 et 404. Ces règles étaient dans un bloc <style>
+   propre à chaque page ; elles sont ici pour qu'aucun style ne soit
+   inline, condition d'une CSP stricte. */
+.error-page { min-height: 100vh; display: grid; place-items: center; }
+.error-page main { max-width: 34rem; }
+.error-page h1 {
+  margin: .6rem 0 .75rem;
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  font-weight: 600; letter-spacing: -.03em; line-height: 1.1;
+}
+.error-page main p { margin: 0 0 2rem; color: var(--muted); }
 
 .wrap {
   width: 100%;

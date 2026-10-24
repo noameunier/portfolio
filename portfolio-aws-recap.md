@@ -253,10 +253,10 @@ site/                          (= racine du bucket)
 ├── assets/style.css           feuille de style unique
 ├── assets/site.js             script unique
 ├── assets/fonts/              Inter auto-hébergée (47 Ko, un fichier variable)
-├── projets/*.html             5 pages projet (gabarits en noindex tant que vides)
+├── projets/*.html             4 pages projet, toutes rédigées et indexées
 ├── error403.html              page d'erreur 403 (mentionne la restriction géo)
 ├── error404.html              page d'erreur 404
-├── sitemap.xml                ne déclare que « / » pour l'instant
+├── sitemap.xml                déclare l'accueil et les 4 pages projet
 ├── robots.txt                 déclare le sitemap
 └── og.png                     image de partage
 ```
@@ -266,6 +266,86 @@ site/                          (= racine du bucket)
 **Compatibilité avec le workflow** : dans les filtres S3 de l'AWS CLI, `*` traverse les `/`. La passe `--include '*.html'` attrape donc `projets/suguru.html`, et la passe `--exclude '*.html'` attrape `assets/style.css` et `assets/site.js`. Aucun changement de workflow requis. Le `--delete` retire du bucket les fichiers supprimés du dépôt (ex. l'ancienne version anglaise `en.html`).
 
 **Développement local** : les chemins étant absolus (`/assets/style.css`), ouvrir `index.html` en `file://` ne fonctionne pas. Servir le dossier comme racine : `cd site && python -m http.server 8000`.
+
+---
+
+## 6 quater. En-têtes de sécurité et CSP
+
+Le site ne charge aucune ressource tierce : police, styles, script et images viennent de la même distribution. Une CSP stricte est donc possible sans concession.
+
+### Ce qui a changé dans le code
+
+Les styles inline ont disparu, car `style-src 'self'` les refuserait :
+
+- les couleurs d'accent des cartes et des pages projet sont dans les classes `.accent-bleu`, `.accent-nuit`, `.accent-azur` ;
+- les règles des pages d'erreur sont dans `style.css` (`.error-page`).
+
+Le seul script inline restant est la pose de la classe `js` dans le `<head>`, avant le premier rendu. Il est autorisé par empreinte :
+
+```bash
+printf '%s' "document.documentElement.classList.add('js');" \
+  | openssl dgst -sha256 -binary | base64
+# /x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw=
+```
+
+`tools/check_site.py` refuse tout attribut `style=`, tout bloc `<style>`, tout gestionnaire `on…=` et tout script inline dont l'empreinte diffère de `HASH_SCRIPT`. **Modifier ce script impose donc de mettre à jour la constante et l'en-tête CloudFront.**
+
+### Politique de réponse CloudFront
+
+*(console → CloudFront → Policies → Response headers → Create policy)*
+
+En-têtes gérés par CloudFront :
+
+| En-tête | Valeur |
+|---|---|
+| Strict-Transport-Security | `max-age=31536000; includeSubDomains` |
+| X-Content-Type-Options | `nosniff` |
+| X-Frame-Options | `DENY` |
+| Referrer-Policy | `strict-origin-when-cross-origin` |
+
+En-têtes personnalisés :
+
+| En-tête | Valeur |
+|---|---|
+| Content-Security-Policy | `default-src 'none'; script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'` |
+| Permissions-Policy | `accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()` |
+
+`img-src` autorise `data:` parce que la favicon et la texture de bruit du CSS sont des data URI.
+
+Puis attacher la politique à la distribution : Behaviors → Default (`*`) → Edit → Response headers policy. Ne pas activer `preload` dans HSTS avant d'être certain qu'aucun sous-domaine ne sert du HTTP : la sortie est difficile à annuler.
+
+Le header `server: AmazonS3` reste visible. Une CloudFront Function en viewer-response peut le supprimer (`delete event.response.headers['server'];`), mais c'est cosmétique.
+
+### Redirection www → apex
+
+*(console → CloudFront → Functions → Create function, runtime `cloudfront-js-2.0`, événement viewer-request)*
+
+```js
+function handler(event) {
+  var request = event.request;
+  if (request.headers.host.value !== 'www.noameunier.fr') {
+    return request;
+  }
+  return {
+    statusCode: 301,
+    statusDescription: 'Moved Permanently',
+    headers: {
+      location: { value: 'https://noameunier.fr' + request.uri }
+    }
+  };
+}
+```
+
+Publier la fonction, puis l'associer à la distribution (Behaviors → Default → Function associations → Viewer request). Le site n'utilise pas de chaîne de requête ; si cela change, réinjecter `request.querystring` dans la redirection.
+
+### Vérifier
+
+```bash
+curl -sI https://noameunier.fr/ | grep -iE 'strict-transport|content-security|x-content-type|referrer-policy|permissions-policy'
+curl -sI https://www.noameunier.fr/ | head -3   # doit renvoyer 301 vers l'apex
+```
+
+Compléter avec `securityheaders.com` et `csp-evaluator.withgoogle.com`.
 
 ---
 
@@ -288,6 +368,7 @@ site/                          (= racine du bucket)
 | Après déploiement, HTML à jour mais design cassé, alors que tout est correct dans le dépôt | Le CSS était envoyé avec `max-age=86400`. L'invalidation CloudFront vide le cache du CDN, pas celui du navigateur, qui garde son ancienne feuille de style jusqu'à 24 h | Vérifier d'abord avec `Ctrl+Maj+R` ou une fenêtre privée. Correction durable : envoyer le CSS et le JS avec `max-age=0, must-revalidate`, comme le HTML |
 | `aws cloudfront wait invalidation-completed` échoue aussitôt pendant le déploiement | Le waiter appelle `cloudfront:GetInvalidation`, absent de la politique du rôle (limitée à `CreateInvalidation`) | Soit ne pas attendre, soit ajouter `cloudfront:GetInvalidation` à la politique de déploiement |
 | La vérification post-déploiement échoue en `AccessDenied` | `s3api head-object` exige `s3:GetObject`, alors que le rôle n'a que `PutObject`, `DeleteObject` et `ListBucket` | Utiliser `list-objects-v2` (taille et ETag, via `ListBucket`), ou accorder `s3:GetObject` pour contrôler aussi les métadonnées |
+| Après activation de la CSP, les couleurs ou les animations disparaissent | Styles inline (accents, pages d'erreur) ou script inline dont l'empreinte a changé | Classes d'accent, styles d'erreur dans `style.css`, et empreinte à jour dans `HASH_SCRIPT` comme dans l'en-tête CloudFront |
 
 Méthode générale qui a débloqué le pipeline : quand tout semble correct, faire afficher la donnée réelle (ici le jeton OIDC) plutôt que de deviner.
 
@@ -327,7 +408,7 @@ Méthode générale qui a débloqué le pipeline : quand tout semble correct, fa
 
 ## 10. Suites possibles
 
-1. **En-têtes de sécurité** : ajouter une politique de réponse CloudFront (HSTS, `X-Content-Type-Options`, `Referrer-Policy`) et une CSP, qui suppose de sortir les styles inline des cartes. Voir aussi la redirection `www` vers l'apex.
+1. **Version anglaise** : une page `/en.html` ou une arborescence `/en/`, avec `hreflang` réciproque, pour les recruteurs étrangers visés par la recherche de stage.
 2. **Branche + pull request** : développer sur une branche, fusionner via PR ; la fusion sur `main` déclenche le déploiement.
 3. **Terraform** : décrire bucket, OAC, distribution, certificat, zone, enregistrements, fournisseur OIDC, rôle et politiques en code. Détruire et recréer en une commande.
 4. **Observabilité** : regarder les métriques CloudFront (requêtes, taux de cache, erreurs, répartition par pays) dans CloudWatch.

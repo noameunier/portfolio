@@ -17,6 +17,8 @@ Aucune dépendance : bibliothèque standard uniquement.
 """
 from __future__ import annotations
 
+import base64
+import hashlib
 import posixpath
 import sys
 import xml.etree.ElementTree as ET
@@ -29,6 +31,11 @@ RACINE = Path(__file__).resolve().parent.parent
 SITE = RACINE / "site"
 DOMAINE = "https://noameunier.fr"
 PAGES_ERREUR = {"error403.html", "error404.html"}
+
+# Le seul script inline du site (la classe `js` posée avant le rendu) est
+# autorisé par son empreinte dans la CSP. Toute modification du script
+# doit donc mettre à jour cette constante ET l'en-tête CloudFront.
+HASH_SCRIPT = "sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw="
 
 erreurs: list[str] = []
 avertissements: list[str] = []
@@ -62,6 +69,10 @@ class Page(HTMLParser):
         self.ids: dict[str, int] = {}
         self.dans_titre = False
         self.titre = ""
+        self.dans_script = False
+        self.script_courant = ""
+        self.ligne_script = 0
+        self.scripts_inline: list[tuple[str, int]] = []
 
     def handle_starttag(self, tag, attrs):
         attributs = {cle: (valeur or "") for cle, valeur in attrs}
@@ -79,14 +90,23 @@ class Page(HTMLParser):
                 self.ids[identifiant] = ligne
         if tag == "title":
             self.dans_titre = True
+        if tag == "script" and "src" not in attributs:
+            self.dans_script = True
+            self.script_courant = ""
+            self.ligne_script = ligne
 
     def handle_endtag(self, tag):
         if tag == "title":
             self.dans_titre = False
+        if tag == "script" and self.dans_script:
+            self.scripts_inline.append((self.script_courant, self.ligne_script))
+            self.dans_script = False
 
     def handle_data(self, data):
         if self.dans_titre:
             self.titre += data
+        if self.dans_script:
+            self.script_courant += data
 
     # ── Accesseurs ────────────────────────────────────────────────────
     def de_type(self, tag: str):
@@ -256,6 +276,29 @@ def controler_contenu(page: Page, pages: dict[str, Page]) -> None:
                         chemin,
                         f"ligne {ligne} : {attribut} pointe vers « {reference} » absent",
                     )
+
+    # CSP stricte : aucun style inline ni gestionnaire d'événement
+    # inline. Le seul script inline est autorisé par son empreinte, qui
+    # doit rester identique à celle publiée dans l'en-tête CloudFront.
+    for balise, attributs, ligne in page.elements:
+        if balise == "style":
+            erreur(chemin, f"ligne {ligne} : bloc <style> interdit (CSP)")
+        if "style" in attributs:
+            erreur(chemin, f"ligne {ligne} : attribut style= interdit (CSP)")
+        for nom in attributs:
+            if nom.startswith("on"):
+                erreur(chemin, f"ligne {ligne} : gestionnaire {nom}= interdit (CSP)")
+
+    for contenu, ligne in page.scripts_inline:
+        empreinte = base64.b64encode(
+            hashlib.sha256(contenu.encode("utf-8")).digest()
+        ).decode()
+        if f"sha256-{empreinte}" != HASH_SCRIPT:
+            erreur(
+                chemin,
+                f"ligne {ligne} : script inline non autorisé par la CSP "
+                f"(hash sha256-{empreinte})",
+            )
 
     for attributs, ligne in page.de_type("img"):
         if "alt" not in attributs:
