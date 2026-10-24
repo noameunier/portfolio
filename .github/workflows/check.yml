@@ -1,0 +1,32 @@
+name: Vérifier le site
+
+# Ce workflow tourne à trois moments :
+#   - sur chaque pull request touchant le site ou les outils ;
+#   - sur main, pour garder une trace verte avant déploiement ;
+#   - appelé par deploy.yml (workflow_call), qui refuse de publier si
+#     un contrôle échoue.
+#
+# Aucune dépendance : le script n'utilise que la bibliothèque standard
+# de Python, déjà présente sur le runner.
+
+on:
+  push:
+    branches: [main]
+    paths: ['site/**', 'tools/**', '.github/workflows/check.yml']
+  pull_request:
+    paths: ['site/**', 'tools/**', '.github/workflows/check.yml']
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  verifier:
+    name: Cohérence du site
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Contrôler liens, SEO, sitemap et ressources
+        run: python3 tools/check_site.py
