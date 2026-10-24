@@ -190,79 +190,16 @@ Ordre à respecter : chaque étape dépend de la précédente. Lieu indiqué à 
 
 ### Workflow `.github/workflows/deploy.yml`
 
-```yaml
-name: Déployer le site
+Le fichier complet vit dans le dépôt : il n'est volontairement pas recopié ici, pour qu'une copie ne puisse pas diverger du code réel. Il enchaîne quatre étapes :
 
-on:
-  push:
-    branches: [main]
-    paths: ['site/**', '.github/workflows/deploy.yml']
-  workflow_dispatch:
+1. Un job `verifier` appelle `check.yml` (liens, SEO, sitemap, ressources). Un échec bloque la publication.
+2. `aws s3 sync site/ s3://portfolio-noa`, en quatre passes (HTML ; CSS et JS ; polices ; le reste), chacune avec son `Cache-Control`.
+3. `aws cloudfront create-invalidation --paths '/*'`, puis attente de la fin de l'invalidation.
+4. Vérification des objets publiés : `Content-Type`, `Cache-Control`, et ETag (MD5) comparé au fichier local. Le test interroge S3 et non l'URL publique, car la restriction géographique renvoie 403 aux runners GitHub.
 
-permissions:
-  id-token: write
-  contents: read
+L'authentification se fait avec `aws-actions/configure-aws-credentials` et le secret `AWS_DEPLOY_ROLE_ARN`, qui contient l'ARN du rôle endossé par OIDC.
 
-concurrency:
-  group: deploy-site
-  cancel-in-progress: true
-
-env:
-  BUCKET: portfolio-noa
-  DISTRIBUTION_ID: E3VGRIF45NWE2C
-  AWS_REGION: eu-west-3
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: S'authentifier auprès d'AWS
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Envoyer les fichiers HTML
-        run: |
-          aws s3 sync site/ "s3://$BUCKET" \
-            --delete \
-            --exclude '*' --include '*.html' \
-            --cache-control 'public, max-age=0, must-revalidate' \
-            --content-type 'text/html; charset=utf-8'
-
-      - name: Envoyer le CSS et le JS
-        run: |
-          aws s3 sync site/ "s3://$BUCKET" \
-            --delete \
-            --exclude '*' --include 'assets/*.css' --include 'assets/*.js' \
-            --cache-control 'public, max-age=0, must-revalidate'
-
-      - name: Envoyer les polices
-        run: |
-          aws s3 sync site/ "s3://$BUCKET" \
-            --delete \
-            --exclude '*' --include 'assets/fonts/*' \
-            --cache-control 'public, max-age=31536000, immutable'
-
-      - name: Envoyer les autres fichiers
-        run: |
-          aws s3 sync site/ "s3://$BUCKET" \
-            --delete \
-            --exclude '*.html' \
-            --exclude 'assets/*.css' --exclude 'assets/*.js' \
-            --exclude 'assets/fonts/*' \
-            --cache-control 'public, max-age=86400'
-
-      - name: Vider le cache CloudFront
-        run: |
-          aws cloudfront create-invalidation \
-            --distribution-id "$DISTRIBUTION_ID" \
-            --paths '/*'
-```
-
-Pourquoi plusieurs `sync` : l'option `--cache-control` s'applique à toute la commande, il faut donc une passe par durée de cache. Le HTML, le CSS et le JS sont envoyés sans cache navigateur (toujours la dernière version), les polices avec un an de cache `immutable`, le reste avec un jour. L'invalidation force CloudFront à relire S3.
+Le script de contrôle, `tools/check_site.py`, n'utilise que la bibliothèque standard de Python. Il vérifie l'existence des liens et des ressources, la cohérence de `canonical` et `og:url`, l'unicité des `id`, la présence de `alt`/`width`/`height` sur les images, et l'alignement de `sitemap.xml` avec les pages réellement indexables. Il tourne aussi sur chaque pull request.
 
 Le `--delete` de chaque passe est sans danger : les filtres `--exclude` / `--include` s'appliquent aussi bien au dossier local qu'au bucket, donc une passe ne peut supprimer que des fichiers qu'elle gère elle-même.
 
@@ -388,7 +325,7 @@ Méthode générale qui a débloqué le pipeline : quand tout semble correct, fa
 
 ## 10. Suites possibles
 
-1. **Test avant déploiement** : ajouter une étape dans le workflow (validation HTML, détection de liens morts) qui bloque le déploiement en cas d'échec.
+1. **En-têtes de sécurité** : ajouter une politique de réponse CloudFront (HSTS, `X-Content-Type-Options`, `Referrer-Policy`) et une CSP, qui suppose de sortir les styles inline des cartes. Voir aussi la redirection `www` vers l'apex.
 2. **Branche + pull request** : développer sur une branche, fusionner via PR ; la fusion sur `main` déclenche le déploiement.
 3. **Terraform** : décrire bucket, OAC, distribution, certificat, zone, enregistrements, fournisseur OIDC, rôle et politiques en code. Détruire et recréer en une commande.
 4. **Observabilité** : regarder les métriques CloudFront (requêtes, taux de cache, erreurs, répartition par pays) dans CloudWatch.
