@@ -294,7 +294,7 @@ printf '%s' "document.documentElement.classList.add('js');" \
 
 *(console → CloudFront → Policies → Response headers → Create policy)*
 
-En-têtes gérés par CloudFront :
+En-têtes gérés par CloudFront (section « Security headers ») :
 
 | En-tête | Valeur |
 |---|---|
@@ -302,13 +302,15 @@ En-têtes gérés par CloudFront :
 | X-Content-Type-Options | `nosniff` |
 | X-Frame-Options | `DENY` |
 | Referrer-Policy | `strict-origin-when-cross-origin` |
+| Content-Security-Policy | `default-src 'none'; script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'` |
 
-En-têtes personnalisés :
+En-tête personnalisé :
 
 | En-tête | Valeur |
 |---|---|
-| Content-Security-Policy | `default-src 'none'; script-src 'self' 'sha256-/x7W7R75k8Roq0WaVRQX9blP4OufE5xbAdzklGxsgpw='; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'` |
 | Permissions-Policy | `accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()` |
+
+La CSP est désormais un **en-tête de sécurité géré** par CloudFront : l'API refuse de la placer dans les en-têtes personnalisés (`The parameter CustomHeaders contains Content-Security-Policy that is a security header and cannot be set as custom header`). La valeur se saisit dans le champ dédié, **sans** le préfixe `Content-Security-Policy:` ; cocher « Override origin » / « Remplacer l'origine ». Les versions antérieures de la console, qui n'ont pas ce champ, l'acceptaient en en-tête personnalisé.
 
 `img-src` autorise `data:` parce que la favicon et la texture de bruit du CSS sont des data URI.
 
@@ -369,6 +371,7 @@ Compléter avec `securityheaders.com` et `csp-evaluator.withgoogle.com`.
 | `aws cloudfront wait invalidation-completed` échoue aussitôt pendant le déploiement | Le waiter appelle `cloudfront:GetInvalidation`, absent de la politique du rôle (limitée à `CreateInvalidation`) | Soit ne pas attendre, soit ajouter `cloudfront:GetInvalidation` à la politique de déploiement |
 | La vérification post-déploiement échoue en `AccessDenied` | `s3api head-object` exige `s3:GetObject`, alors que le rôle n'a que `PutObject`, `DeleteObject` et `ListBucket` | Utiliser `list-objects-v2` (taille et ETag, via `ListBucket`), ou accorder `s3:GetObject` pour contrôler aussi les métadonnées |
 | Après activation de la CSP, les couleurs ou les animations disparaissent | Styles inline (accents, pages d'erreur) ou script inline dont l'empreinte a changé | Classes d'accent, styles d'erreur dans `style.css`, et empreinte à jour dans `HASH_SCRIPT` comme dans l'en-tête CloudFront |
+| CloudFront refuse la CSP : « cannot be set as custom header » | La CSP est un en-tête de sécurité géré, refusé dans les en-têtes personnalisés | La saisir dans le champ « Content security policy » de la section Security headers |
 
 Méthode générale qui a débloqué le pipeline : quand tout semble correct, faire afficher la donnée réelle (ici le jeton OIDC) plutôt que de deviner.
 
