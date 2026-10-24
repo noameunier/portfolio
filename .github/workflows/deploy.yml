@@ -98,45 +98,47 @@ jobs:
       # 403 aux runners GitHub, situés hors de la liste de pays autorisés.
       # Un test HTTP ne dirait donc pas « déployé » mais « bloqué ».
       #
-      # L'ETag d'un objet S3 uploadé en une partie (notre cas) est le MD5
-      # de son contenu : le comparer au MD5 local prouve que le fichier en
-      # ligne est bien celui du dépôt, pas une version précédente.
+      # `list-objects-v2` ne demande que s3:ListBucket, déjà accordé au
+      # rôle. Il renvoie l'ETag et la taille de chaque objet. L'ETag d'un
+      # upload en une partie (notre cas) est le MD5 du contenu : le
+      # comparer au MD5 local prouve que le fichier en ligne est celui du
+      # dépôt. Content-Type et Cache-Control demanderaient HeadObject,
+      # donc s3:GetObject, volontairement non accordé.
       - name: Vérifier les objets publiés
         run: |
           set -euo pipefail
 
+          declare -A etags tailles
+          while IFS=$'\t' read -r cle etag taille; do
+            etags["$cle"]="${etag//\"/}"
+            tailles["$cle"]="$taille"
+          done < <(aws s3api list-objects-v2 --bucket "$BUCKET" \
+                     --query 'Contents[].[Key,ETag,Size]' --output text)
+
           verifier() {
-            local cle="$1" cache_attendu="$2" type_attendu="${3:-}"
-            local type cache etag attendu
-
-            type=$(aws s3api head-object --bucket "$BUCKET" --key "$cle" \
-              --query ContentType --output text)
-            cache=$(aws s3api head-object --bucket "$BUCKET" --key "$cle" \
-              --query CacheControl --output text)
-            etag=$(aws s3api head-object --bucket "$BUCKET" --key "$cle" \
-              --query ETag --output text | tr -d '"')
+            local cle="$1" attendu taille_attendue
+            if [[ -z "${etags[$cle]:-}" ]]; then
+              echo "::error file=site/$cle::$cle absent du bucket"
+              return 1
+            fi
             attendu=$(md5sum "site/$cle" | cut -d' ' -f1)
-
-            if [[ -n "$type_attendu" && "$type" != "$type_attendu" ]]; then
-              echo "::error file=site/$cle::$cle : Content-Type « $type » au lieu de « $type_attendu »"
+            taille_attendue=$(stat -c%s "site/$cle")
+            if [[ "${etags[$cle]}" != "$attendu" ]]; then
+              echo "::error file=site/$cle::$cle : contenu publié différent du dépôt (ETag ${etags[$cle]}, attendu $attendu)"
               return 1
             fi
-            if [[ "$cache" != "$cache_attendu" ]]; then
-              echo "::error file=site/$cle::$cle : Cache-Control « $cache » au lieu de « $cache_attendu »"
-              return 1
-            fi
-            if [[ "$etag" != "$attendu" ]]; then
-              echo "::error file=site/$cle::$cle : contenu publié différent du dépôt (ETag $etag, attendu $attendu)"
+            if [[ "${tailles[$cle]}" != "$taille_attendue" ]]; then
+              echo "::error file=site/$cle::$cle : taille publiée ${tailles[$cle]} octets, attendue $taille_attendue"
               return 1
             fi
             echo "OK · $cle"
           }
 
-          verifier index.html 'public, max-age=0, must-revalidate' 'text/html; charset=utf-8'
-          verifier error403.html 'public, max-age=0, must-revalidate' 'text/html; charset=utf-8'
-          verifier error404.html 'public, max-age=0, must-revalidate' 'text/html; charset=utf-8'
-          verifier projets/risk.html 'public, max-age=0, must-revalidate' 'text/html; charset=utf-8'
-          verifier assets/style.css 'public, max-age=0, must-revalidate'
-          verifier assets/site.js 'public, max-age=0, must-revalidate'
-          verifier assets/fonts/inter-v20-latin-var.woff2 'public, max-age=31536000, immutable'
-          verifier og.png 'public, max-age=86400'
+          verifier index.html
+          verifier error403.html
+          verifier error404.html
+          verifier projets/risk.html
+          verifier assets/style.css
+          verifier assets/site.js
+          verifier assets/fonts/inter-v20-latin-var.woff2
+          verifier og.png

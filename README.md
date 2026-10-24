@@ -81,7 +81,7 @@ aws s3 sync site/ → s3://portfolio-noa     (4 passes, une par cache)
    ▼
 invalidation CloudFront /*  (lancée, non attendue — voir récap)
    ▼
-vérification des objets publiés (Content-Type, Cache-Control, ETag)
+vérification des objets publiés (présence, taille, ETag)
 ```
 
 L'authentification se fait par **OIDC** : le workflow endosse le rôle
@@ -89,7 +89,9 @@ L'authentification se fait par **OIDC** : le workflow endosse le rôle
 d'accès n'est stockée dans le dépôt.
 
 La vérification finale interroge S3 et non l'URL publique, car la restriction
-géographique de CloudFront renvoie 403 aux runners GitHub.
+géographique de CloudFront renvoie 403 aux runners GitHub. Elle utilise
+`list-objects-v2` (`s3:ListBucket`) et compare taille et ETag/MD5 au dépôt ;
+contrôler aussi `Content-Type` et `Cache-Control` exigerait `s3:GetObject`.
 
 ### Règles de cache
 
