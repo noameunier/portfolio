@@ -43,9 +43,12 @@
       el.style.setProperty('--i', Math.min(n, 6));
     });
 
+    var aRevele = false;
+
     var vigie = new IntersectionObserver(function (entrees) {
       entrees.forEach(function (e) {
         if (!e.isIntersecting) { return; }
+        aRevele = true;
         e.target.classList.add('in');
         vigie.unobserve(e.target);   /* une seule fois, jamais au retour */
       });
@@ -58,9 +61,13 @@
 
     aReveler.forEach(function (el) { vigie.observe(el); });
 
-    /* Filet de sécurité : au-delà de 3 s, on montre tout, quoi qu'il
-       arrive (onglet resté en arrière-plan, observateur muet…). */
-    window.setTimeout(toutMontrer, 3000);
+    /* Filet de sécurité : si l'observateur n'a encore rien révélé
+       (onglet resté en arrière-plan, observateur muet…), on montre
+       tout au bout de 3 s. Dès qu'un bloc est apparu, on ne force
+       plus : les suivants se révéleront au défilement. */
+    window.setTimeout(function () {
+      if (!aRevele) { toutMontrer(); }
+    }, 3000);
   }
 
 
@@ -135,7 +142,7 @@
     }
 
     sections.forEach(function (s) {
-      if (s === actif) { s.lien.setAttribute('aria-current', 'true'); }
+      if (s === actif) { s.lien.setAttribute('aria-current', 'location'); }
       else { s.lien.removeAttribute('aria-current'); }
     });
   }

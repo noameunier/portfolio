@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  N'inscrivez ici que les pages rédigées. Les pages projet portent
-  <meta name="robots" content="noindex"> tant qu'elles sont vides :
-  décommentez la ligne correspondante en même temps que vous retirez
-  ce meta de la page.
+  N'inscrivez ici que les pages rédigées et indexables. Une page en
+  travaux garde <meta name="robots" content="noindex"> et n'apparaît
+  pas ici : retirez le meta et ajoutez l'URL en même temps.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 

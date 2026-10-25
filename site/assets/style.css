@@ -1,8 +1,8 @@
 /* ═══════════════════════════════════════════════════════════════════
    NOA MEUNIER — feuille de style unique du site
    ───────────────────────────────────────────────────────────────────
-   Un seul fichier pour toutes les pages : accueil FR, accueil EN,
-   pages projet, pages d'erreur. On ne modifie une couleur, une taille
+   Un seul fichier pour toutes les pages : accueil, pages projet,
+   pages d'erreur. On ne modifie une couleur, une taille
    ou un espacement qu'ici, jamais dans le HTML.
 
    Sommaire
@@ -196,12 +196,6 @@ code {
   padding-inline: clamp(1.25rem, 5vw, 2.5rem);
 }
 
-.sr-only {
-  position: absolute; width: 1px; height: 1px;
-  margin: -1px; padding: 0; overflow: hidden;
-  clip-path: inset(50%); white-space: nowrap;
-}
-
 /* Étiquette monospace : la seule trace de l'ancien thème, gardée
    parce qu'elle situe le profil (ingénierie) sans faire terminal. */
 .label {
@@ -298,11 +292,6 @@ code {
   text-decoration: none; white-space: nowrap;
   display: inline-flex; align-items: center; gap: .55rem;
 }
-.brand .dot {
-  width: 9px; height: 9px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--a2), var(--a1));
-  flex: none;
-}
 
 .nav-links {
   display: flex; gap: .25rem;
@@ -314,8 +303,8 @@ code {
   transition: color var(--fast), background var(--fast);
 }
 .nav-links a:hover { color: var(--text); background: var(--surface); }
-.nav-links a[aria-current="true"] { color: var(--text); }
-.nav-links a[aria-current="true"]::after {
+.nav-links a[aria-current="location"] { color: var(--text); }
+.nav-links a[aria-current="location"]::after {
   content: ""; display: block; height: 2px; margin-top: .2rem;
   border-radius: 2px;
   background: linear-gradient(90deg, var(--a1), var(--a2));
@@ -359,8 +348,6 @@ code {
    une couleur : le nom en pleine valeur, la fonction en retrait. Un
    dégradé sur du texte est le marqueur le plus reconnaissable d'une
    page générée — on s'en passe. */
-.soft { color: color-mix(in srgb, var(--text) 58%, transparent); }
-
 .hero .lead {
   max-width: 34rem;
   margin: 0 0 2.25rem;
@@ -369,8 +356,6 @@ code {
   text-wrap: pretty;
 }
 .hero .lead strong { color: var(--text); font-weight: 500; }
-
-.actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-bottom: 2.5rem; }
 
 .btn {
   display: inline-flex; align-items: center; gap: .5rem;
@@ -431,7 +416,6 @@ code {
   color: var(--a2);
   min-width: 2.25ch;
 }
-.section-head .count { margin-left: auto; }
 
 .prose { max-width: var(--reading); color: var(--muted); text-wrap: pretty; }
 .prose strong { color: var(--text); font-weight: 500; }
@@ -583,18 +567,6 @@ code {
 .card-body .note { margin: 0; color: var(--muted); font-size: .9375rem; text-wrap: pretty; }
 .card-body .tags { margin-top: auto; padding-top: 1rem; }
 
-.card .more {
-  display: inline-flex; align-items: center; gap: .35rem;
-  margin-top: .9rem;
-  font-size: .8125rem; font-weight: 500; color: var(--a2);
-}
-.card .more .arrow { transition: transform var(--fast) var(--ease); }
-.card:hover .more .arrow { transform: translateX(4px); }
-
-/* Une carte sans page de détail : même allure, pas de promesse. */
-.cards > li.flat .card { cursor: default; }
-.cards > li.flat .card:hover { transform: none; }
-
 
 /* ═══ 9. COMPÉTENCES ═══════════════════════════════════════════════ */
 .skills {
@@ -691,40 +663,6 @@ code {
   margin-inline: auto;
 }
 
-/* Chiffres clés : trois cases au maximum, sinon ça ne dit plus rien. */
-.figures {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
-  gap: 1rem; margin: 1.5rem 0; padding: 0; list-style: none;
-}
-.figures li {
-  padding: 1rem 1.1rem;
-  border: 1px solid var(--border); border-radius: var(--radius);
-  background: var(--panel);
-}
-.figures .v { display: block; font-size: 1.75rem; font-weight: 600; letter-spacing: -.03em;
-              line-height: 1.1; }
-.figures .k { display: block; margin-top: .2rem; font-size: .8125rem; color: var(--muted); }
-
-/* Liens de sortie du projet : dépôt, rapport, démo. */
-.links { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
-
-/* Encadré « à compléter ». Visible pendant la rédaction, il suffit de
-   supprimer le bloc quand la section est écrite. */
-.todo {
-  max-width: var(--reading);
-  margin: 1rem 0;
-  padding: .9rem 1.1rem;
-  border: 1px dashed var(--border-up); border-radius: var(--radius);
-  background: var(--panel);
-  color: var(--muted); font-size: .875rem;
-}
-.todo::before {
-  content: "À compléter";
-  display: block; margin-bottom: .25rem;
-  font-family: var(--mono); font-size: .6875rem; letter-spacing: .14em;
-  text-transform: uppercase; color: var(--a2);
-}
-
 /* Navigation d'un projet au suivant, en bas de page. */
 .pager {
   display: flex; justify-content: space-between; gap: 1rem;
@@ -781,22 +719,20 @@ code {
    imprime une page vide. */
 @media print {
   :root { --text: #000; --muted: #333; --dim: #555; --border: #ccc; }
-  .bg, .progress, .nav, .actions, .status, .card-media, .pager, .todo { display: none !important; }
+  .bg, .progress, .nav, .status, .card-media, .pager { display: none !important; }
   body { background: #fff; color: #000; font-size: 10.5pt; line-height: 1.45; }
   .reveal, .js .reveal { opacity: 1 !important; transform: none !important; }
   .wrap { max-width: none; padding: 0; }
   .hero { padding-block: 0 1rem; }
   .hero h1 { font-size: 22pt; }
-  .soft { color: #333 !important; }
   .section { padding-bottom: 1rem; break-inside: avoid; }
   .section-head { margin-bottom: .75rem; }
   .cards { display: block; }
   .cards > li { break-inside: avoid; margin-bottom: .6rem; }
-  .card, .skills > div, .figures li, .tags li {
+  .card, .skills > div, .tags li {
     border-color: #ccc; background: none;
   }
   .card { border: 0; border-left: 2px solid #ccc; border-radius: 0; padding-left: .6rem; }
-  .card .more { display: none; }
   a { text-decoration: none; color: #000; }
   .site-footer { border-top: 1px solid #ccc; }
 }
